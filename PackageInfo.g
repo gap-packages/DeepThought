@@ -22,8 +22,8 @@ Persons := [
     WWWHome := "TODO",
     Email := "nina.wagner@math.uni-giessen.de",
     PostalAddress := "TODO",
-    Place := "Giessen",
-    Institution := "JLU Giessen",
+    Place := "Gießen",
+    Institution := "JLU Gießen",
   ),
 ],
 
@@ -65,7 +65,10 @@ PackageDoc := rec(
 
 Dependencies := rec(
   GAP := ">= 4.8",
-  NeededOtherPackages := [ [ "GAPDoc", ">= 1.5" ] ],
+  NeededOtherPackages := [
+    [ "GAPDoc", ">= 1.5" ],
+    [ "polycyclic", ">= 2.11" ],
+  ],
   SuggestedOtherPackages := [ ],
   ExternalConditions := [ ],
 ),
