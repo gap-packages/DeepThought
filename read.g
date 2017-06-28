@@ -12,6 +12,7 @@ ReadPackage( "DeepThought", "gap/least.g");
 ReadPackage( "DeepThought", "gap/set_reps.g");
 ReadPackage( "DeepThought", "gap/DTapplicability.g");
 ReadPackage( "DeepThought", "gap/display.g");
-ReadPackage( "DeepThought", "gap/applications.g");
 ReadPackage( "DeepThought", "gap/multiplication.g"); # multiplication needs applications and vice versa...
 ReadPackage( "DeepThought", "gap/polynomials.g");
+
+ReadPackage( "DeepThought", "gap/applications.g");

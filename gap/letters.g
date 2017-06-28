@@ -55,7 +55,8 @@ end;
 # Input: letters letter1, letter2
 # Output: 	* true, if letter1 and letter2 are almost equal
 #			* false, otherwise
-AreAlmostEqual := function(letter1, letter2)
+InstallGlobalFunction( AreAlmostEqual,
+function(letter1, letter2)
 	local is_atom; 
 	
 	# In any case we must have letter1.num = letter2.num
@@ -75,7 +76,7 @@ AreAlmostEqual := function(letter1, letter2)
 	else # one is an atom, the other one a non-atom
 		return false;
 	fi;
-end;
+end );
 
 # Input: letters letter1, letter2
 # Output: 	* true, if letter1 and letter2 have the same structure

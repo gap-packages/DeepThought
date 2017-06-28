@@ -239,7 +239,7 @@ end;
 # Input: 	- exponent vector x 
 #			- DTobj
 # Output: 	exponent vector of normal form of x  
-DTP_NormalForm := function(x, DTobj)
+InstallGlobalFunction( DTP_NormalForm, function(x, DTobj)
 	if IsInt(DTobj[2][1][1][1]) then 
 		# version f_r
 		return _DTP_DetermineNormalForm(x, DTobj, [], DTP_Multiply_r);
@@ -247,7 +247,7 @@ DTP_NormalForm := function(x, DTobj)
 		# version f_rs 
 		return _DTP_DetermineNormalForm(x, DTobj, [], DTP_Multiply_rs);
 	fi; 
-end;
+end );
 
 # Input:	- exponent vector x (must describe a normal form)
 #			- DTobj
@@ -287,7 +287,7 @@ end;
 # Input: 	- exponent vector x
 #			- DTobj
 # Output: 	order of x in group of coll 
-DTP_Order := function(x, DTobj)
+InstallGlobalFunction( DTP_Order, function(x, DTobj)
 	local multiply; 
 	
 	if IsInt(DTobj[2][1][1][1]) then 
@@ -304,4 +304,4 @@ DTP_Order := function(x, DTobj)
 	fi; 
 	
 	return _DTP_DetermineOrder(x, DTobj, multiply);
-end;
+end );
