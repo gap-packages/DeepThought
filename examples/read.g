@@ -1,6 +1,6 @@
 LoadPackage("DeepThought"); 
 
-ReadPackage("DeepThought", "example/ex_colls.g"); # contains example collectors
-ReadPackage("DeepThought", "example/bench.g"); # benchmark 
+ReadPackage("DeepThought", "examples/ex_colls.g"); # contains example collectors
+ReadPackage("DeepThought", "examples/bench.g"); # benchmark 
 
-ReadPackage("DeepThought", "example/test.g"); 
+ReadPackage("DeepThought", "examples/test.g"); 

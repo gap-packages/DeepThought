@@ -1,3 +1,6 @@
+ReadPackage("DeepThought", "examples/cmp_with_wm.g"); 
+ReadPackage("DeepThought", "examples/EickEngel.g"); 
+
 # tests num-times multiplications in coll with exponent limit lim
 TestMulti :=  function(coll, num, lim, opt...) 
 	local DTobj, i, x, y, y1, k, z, z_gr, t, t_pols, t_coll, orders, n, rel, multiply;
@@ -199,8 +202,6 @@ TestCollector := function(coll, num, lim, which)
 	return true; 
 end; 
 
-ReadPackage("DeepThought", "example/cmp_with_wm.g"); 
-ReadPackage("DeepThought", "example/EickEngel.g"); 
 TestDTPackage := function()
 	local pk, p, k, num, j, nr, G, H, c; 
 
