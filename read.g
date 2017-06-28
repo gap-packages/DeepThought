@@ -4,3 +4,14 @@
 # Reading the implementation part of the package.
 #
 ReadPackage( "DeepThought", "gap/DeepThought.gi");
+
+ReadPackage( "DeepThought", "gap/structure_letters.g");
+ReadPackage( "DeepThought", "gap/letters.g");
+ReadPackage( "DeepThought", "gap/left_of.g");
+ReadPackage( "DeepThought", "gap/least.g");
+ReadPackage( "DeepThought", "gap/set_reps.g");
+ReadPackage( "DeepThought", "gap/DTapplicability.g");
+ReadPackage( "DeepThought", "gap/display.g");
+ReadPackage( "DeepThought", "gap/applications.g");
+ReadPackage( "DeepThought", "gap/multiplication.g"); # multiplication needs applications and vice versa...
+ReadPackage( "DeepThought", "gap/polynomials.g");
