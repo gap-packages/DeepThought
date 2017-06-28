@@ -1,17 +1,16 @@
 # This file contains the functions:
-#	IsLeastLetter
-#	CreateSimLetter
-#	NumberHSS(1)
-#	NumberAE
-#	SimilarLetters
-#	Least
+#	DTP_IsLeastLetter
+#	DTP_CreateSimLetter
+#	DTP_NumberHSS(1)
+#	DTP_SimilarLetters
+#	DTP_Least
 #############################################################################
 
 # check whether a letter is least in its ~-class
 # Input: 	letter alpha
 # Output:	true, if alpha is least in its class; false, otherwise
 # REMARK This function is currently not used, but may be useful for debbuging
-IsLeastLetter := function(alpha)
+DTP_IsLeastLetter := function(alpha)
 	local classes_reps, lists_prop235, j, i, subletter; 
 	
 	classes_reps := alpha[1]; 
@@ -28,7 +27,7 @@ IsLeastLetter := function(alpha)
 		subletter := DTP_Seq_i(alpha[3], i); # go through all subletters
 		for j in [1 .. Length(classes_reps)] do  
 			# search for representative of subletters' class. 
-			if AreAlmostEqual(classes_reps[j], subletter) then 
+			if DTP_AreAlmostEqual(classes_reps[j], subletter) then 
 				lists_prop235[j][subletter.pos] := 1; 
 				# found a subletter with position value
 				# subletter.pos of the class of representative nr. j, 
@@ -42,12 +41,12 @@ end;
 
 # Input: 	- a least letter alpha
 #			- tuple of tuples "tuples" (suitable for alpha) as computed in 
-#			"SimilarLetters"
+#			"DTP_SimilarLetters"
 # Output:	none, but the pos-values of alpha's subletters are manipulated 
 #			due to "tuples". I.e.: If the subletter Seq(alpha, j) has 
 #			position p and is almost equal to the representative alpha[1][i],
 #			then its position is set to tuples[i][p]. 
-CreateSimLetter := function(alpha, tuples)
+DTP_CreateSimLetter := function(alpha, tuples)
 	local i, class_rep, j, subletter;  
 	
 	for i in [1 .. Length(alpha[1])] do # for each representative 
@@ -61,15 +60,15 @@ CreateSimLetter := function(alpha, tuples)
 end; 
 
 # REMARK These functions are currently not used. 
-# CreateSimLetter1 may repclace CreateSimLetter, but is slower. 
-CreateSimSubletters := function(letter, tuples, i, classes)
+# DTP_CreateSimLetter1 may repclace DTP_CreateSimLetter, but is slower. 
+DTP_CreateSimSubletters := function(letter, tuples, i, classes)
 	local j; 
 	
 	if IsBound(letter.left) then 
-		i := CreateSimSubletters(letter.left, tuples, i, classes);
+		i := DTP_CreateSimSubletters(letter.left, tuples, i, classes);
 	fi; 
 	if IsBound(letter.right) then 
-		i := CreateSimSubletters(letter.right, tuples, i, classes); 
+		i := DTP_CreateSimSubletters(letter.right, tuples, i, classes); 
 	fi; 
 	
 	i := i + 1; 
@@ -86,14 +85,14 @@ CreateSimSubletters := function(letter, tuples, i, classes)
 	
 	return i; 
 end;
-CreateSimLetter1 := function(alpha, tuples, i)
+DTP_CreateSimLetter1 := function(alpha, tuples, i)
 	local j; 
 	
 	if IsBound(alpha[3].left) then 
-		i := CreateSimSubletters(alpha[3].left, tuples, i, alpha[4]);
+		i := DTP_CreateSimSubletters(alpha[3].left, tuples, i, alpha[4]);
 	fi; 
 	if IsBound(alpha[3].right) then 
-		i := CreateSimSubletters(alpha[3].right, tuples, i, alpha[4]); 
+		i := DTP_CreateSimSubletters(alpha[3].right, tuples, i, alpha[4]); 
 	fi; 
 	
 	i := i + 1; 
@@ -112,14 +111,14 @@ end;
 
 # Determines the number of subletters of "letter" which have the same 
 # structure as the letter rep.
-NumberHSS := function(rep, letter)
+DTP_NumberHSS := function(rep, letter)
 	local num, i, class, subletter;  
 	
 	class := [];
 	num := 0; 
 	for i in [1 .. letter.l] do 
 		subletter := DTP_Seq_i(letter, i); 
-		if HaveSameStructure(subletter, rep) then 
+		if DTP_HaveSameStructure(subletter, rep) then 
 			if not subletter in class then
 				Add(class, subletter); 
 				num := num + 1;
@@ -130,15 +129,15 @@ NumberHSS := function(rep, letter)
 	return num; 
 end; 
 
-# NumberHSS seems to be a bit faster 
-# REMARK This function is currently not used. It may replace NumberHSS.
-NumberHSS1 := function(rep, reps, sizes)
+# DTP_NumberHSS seems to be a bit faster 
+# REMARK This function is currently not used. It may replace DTP_NumberHSS.
+DTP_NumberHSS1 := function(rep, reps, sizes)
 	local num, i, subletter;  
 	
 	num := 0; 
 	for i in [1 .. Length(reps)] do 
 		subletter := reps[i]; 
-		if HaveSameStructure(subletter, rep) then 
+		if DTP_HaveSameStructure(subletter, rep) then 
 			num := num + sizes[i];
 		fi;
 	od; 
@@ -156,7 +155,7 @@ end;
 #			with rep.left.num = i, rep.right.num = j and rep.num = k. 
 #			If this coefficient is positive, the coefficient is returned, 
 #			otherwise the return value is infinity. 
-FindCoefficient := function(rep, coll)
+DTP_FindCoefficient := function(rep, coll)
 	local max, cnj, i; 
 	
 	# If letters of current class are non-atoms, find upper bound for 
@@ -202,8 +201,8 @@ end;
 
 # Input:	least letter alpha, its partner letter gamma
 # Output: 	all letters similar to alpha with the 
-#			restriction to pos values as explained in "Least" 
-SimilarLetters := function(alpha, gamma, coll)
+#			restriction to pos values as explained in "DTP_Least" 
+DTP_SimilarLetters := function(alpha, gamma, coll)
 	local class, classes_reps, classes_size, T, s, tuples, sim_letter, num, coeff; 
 	
 	class := []; # sim-class of alpha with position restriction 
@@ -213,7 +212,7 @@ SimilarLetters := function(alpha, gamma, coll)
 	
 	# For each almost equality class of Sub(alpha) determine all tuples t 
 	# of length = class size and 1 <= t[1] < ... < t[size] <= lim, where
-	# lim is the "appropriate value" as explained in "Least". 
+	# lim is the "appropriate value" as explained in "DTP_Least". 
 	# This corresponds to finding all subsets with "size" elements 
 	# of the set {1, ..., lim}. Therefore we can use the GAP function 
 	# "Combinations" 
@@ -224,10 +223,10 @@ SimilarLetters := function(alpha, gamma, coll)
 	for s in [1 .. Length(classes_size)] do
 		# Length(alpha[4][s]) is the number of subletters of alpha which 
 		# are almost equal to the current representative classes_reps[s]
-		num := NumberHSS(classes_reps[s], gamma[3]) + Length(alpha[4][s]); 
+		num := DTP_NumberHSS(classes_reps[s], gamma[3]) + Length(alpha[4][s]); 
 		# Apply g_alpha = 0 criterion, i.e. take as upper bound the 
 		# minimum of "num" and "coeff". 
-		coeff := FindCoefficient(classes_reps[s], coll);
+		coeff := DTP_FindCoefficient(classes_reps[s], coll);
 		if num < coeff then 
 			Add(T, Combinations([1 .. num], classes_size[s])); 
 		else 
@@ -244,7 +243,7 @@ SimilarLetters := function(alpha, gamma, coll)
 	# to alpha. 
 	for tuples in Cartesian(T) do 
 		sim_letter := [alpha[1], alpha[2], StructuralCopy(alpha[3]), alpha[4]]; 
-		CreateSimLetter(sim_letter, tuples);
+		DTP_CreateSimLetter(sim_letter, tuples);
 		Add(class, sim_letter[3]); 
 	od;
 	
@@ -254,7 +253,7 @@ end;
 # Input: 	two least letters alpha, beta
 # Output: 	list of all letters epsilon such that epsilon is least in its class, 
 #			epsilon.left ~ beta, epsilon.right ~ alpha 
-Least := function(alpha, beta, coll)
+DTP_Least := function(alpha, beta, coll)
 	local sim_alpha, sim_beta, pair, epsilon, least, i; 
 	least := []; 
 	
@@ -280,9 +279,9 @@ Least := function(alpha, beta, coll)
 	#	<= | {sigma \in Sub(alpha) | sigma has the same structure as rho} | + 
 	#	| {sigma \in Sub(beta) | sigma has the same structure as rho} |
 	
-	sim_alpha := SimilarLetters(alpha, beta, coll); 
+	sim_alpha := DTP_SimilarLetters(alpha, beta, coll); 
 	# Do the same for beta. 
-	sim_beta := SimilarLetters(beta, alpha, coll); 
+	sim_beta := DTP_SimilarLetters(beta, alpha, coll); 
 	 
 	for pair in Cartesian(sim_alpha, sim_beta) do 
 		epsilon := DTP_StructureLetterFromExisting(pair[2], beta[4], pair[1], alpha[4]); 

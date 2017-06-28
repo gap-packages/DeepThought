@@ -1,11 +1,11 @@
-# If DecisionCriterion(coll) = true, then there occurs a letter which 
+# If DTP_DecisionCriterion(coll) = true, then there occurs a letter which 
 # leads to a polynomial g_alpha = Y_i Y_l * terms with i <> l. This 
 # letter would not occur in any set reps_rs. Hence, when using the 
 # polynomials f_rs we would never need to evaluate this polynomial. 
 # This suggests the following rule: 
 #	true => use polynomials f_rs 
 #	false => use polynomials f_r
-DecisionCriterion := function(coll)
+DTP_DecisionCriterion := function(coll)
 	local n, i, j, k, l, m, a, b, cnj_ijk, cnj_lkm; 
 	
 	n := NumberOfGenerators(coll); 
@@ -36,9 +36,9 @@ DecisionCriterion := function(coll)
 	return false; 
 end;
 
-# Similar to DecisionCriterion, but counts how many times "DecisionCriterion"
+# Similar to DTP_DecisionCriterion, but counts how many times "DTP_DecisionCriterion"
 # is satisfied. 
-DecisionCriterionAll := function(coll)
+DTP_DecisionCriterionAll := function(coll)
 	local n, i, j, k, l, m, a, b, cnj_ijk, cnj_lkm, count; 
 	
 	n := NumberOfGenerators(coll); 
@@ -73,7 +73,7 @@ end;
 # checks conjugacy relations of coll, must be of the form 
 # 	a_i^{-1} a_j a_i = a_j a_{j + 1}^{c_{i, j, j + 1}} ... a_n^{c_{i, j, n}} 
 # 	(<=> a_j a_i = a_i a_j a_{j + 1}^{c_{i, j, j + 1}} ... a_n^{c_{i, j, n}})
-CheckCnjRels := function(coll)
+DTP_CheckCnjRels := function(coll)
 	local n, i, j, cnj, len, k; 
 	
 	n := coll![PC_NUMBER_OF_GENERATORS];
@@ -111,7 +111,7 @@ end;
 
 # checks power relations of coll, must be of the form 
 # a_r^s_r = a_{r + 1}^{c_{r, r, r + 1}} ... a_n^{c_{r, r, n}}
-CheckPwrRels := function(coll)
+DTP_CheckPwrRels := function(coll)
 	local n, r, coeff, j; 
 	
 	n := coll![PC_NUMBER_OF_GENERATORS];
@@ -146,12 +146,12 @@ end;
 # collector coll and "true" otherwise. Anyway, even if "true" is returned, 
 # NOT ALL FUNCTIONS MAY BE APPLICABLE (in case of inconsistenies). 
 # Further information is printed to the terminal. 
-DTapplicability := function(coll)
+DTP_DTapplicability := function(coll)
 	
 	Print("Checking collector for DT-applicability. \"+\" means the following property is fulfilled.\n"); 
 	
 	# Check form of conjugacy relations in the collector.
-	if CheckCnjRels(coll) then 
+	if DTP_CheckCnjRels(coll) then 
 		Print("+   conjugacy relations\n"); 
 	else
 		Print("The conjugacy relations are NOT fulfilled. DT is NOT applicable.\n"); 
@@ -162,7 +162,7 @@ DTapplicability := function(coll)
 	# Needed for: 
 	#	- order
 	#	- normal form 
-	if CheckPwrRels(coll) then 
+	if DTP_CheckPwrRels(coll) then 
 		Print("+   power relations\n"); 
 	else
 		Print("-   power relations - you may get wrong results when using \"DTP_NormalForm\" and \"DTP_Order\" may not terminate. \n"); 
@@ -179,7 +179,7 @@ DTapplicability := function(coll)
 	fi; 
 	
 	# Recommend which polynomials one should use for this collector 
-	if DecisionCriterion(coll) then 
+	if DTP_DecisionCriterion(coll) then 
 		Print("Suggestion: Use polynomials f_rs\n"); 
 	else 
 		Print("Suggestion: Use polynomials f_r\n"); 

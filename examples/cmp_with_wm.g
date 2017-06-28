@@ -4,11 +4,11 @@ USE_COMBINATORIAL_COLLECTOR := true;
 # Merkwitz' can be found in /usr/local/lib/gap4r5/src, 
 # see dt.c and dteval.c. Furthermore, /gap4r5/lib/dt.g.
 
-# wm2nw converts the Hall polynomials stored in coll![PC_DEEP_THOUGHT_POLS]
+# DTP_wm2nw converts the Hall polynomials stored in coll![PC_DEEP_THOUGHT_POLS]
 # into polynomials of the form used in nw implementation (f_rs)
 # Input: 	collector coll 
 # Output: 	corresponding polynomials f_rs in format used in nw implementation
-wm2nw := function(coll)
+DTP_wm2nw := function(coll)
 	local pcdtpols, n, f_ji, i, j, c, evlist, evlistvec, l, g_alpha, k, m, pols, t;
 	
 	# compute Hall polynomials by WM
@@ -97,11 +97,11 @@ wm2nw := function(coll)
 end;
 
 # compares for a collector coll the polynomials computed by wm and nw
-ComparePolynomials := function(coll, DTobj...)
+DTP_ComparePolynomials := function(coll, DTobj...)
 	local all_pols_nw, all_pols_wm, pols_f_rs_nw, pols_f_rs_wm, n, r, l, i, g_alpha, flag, j, t, s, equal, coeffs, orders; 
 #	Print("Notice that even if this function returns 'false', by summarizing terms the polynomials may nevertheless be equal.\n"); 
 	
-	all_pols_wm := wm2nw(coll); 
+	all_pols_wm := DTP_wm2nw(coll); 
 	
 	if Length(DTobj) = 0 then 
 		t := Runtime(); 
@@ -166,7 +166,7 @@ ComparePolynomials := function(coll, DTobj...)
 	return equal; 
 end; 
 
-CompareMultis := function(coll, num) 
+DTP_CompareMultis := function(coll, num) 
 	local DTobj, i, x, y, k, z, z_collect, z_pols_wm, z_pols_nw, t, t_pols_wm, t_pols_nw, t_coll, lim, x1, y1, orders, rel, j, n, t_pols_nw_ord, z_pols_nw_ord; 
 	
 	lim := 100; 
@@ -240,7 +240,7 @@ CompareMultis := function(coll, num)
 	return true; 
 end; 
 
-CompareAll := function()
+DTP_CompareAll := function()
 	local colls, c, p, k, num, j, nr, G, H, t; 
 	
 	t := Runtime(); 
@@ -255,7 +255,7 @@ CompareAll := function()
 				G := SmallGroup(p^k, nr);
 				H := PcGroupToPcpGroup(G);
 				c := Collector(H); 
-				if not ComparePolynomials(c) then 
+				if not DTP_ComparePolynomials(c) then 
 					Error();
 				fi; 
 			od; 
@@ -264,11 +264,11 @@ CompareAll := function()
 	
 	colls := [coll_paper, coll_finite, coll_cyclic, UT_3, UT_5, 
 	UT_10, heisenberg_3, heisenberg_7, heisenberg_30, heisenberg_50, 
-	ex11, ex12, rand_coll(), ex15, ex16, 
+	ex11, ex12, DTP_rand_coll(), ex15, ex16, 
 	BG_01, BG_97, ex14]; 
 
 	for c in colls do 
-		if not ComparePolynomials(c) then 
+		if not DTP_ComparePolynomials(c) then 
 			Error();
 		fi; 
 	od; 

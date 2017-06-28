@@ -60,7 +60,7 @@ ex15 := Collector(ExamplesOfSomePcpGroups(15));
 ex16 := Collector(ExamplesOfSomePcpGroups(16)); 
 
 # create a random collector as in EickEngel.g: 
-rand_coll := function()
+DTP_rand_coll := function()
 	local t123, t345, t124, t145, t234, t134, t245, t125, t135, t235, rand, factors, collector, n, i; 
 	
 	# one of these has to be 0 

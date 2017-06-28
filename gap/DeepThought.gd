@@ -12,6 +12,6 @@ DeclareGlobalFunction( "DTP_Example" );
 
 # QUICK HACK: declare some functions to resolve circular dependencies
 # on the long run, clean this up
-DeclareGlobalFunction( "AreAlmostEqual" );
+DeclareGlobalFunction( "DTP_AreAlmostEqual" );
 DeclareGlobalFunction( "DTP_NormalForm" );
 DeclareGlobalFunction( "DTP_Order" );

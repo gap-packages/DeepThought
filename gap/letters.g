@@ -1,11 +1,11 @@
 # This file contains the functions:
-#	IsAtom
+#	DTP_IsAtom
 #	DTP_SequenceLetter
-#	LengthLetter
-#	AreEqualLetters
-#	AreAlmostEqual
-#	HaveSameStructure
-#	AreSimLetters
+#	DTP_LengthLetter
+#	DTP_AreEqualLetters
+#	DTP_AreAlmostEqual
+#	DTP_HaveSameStructure
+#	DTP_AreSimLetters
 #
 # REMARK Many functions in this file are not used currently. 
 
@@ -30,17 +30,17 @@ DT_right := 1;
 # Input: letter letter1
 # Output: 	* true, if letter1 is an atom
 #			* false, if alplha is a non-atom
-IsAtom := function(letter1)
+DTP_IsAtom := function(letter1)
 	return IsBound(letter1.side);
 end;
 
 # Input: letter letter1
 # Output: length of letter1 // length of Seq(letter1)
-LengthLetter := function(letter1)
+DTP_LengthLetter := function(letter1)
     if IsBound(letter1.side) then # letter1 is an atom
 		return 1;
 	else # letter1 is non-atom
-		return LengthLetter(letter1.left) + LengthLetter(letter1.right) + 1;
+		return DTP_LengthLetter(letter1.left) + DTP_LengthLetter(letter1.right) + 1;
 	fi;
 end;
 
@@ -48,14 +48,14 @@ end;
 # Output: 	* true, if letter1 and letter2 are equal
 #			* false, otherwise
 ### it's slightly faster to call letter1 = letter2 directly 
-AreEqualLetters := function(letter1, letter2)
+DTP_AreEqualLetters := function(letter1, letter2)
 	return letter1 = letter2; # use equality for records 
 end;
 
 # Input: letters letter1, letter2
 # Output: 	* true, if letter1 and letter2 are almost equal
 #			* false, otherwise
-InstallGlobalFunction( AreAlmostEqual,
+InstallGlobalFunction( DTP_AreAlmostEqual,
 function(letter1, letter2)
 	local is_atom; 
 	
@@ -81,7 +81,7 @@ end );
 # Input: letters letter1, letter2
 # Output: 	* true, if letter1 and letter2 have the same structure
 #			* false, otherwise
-HaveSameStructure := function(letter1, letter2)
+DTP_HaveSameStructure := function(letter1, letter2)
 	local is_atom;
 	
 	# in any case we must have letter1.num = letter2.num and both must have the 
@@ -100,7 +100,7 @@ HaveSameStructure := function(letter1, letter2)
 				return false;
 			fi;
 		else # both are non-atoms
-			return (HaveSameStructure(letter1.left, letter2.left) and HaveSameStructure(letter1.right, letter2.right));
+			return (DTP_HaveSameStructure(letter1.left, letter2.left) and DTP_HaveSameStructure(letter1.right, letter2.right));
 		fi;
 	else # one is an atom, the other one a non-atom
 		return false;
@@ -111,7 +111,7 @@ end;
 # Ouput: 	* 1, if a < b
 #			* 0, if a = b
 #			* -1, if a > b
-compare_numbers := function(a, b);
+DTP_compare_numbers := function(a, b);
 	if a < b then
 		return 1;
 	elif a = b then
@@ -124,25 +124,25 @@ end;
 # Input: letters letter1, letter2
 # Output: 	* true, if letter1 and letter2 are in ~-relation
 #			* false, otherwise
-AreSimLetters := function(letter1, letter2)
+DTP_AreSimLetters := function(letter1, letter2)
 	local Seq_letter1, Seq_letter2, len, i, j, alm_equal;
 	
 	# letter1 and letter2 must have the same structure 
-	if HaveSameStructure(letter1, letter2) then
+	if DTP_HaveSameStructure(letter1, letter2) then
 		# both have the same structure 
 		Seq_letter1 := DTP_SequenceLetter(letter1);
 		Seq_letter2 := DTP_SequenceLetter(letter2);
-		# now LengthLetter(letter1) = LengthLetter(letter2) (since same structure)
+		# now DTP_LengthLetter(letter1) = DTP_LengthLetter(letter2) (since same structure)
 		len := Length(Seq_letter1);
 		for i in [1 .. len] do 
 			for j in [1 .. len] do
 				# check Seq(letter1, i) almost equal to Seq(letter1, j)
 				# <=> Seq(letter2, i) almost equal to Seq(letter2, j)
-				alm_equal := AreAlmostEqual(Seq_letter1[i], Seq_letter1[j]);
-				if alm_equal <> AreAlmostEqual(Seq_letter2[i], Seq_letter2[j]) then
+				alm_equal := DTP_AreAlmostEqual(Seq_letter1[i], Seq_letter1[j]);
+				if alm_equal <> DTP_AreAlmostEqual(Seq_letter2[i], Seq_letter2[j]) then
 					return false;
 				elif alm_equal then # check relation of positions 
-					if compare_numbers(Seq_letter1[i].pos, Seq_letter1[j].pos) <> compare_numbers(Seq_letter2[i].pos, Seq_letter2[j].pos) then
+					if DTP_compare_numbers(Seq_letter1[i].pos, Seq_letter1[j].pos) <> DTP_compare_numbers(Seq_letter2[i].pos, Seq_letter2[j].pos) then
 						return false;
 					fi;
 				fi;

@@ -1,5 +1,5 @@
 # This file contains the functions:
-#	LeftOf
+#	DTP_LeftOf
 #############################################################################
 
 # Input: letters left <> right which occur during a collection to the left
@@ -7,7 +7,7 @@
 #						label generators, the generators labelled by left
 #						is to the left of the generator labelled by right
 #			- false,	otherwise 
-LeftOf := function(left, right)
+DTP_LeftOf := function(left, right)
 	local is_atom_left, is_atom_right, earlier; 
 	
 	# IsBound(letter.side) <=> letter is an atom 
@@ -42,16 +42,16 @@ LeftOf := function(left, right)
 	elif is_atom_right then
 		earlier := false;
 	elif left.right = right.right then
-		earlier := LeftOf(right.left, left.left);
+		earlier := DTP_LeftOf(right.left, left.left);
 	elif left.right.num = right.right.num then
-		earlier := LeftOf(left.right, right.right);
+		earlier := DTP_LeftOf(left.right, right.right);
 	else
 		earlier := (left.right.num < right.right.num);
 	fi;
 	
 	# make sure that right occurred earlier than left
 	if earlier then
-		return not LeftOf(right, left);
+		return not DTP_LeftOf(right, left);
 	fi; 
 	
 	# now left must be a non-atom and we may access its left and right part
@@ -62,11 +62,11 @@ LeftOf := function(left, right)
 		return false;
 	fi;
 	if right.num = left.right.num then
-		return LeftOf(left.right, right); 
+		return DTP_LeftOf(left.right, right); 
 	fi;
 	# now right.num > left.right.num
 	if right = left.left then 
 		return false;
 	fi;
-	return LeftOf(left.left, right); 
+	return DTP_LeftOf(left.left, right); 
 end;

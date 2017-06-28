@@ -3,12 +3,12 @@
 # the torsion free nilpotent groups of Hirsch length at most 5")
 
 # for i in [1 .. 1000] do 
-# 	if not CompareEE_r() then 
+# 	if not DTP_CompareEE_r() then 
 # 		Error(); 
 # 	fi; 
 # od; 
 
-CompareEE_r := function()
+DTP_CompareEE_r := function()
 	local n, r, l, i, term, g_alpha, flag, j, t123, t345, t124, t145, t234, t134, t245, t125, t135, t235, rand, factors, collector, f1, f2, f3, f4, f5, ee, fr; 
 
 	# Use Lemma 2 in Eick/Engel paper to find a consistent presentation:

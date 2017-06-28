@@ -78,7 +78,7 @@ DTP_StructureLetter := function(letter)
 				# not yet a class and are almost equal to beta.
 				if not j in has_class then 
 					subletter := sequence[j];
-					if AreAlmostEqual(subletter, beta) then 
+					if DTP_AreAlmostEqual(subletter, beta) then 
 						if not subletter.pos in equiv_class then 
 							# If the subletter is not contained in the "set"
 							# equiv_class, add it (in order to determine the 
@@ -173,7 +173,7 @@ DTP_StructureLetterFromExisting := function(left, classes_left, right, classes_r
 		found_letter2_class := false; 
 		for k in [1 .. Length(classes_letter2)] do 
 			if not k in has_class then # if this class was not matched yet 
-				if AreAlmostEqual(rep, sequence_letter2[classes_letter2[k][1]]) then 
+				if DTP_AreAlmostEqual(rep, sequence_letter2[classes_letter2[k][1]]) then 
 					
 					Add(has_class, k); 
 					for j in [1 .. Length(classes_letter2[k])] do 

@@ -1,4 +1,4 @@
-# Benchmark( func[, optrec] )
+# DTP_Benchmark( func[, optrec] )
 #
 # func - a function taking no arguments
 # optrec - an optional record with various options
@@ -11,7 +11,7 @@
 # At the end, it outputs the average, median, and std deviation.
 #
 # Example:
-# gap> Benchmark(function() Factors(x^293-1); end);
+# gap> DTP_Benchmark(function() Factors(x^293-1); end);
 # .................................................
 # Performed 49 iterations, taking 201 milliseconds.
 # average: 4.1 +/- 0.11 (+/- 3%)
@@ -41,14 +41,14 @@
 # TODO: allow passing a function that is executed before every test run.
 # That function can reset other state, flush caches etc.
 #
-Benchmark := function(func, opt...)
+DTP_Benchmark := function(func, opt...)
     local getTime, timings, total, t, i, res;
     if Length(opt) = 1 and IsRecord(opt[1]) then
         opt := ShallowCopy(opt[1]);
     elif Length(opt) = 0 then
         opt := rec();
     else
-        Error("Usage: Benchmark( func[, optrec] )");
+        Error("Usage: DTP_Benchmark( func[, optrec] )");
     fi;
 
     if not IsBound( opt.minreps ) then opt.minreps := 5; fi;
@@ -132,6 +132,6 @@ Benchmark := function(func, opt...)
 end;
 
 if false then
-Benchmark(function() Factors(x^293-1); end);
-Benchmark(function() Factors(x^293-1); end, rec(maxreps:=10));
+DTP_Benchmark(function() Factors(x^293-1); end);
+DTP_Benchmark(function() Factors(x^293-1); end, rec(maxreps:=10));
 fi;

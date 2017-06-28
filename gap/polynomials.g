@@ -72,7 +72,7 @@ DTP_ComputeSetRepsPolynomial_g_alpha := function(alpha, coll)
 				# uneven entries of cnj. rep.num must occur in cnj[2N+1]
 				# since it has to occur with non-zero exponent (else we 
 				# would not have come to this point by construction of 
-				# ComputeSetReps_r(s)).
+				# DTP_ComputeSetReps_r(s)).
 				if cnj[j] = rep.num then
  					g_alpha[1] := g_alpha[1] * Binomial(cnj[j + 1], classes_size[i]);
 					break;
@@ -86,7 +86,7 @@ DTP_ComputeSetRepsPolynomial_g_alpha := function(alpha, coll)
 	Append(g_alpha, monomial); 
 	
 	Assert(1, g_alpha[1] <> 0); # since criterion g_alpha = 0 is used
-	# when computing the set Least, see function FindCoefficient
+	# when computing the set Least, see function DTP_FindCoefficient
 	
 	return g_alpha; 
 end; 

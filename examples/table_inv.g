@@ -1,4 +1,4 @@
-invtab := function(G, lim)
+DTP_invtab := function(G, lim)
 	local coll, n, elms, elms_gr, i, DTobj_r, DTobj_rs, invcoll, invr, invrs, x, avg_invcoll, avg_inv_r, avg_inv_rs, invc, inv_r, inv_rs, k, rel;
 	
 	coll := Collector(G); 
@@ -43,9 +43,9 @@ invtab := function(G, lim)
 		od;
 	end; 
 	
-	avg_invcoll := Benchmark(invcoll, rec( maxreps := 5, minreps := 5, silent := true)).avg;
-	avg_inv_r := Benchmark(inv_r, rec( maxreps := 5, minreps := 5, silent := true)).avg;
-	avg_inv_rs := Benchmark(inv_rs, rec( maxreps := 5, minreps := 5, silent := true)).avg;
+	avg_invcoll := DTP_Benchmark(invcoll, rec( maxreps := 5, minreps := 5, silent := true)).avg;
+	avg_inv_r := DTP_Benchmark(inv_r, rec( maxreps := 5, minreps := 5, silent := true)).avg;
+	avg_inv_rs := DTP_Benchmark(inv_rs, rec( maxreps := 5, minreps := 5, silent := true)).avg;
 	
 	invc := List(invc, x -> Exponents(x)); 
 	if invc <> invr or invr <> invrs then 
@@ -65,7 +65,7 @@ end;
 # 	Print(nr, "\n"); 
 # 	G := SmallGroup(p^k, nr);
 # 	H := PcGroupToPcpGroup(G);
-# 	orderstab(H); 
+# 	DTP_orderstab(H); 
 # 
 # 	num := NrSmallGroups(p^k); 
 # 	Print("\n(p, k) = (", p, ", ", k, ")\n"); 
@@ -74,7 +74,7 @@ end;
 # 	Print(nr, "\n"); 
 # 	G := SmallGroup(p^k, nr);
 # 	H := PcGroupToPcpGroup(G);
-# 	orderstab(H); 
+# 	DTP_orderstab(H); 
 # 	
 # 	num := NrSmallGroups(p^k); 
 # 	Print("\n(p, k) = (", p, ", ", k, ")\n"); 
@@ -84,7 +84,7 @@ end;
 # 	Print(nr, "\n"); 
 # 	G := SmallGroup(p^k, nr);
 # 	H := PcGroupToPcpGroup(G);
-# 	orderstab(H); 
+# 	DTP_orderstab(H); 
 # 	
 # 	num := NrSmallGroups(p^k); 
 # 	Print("\n(p, k) = (", p, ", ", k, ")\n"); 
@@ -95,6 +95,6 @@ end;
 # 	Print(nr, "\n"); 
 # 	G := SmallGroup(p^k, nr);
 # 	H := PcGroupToPcpGroup(G);
-# 	orderstab(H); 
+# 	DTP_orderstab(H); 
 # od; 
 #  

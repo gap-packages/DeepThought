@@ -1,4 +1,4 @@
-frfrs := function(coll)
+DTP_frfrs := function(coll)
 	local n, dc, x, y, i, j, x_exp, y_exp, pol_r, pol_rs, avg_pol_r, avg_pol_rs, mult_r, mult_rs, avg_r, avg_rs, z, DTobj_r, DTobj_rs, dcfunction, avg_dc; 
 	
 	n := NumberOfGenerators(coll); 
@@ -7,7 +7,7 @@ frfrs := function(coll)
 		dc := DecisionCriterion(coll); 
 	end; 
 	
-	avg_dc := Benchmark(dcfunction, rec( maxreps := 5, minreps := 5, silent := true)).avg;
+	avg_dc := DTP_Benchmark(dcfunction, rec( maxreps := 5, minreps := 5, silent := true)).avg;
 	
 	if dc then 
 		dc := "rs"; 
@@ -33,8 +33,8 @@ frfrs := function(coll)
 		DTobj_rs := DTP_DTpols_rs(coll); 
 	end; 
 	
-	avg_pol_r := Benchmark(pol_r, rec( maxreps := 2, minreps := 2, silent := true)).avg;
-	avg_pol_rs := Benchmark(pol_rs, rec( maxreps := 5, minreps := 5, silent := true)).avg;
+	avg_pol_r := DTP_Benchmark(pol_r, rec( maxreps := 2, minreps := 2, silent := true)).avg;
+	avg_pol_rs := DTP_Benchmark(pol_rs, rec( maxreps := 5, minreps := 5, silent := true)).avg;
 	
 	mult_r := function()
 		for x_exp in x do 
@@ -52,8 +52,8 @@ frfrs := function(coll)
 		od;
 	end; 
 	
-	avg_r := Benchmark(mult_r, rec( maxreps := 5, minreps := 5, silent := true)).avg;
-	avg_rs := Benchmark(mult_rs, rec( maxreps := 5, minreps := 5, silent := true)).avg;
+	avg_r := DTP_Benchmark(mult_r, rec( maxreps := 5, minreps := 5, silent := true)).avg;
+	avg_rs := DTP_Benchmark(mult_rs, rec( maxreps := 5, minreps := 5, silent := true)).avg;
 	
 	return [avg_pol_r, avg_r, avg_pol_rs, avg_rs, avg_dc, dc]; 
 end; 
@@ -64,13 +64,13 @@ end;
 # 		num := NrSmallGroups(p^k); 
 # 		Print("\n(p, k) = (", p, ", ", k, ")\n"); 
 # 
-# 		# since random generator is reseted by Benchmark
+# 		# since random generator is reseted by DTP_Benchmark
 # 			nr := Random([1 .. num]); 
 # 			Print(nr, "\n"); 
 # 			G := SmallGroup(p^k, nr);
 # 			H := PcGroupToPcpGroup(G);
 # 			c := Collector(H); 
-# 			Print(frfrs(c), "\n");   
+# 			Print(DTP_frfrs(c), "\n");   
 # 			
 # 			nr := Random([1 .. num]); 
 # 			nr := Random([1 .. num]); 
@@ -78,7 +78,7 @@ end;
 # 			G := SmallGroup(p^k, nr);
 # 			H := PcGroupToPcpGroup(G);
 # 			c := Collector(H); 
-# 			Print(frfrs(c), "\n");  
+# 			Print(DTP_frfrs(c), "\n");  
 # 			
 # 			nr := Random([1 .. num]); 
 # 			nr := Random([1 .. num]); 
@@ -87,7 +87,7 @@ end;
 # 			G := SmallGroup(p^k, nr);
 # 			H := PcGroupToPcpGroup(G);
 # 			c := Collector(H); 
-# 			Print(frfrs(c), "\n");  
+# 			Print(DTP_frfrs(c), "\n");  
 # 	od;   
 # od; 
 

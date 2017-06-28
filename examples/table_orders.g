@@ -1,4 +1,4 @@
-orderstab := function(G, lim)
+DTP_orderstab := function(G, lim)
 	local coll, n, elms, elms_gr, i, gens, gens_gr, DTobj_r, DTobj_rs, gen_coll, gen_r, gen_rs, x, elms_coll, elms_r, elms_rs, avg_gen_coll, avg_gen_r, avg_gen_rs, avg_elms_coll, avg_elms_r, avg_elms_rs, o_c, o_r, o_rs, rel, k, t;
 	
 	coll := Collector(G); 
@@ -71,17 +71,17 @@ orderstab := function(G, lim)
 		od;
 	end; 
 	
-	avg_gen_coll := Benchmark(gen_coll, rec( maxreps := 5, minreps := 5, silent := true)).avg;
-	avg_gen_r := Benchmark(gen_r, rec( maxreps := 5, minreps := 5, silent := true)).avg;
-	avg_gen_rs := Benchmark(gen_rs, rec( maxreps := 5, minreps := 5, silent := true)).avg;
+	avg_gen_coll := DTP_Benchmark(gen_coll, rec( maxreps := 5, minreps := 5, silent := true)).avg;
+	avg_gen_r := DTP_Benchmark(gen_r, rec( maxreps := 5, minreps := 5, silent := true)).avg;
+	avg_gen_rs := DTP_Benchmark(gen_rs, rec( maxreps := 5, minreps := 5, silent := true)).avg;
 	
 	if o_c <> o_r or o_r <> o_rs then 
 		Error(); 
 	fi; 
 	
-	avg_elms_coll := Benchmark(elms_coll, rec( maxreps := 5, minreps := 5, silent := true)).avg;
-	avg_elms_r := Benchmark(elms_r, rec( maxreps := 5, minreps := 5, silent := true)).avg;
-	avg_elms_rs := Benchmark(elms_rs, rec( maxreps := 5, minreps := 5, silent := true)).avg;
+	avg_elms_coll := DTP_Benchmark(elms_coll, rec( maxreps := 5, minreps := 5, silent := true)).avg;
+	avg_elms_r := DTP_Benchmark(elms_r, rec( maxreps := 5, minreps := 5, silent := true)).avg;
+	avg_elms_rs := DTP_Benchmark(elms_rs, rec( maxreps := 5, minreps := 5, silent := true)).avg;
 
 	if o_c <> o_r or o_r <> o_rs then 
 		Error(); 
@@ -100,7 +100,7 @@ end;
 # 	Print(nr, "\n"); 
 # 	G := SmallGroup(p^k, nr);
 # 	H := PcGroupToPcpGroup(G);
-# 	orderstab(H); 
+# 	DTP_orderstab(H); 
 # 
 # 	num := NrSmallGroups(p^k); 
 # 	Print("\n(p, k) = (", p, ", ", k, ")\n"); 
@@ -109,7 +109,7 @@ end;
 # 	Print(nr, "\n"); 
 # 	G := SmallGroup(p^k, nr);
 # 	H := PcGroupToPcpGroup(G);
-# 	orderstab(H); 
+# 	DTP_orderstab(H); 
 # 	
 # 	num := NrSmallGroups(p^k); 
 # 	Print("\n(p, k) = (", p, ", ", k, ")\n"); 
@@ -119,7 +119,7 @@ end;
 # 	Print(nr, "\n"); 
 # 	G := SmallGroup(p^k, nr);
 # 	H := PcGroupToPcpGroup(G);
-# 	orderstab(H); 
+# 	DTP_orderstab(H); 
 # 	
 # 	num := NrSmallGroups(p^k); 
 # 	Print("\n(p, k) = (", p, ", ", k, ")\n"); 
@@ -130,6 +130,6 @@ end;
 # 	Print(nr, "\n"); 
 # 	G := SmallGroup(p^k, nr);
 # 	H := PcGroupToPcpGroup(G);
-# 	orderstab(H); 
+# 	DTP_orderstab(H); 
 # od; 
 #  

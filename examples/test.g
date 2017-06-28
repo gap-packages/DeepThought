@@ -2,7 +2,7 @@ ReadPackage("DeepThought", "examples/cmp_with_wm.g");
 ReadPackage("DeepThought", "examples/EickEngel.g"); 
 
 # tests num-times multiplications in coll with exponent limit lim
-TestMulti :=  function(coll, num, lim, opt...) 
+DTP_TestMulti :=  function(coll, num, lim, opt...) 
 	local DTobj, i, x, y, y1, k, z, z_gr, t, t_pols, t_coll, orders, n, rel, multiply;
 	
 	n := NumberOfGenerators(coll); 
@@ -60,7 +60,7 @@ TestMulti :=  function(coll, num, lim, opt...)
 end; 
 
 # check time needed for computing the polynomials 
-TestTimeForSmallgroups := function(p, k, max)
+DTP_TestTimeForSmallgroups := function(p, k, max)
 	local i, G, H, c, t1, t2, num, nr;
 	
 	num := NrSmallGroups(p^k);
@@ -96,7 +96,7 @@ TestTimeForSmallgroups := function(p, k, max)
 	od;
 end;
 
-TestMultiInFiniteGroup := function(coll, opt...)
+DTP_TestMultiInFiniteGroup := function(coll, opt...)
 	local DTobj, x, y, y1, t, z, z_gr, t_coll, t_pols, x_gr, y_gr, G, orders, multiply; 
 	
 	if Length(opt) = 0 then 
@@ -136,7 +136,7 @@ TestMultiInFiniteGroup := function(coll, opt...)
 	Print("    t_coll: ", t_coll, "\n    t_pols: ", t_pols, "\n"); 
 end;
 
-TestSmallgroups := function()
+DTP_TestSmallgroups := function()
 	local p, k, num, nr, G, H, c, t0, t1, j; 
 	for p in Primes do
 		if p > 6 and p < 101 then 
@@ -168,7 +168,7 @@ TestSmallgroups := function()
 					Print("(r, rs) = (", t1, ", ", t0, ")\n"); 
 				fi; 
 				
-#				TestMultiInFiniteGroup(c); 
+#				DTP_TestMultiInFiniteGroup(c); 
 			od; 
 			od; 
 		od;
@@ -176,7 +176,7 @@ TestSmallgroups := function()
 	od;
 end;
 
-TestCollector := function(coll, num, lim, which)
+DTP_TestCollector := function(coll, num, lim, which)
 	local DTobj_r, DTobj_rs, t; 
 	
 	if which[1] then 
@@ -184,7 +184,7 @@ TestCollector := function(coll, num, lim, which)
 		DTobj_r := DTP_DTpols_r(coll); 
 		t := Runtime() - t; 
 		Print("  Time f_r: ", t, "\n"); 
-		TestMulti(coll, num, lim, DTobj_r, DTP_Multiply_r); 
+		DTP_TestMulti(coll, num, lim, DTobj_r, DTP_Multiply_r); 
 	fi;
 	
 	if which[2] then 
@@ -192,9 +192,9 @@ TestCollector := function(coll, num, lim, which)
 		DTobj_rs := DTP_DTpols_rs(coll); 
 		t := Runtime() - t; 
 		Print("  Time f_rs: ", t, "\n"); 
-		TestMulti(coll, num, lim, DTobj_rs, DTP_Multiply_rs); 
+		DTP_TestMulti(coll, num, lim, DTobj_rs, DTP_Multiply_rs); 
 		# compare to wm polynomials: 
-		if not ComparePolynomials(coll, DTobj_rs) then 
+		if not DTP_ComparePolynomials(coll, DTobj_rs) then 
 			Error("Polynomials are not equal to those computed by wm."); 
 		fi; 
 	fi; 
@@ -202,51 +202,53 @@ TestCollector := function(coll, num, lim, which)
 	return true; 
 end; 
 
-TestDTPackage := function()
+ReadPackage("DeepThought", "example/cmp_with_wm.g"); 
+ReadPackage("DeepThought", "example/EickEngel.g"); 
+DTP_TestDTPackage := function()
 	local pk, p, k, num, j, nr, G, H, c; 
 
 	Print("collector coll_paper \n"); 
-	TestCollector(coll_paper, 10000, 10, [true, true]); 
+	DTP_TestCollector(coll_paper, 10000, 10, [true, true]); 
 	
 	Print("collector coll_finite \n"); 
-	TestCollector(coll_finite, 10000, 10, [true, true]); 
+	DTP_TestCollector(coll_finite, 10000, 10, [true, true]); 
 
 	Print("collector coll_cyclic \n"); 
-	TestCollector(coll_cyclic, 10000, 10, [true, true]); 
+	DTP_TestCollector(coll_cyclic, 10000, 10, [true, true]); 
 	
 	Print("collector UT_3 \n"); 
-	TestCollector(UT_3, 10000, 10, [true, true]); 
+	DTP_TestCollector(UT_3, 10000, 10, [true, true]); 
 	
 	Print("collector UT_5 \n");
-	TestCollector(UT_5, 1000, 10, [true, true]); 
+	DTP_TestCollector(UT_5, 1000, 10, [true, true]); 
 
 	Print("collector UT_10 \n"); 
-	TestCollector(UT_10, 10, 5, [false, true]); 
+	DTP_TestCollector(UT_10, 10, 5, [false, true]); 
 
 	Print("collector heisenberg_3 \n"); 
-	TestCollector(heisenberg_3, 10000, 10, [true, true]); 
+	DTP_TestCollector(heisenberg_3, 10000, 10, [true, true]); 
 	
 	Print("collector heisenberg_7 \n"); 
-	TestCollector(heisenberg_7, 1000, 10, [true, true]); 
+	DTP_TestCollector(heisenberg_7, 1000, 10, [true, true]); 
 
 	Print("collector heisenberg_30 \n"); 
-	TestCollector(heisenberg_30, 300, 10, [true, true]); 
+	DTP_TestCollector(heisenberg_30, 300, 10, [true, true]); 
 	
 	Print("collector ex11 \n"); 
-	TestCollector(ex11, 10000, 10, [true, true]); 
+	DTP_TestCollector(ex11, 10000, 10, [true, true]); 
 	
 	Print("collector ex12 \n");
-	TestCollector(ex12, 10000, 10, [true, true]); 
+	DTP_TestCollector(ex12, 10000, 10, [true, true]); 
 
 	Print("collector ex15 \n"); 
-	TestCollector(ex15, 300, 7, [true, true]); 
+	DTP_TestCollector(ex15, 300, 7, [true, true]); 
 		
 	Print("collector ex16 \n"); 
-	TestCollector(ex15, 300, 7, [true, true]); 
+	DTP_TestCollector(ex15, 300, 7, [true, true]); 
 	
 	Print("Test some random collectors \n"); 
 	for j in [1 .. 10] do 
-		TestCollector(rand_coll(), 10000, 10, [true, true]); 
+		DTP_TestCollector(DTP_rand_coll(), 10000, 10, [true, true]); 
 		CompareEE_r(); 
 	od; 
 	
@@ -261,13 +263,13 @@ TestDTPackage := function()
 			G := SmallGroup(p^k, nr);
 			H := PcGroupToPcpGroup(G);
 			c := Collector(H); 
-			TestMultiInFiniteGroup(c, DTP_DTpols_r(c), DTP_Multiply_r);
-			TestMultiInFiniteGroup(c, DTP_DTpols_rs(c), DTP_Multiply_rs); 
+			DTP_TestMultiInFiniteGroup(c, DTP_DTpols_r(c), DTP_Multiply_r);
+			DTP_TestMultiInFiniteGroup(c, DTP_DTpols_rs(c), DTP_Multiply_rs); 
 		od;
 	od;
 	
 	Print("collector ex14 \n"); 
-	TestCollector(ex14, 100, 8, [false, true]); 
+	DTP_TestCollector(ex14, 100, 8, [false, true]); 
 
 	return true; 
 end; 

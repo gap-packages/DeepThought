@@ -1,4 +1,4 @@
-# Call "PlotMulti" with arguments 
+# Call "DTP_PlotMulti" with arguments 
 #	- collector call suitable for DT
 #	- integer num which gives the number of multiplications being executed
 #	- integer lim giving a max. value for the absolute value in exponent 
@@ -15,10 +15,10 @@
 # The parameter "lim" is increased by 1, then the function is called again 
 # until the computation takes a certain time in average. 
 
-# PlotMulti(UT_10, 100, 1, "ut10", true);
+# DTP_PlotMulti(UT_10, 100, 1, "ut10", true);
 
 
-PlotMulti1 := function(DTobj_rs, DTobj_r, num, lim, res, name, time_pols_rs, time_pols_r, nf)
+DTP_PlotMulti1 := function(DTobj_rs, DTobj_r, num, lim, res, name, time_pols_rs, time_pols_r, nf)
 	local coll, n, i, j, rel,
 	x, y, x_coll, y_coll, x_exp, y_exp, x_pcp, y_pcp, 
 	multiply_pols_rs, multiply_pols_r, multiply_coll,
@@ -81,16 +81,16 @@ PlotMulti1 := function(DTobj_rs, DTobj_r, num, lim, res, name, time_pols_rs, tim
 		od;
 	end; 
 
-	# call benchmark exactly five times with each function 
+	# call DTP_Benchmark exactly five times with each function 
 
 	Print("Polynomials f_rs... "); 
-	res_rs := Benchmark(multiply_pols_rs, rec( maxreps := 5, minreps := 5, silent := true)); 
+	res_rs := DTP_Benchmark(multiply_pols_rs, rec( maxreps := 5, minreps := 5, silent := true)); 
 	
 	Print("Polynomials f_r... "); 
-	res_r := Benchmark(multiply_pols_r, rec( maxreps := 5, minreps := 5, silent := true));
+	res_r := DTP_Benchmark(multiply_pols_r, rec( maxreps := 5, minreps := 5, silent := true));
 
 	Print("Collection..."); 
-	res_coll := Benchmark(multiply_coll, rec( maxreps := 5, minreps := 5, silent := true ));
+	res_coll := DTP_Benchmark(multiply_coll, rec( maxreps := 5, minreps := 5, silent := true ));
 	
 	Print("\n"); 
 	
@@ -108,7 +108,7 @@ PlotMulti1 := function(DTobj_rs, DTobj_r, num, lim, res, name, time_pols_rs, tim
 	Add(res, rec( lim := lim, avg_rs := res_rs.avg, avg_r := res_r.avg, avg_coll := res_coll.avg ) ); 
 	
 	if Length(res) < 50 then 
-		PlotMulti1(DTobj_rs, DTobj_r, num, lim + 1, res, name, time_pols_rs, time_pols_r, nf);
+		DTP_PlotMulti1(DTobj_rs, DTobj_r, num, lim + 1, res, name, time_pols_rs, time_pols_r, nf);
 	fi; 
 	
 	# write results to file
@@ -127,7 +127,7 @@ PlotMulti1 := function(DTobj_rs, DTobj_r, num, lim, res, name, time_pols_rs, tim
 	return res; 
 end; 
 
-PlotMulti := function(coll, num, lim, name, nf)
+DTP_PlotMulti := function(coll, num, lim, name, nf)
 	local res, DTobj_rs, DTobj_r, time_pols_rs, time_pols_r, compute_pols_rs, compute_pols_r, file; 
 	
 	compute_pols_rs := function()
@@ -138,8 +138,8 @@ PlotMulti := function(coll, num, lim, name, nf)
 		DTobj_r := DTP_DTpols_r(coll); 
 	end; 
 	
-	time_pols_rs := Benchmark(compute_pols_rs, rec( maxreps := 5, minreps := 5, silent := true)); 
-	time_pols_r := Benchmark(compute_pols_r, rec( maxreps := 5, minreps := 5, silent := true)); 
+	time_pols_rs := DTP_Benchmark(compute_pols_rs, rec( maxreps := 5, minreps := 5, silent := true)); 
+	time_pols_r := DTP_Benchmark(compute_pols_r, rec( maxreps := 5, minreps := 5, silent := true)); 
 	
 	file := Concatenation("plot//output-", name, "-params");
 	PrintTo(file, "num lim_start time_pols_rs time_pols_r \n"); 
@@ -148,5 +148,5 @@ PlotMulti := function(coll, num, lim, name, nf)
 	AppendTo(file, time_pols_rs.avg, " ");
 	AppendTo(file, time_pols_r.avg, "\n");
 	
-	return PlotMulti1(DTobj_rs, DTobj_r, num, lim, [], name, time_pols_rs.avg, time_pols_r.avg, nf);
+	return DTP_PlotMulti1(DTobj_rs, DTobj_r, num, lim, [], name, time_pols_rs.avg, time_pols_r.avg, nf);
 end; 
