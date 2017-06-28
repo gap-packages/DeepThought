@@ -199,8 +199,8 @@ TestCollector := function(coll, num, lim, which)
 	return true; 
 end; 
 
-Read("cmp_with_wm.g"); 
-Read("EickEngel.g"); 
+ReadPackage("DeepThought", "example/cmp_with_wm.g"); 
+ReadPackage("DeepThought", "example/EickEngel.g"); 
 TestDTPackage := function()
 	local pk, p, k, num, j, nr, G, H, c; 
 
