@@ -26,11 +26,11 @@ frfrs := function(coll)
 	od;
 	
 	pol_r := function()
-		DTobj_r := DTpols_r(coll); 
+		DTobj_r := DTP_DTpols_r(coll); 
 	end; 
 	
 	pol_rs := function()
-		DTobj_rs := DTpols_rs(coll); 
+		DTobj_rs := DTP_DTpols_rs(coll); 
 	end; 
 	
 	avg_pol_r := Benchmark(pol_r, rec( maxreps := 2, minreps := 2, silent := true)).avg;
@@ -39,7 +39,7 @@ frfrs := function(coll)
 	mult_r := function()
 		for x_exp in x do 
 			for y_exp in y do
-				z := Multiply_r(x_exp, y_exp, DTobj_r); 
+				z := DTP_Multiply_r(x_exp, y_exp, DTobj_r); 
 			od;
 		od; 
 	end; 
@@ -47,7 +47,7 @@ frfrs := function(coll)
 	mult_rs := function()
 		for x_exp in x do 
 			for y_exp in y do
-				z := Multiply_rs(x_exp, y_exp, DTobj_rs); 
+				z := DTP_Multiply_rs(x_exp, y_exp, DTobj_rs); 
 			od;
 		od;
 	end; 

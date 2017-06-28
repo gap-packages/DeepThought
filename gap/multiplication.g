@@ -1,10 +1,10 @@
 # This file contains the functions:
-#	Multiply_rs 
-#	Multiply_s 
-#	EvalPol_rs
+#	DTP_Multiply_rs 
+#	DTP_Multiply_s 
+#	DTP_EvalPol_rs
 #
-#	Multiply_r 
-#	EvalPol_r
+#	DTP_Multiply_r 
+#	DTP_Multiply_rsEvalPol_r
 #############################################################################
 
 #############################################################################
@@ -13,7 +13,7 @@
 
 # evaluate polynomial pol = f_rs on input z = [z_1, ..., z_n] and y_s:
 # (a_1^z_1 * ... * a_n^z_n ) * a_s^y_s = a_1^res[1] * ... a_n^res[n] 
-EvalPol_rs := function(pol, z, y_s)
+DTP_EvalPol_rs := function(pol, z, y_s)
 	local res, summand, i, j; 
 	
 	res := 0; 
@@ -45,7 +45,7 @@ end;
 #			- DTobj
 # Output: 	exponent vector [res_1, ..., res_n] such that 
 #			(a_1^z[1] ... a_n^z[n]) * a_s^y_s = a_1^res[1] ... a_n^res[n]
-Multiply_s := function(z, elm_s, DTobj)
+DTP_Multiply_s := function(z, elm_s, DTobj)
 	local n, res, r, s, orders;
 	
 	n := DTobj[1]![PC_NUMBER_OF_GENERATORS];	
@@ -70,11 +70,11 @@ Multiply_s := function(z, elm_s, DTobj)
 	for r in [s + 1 .. n] do 
 		# evaluate polynomial f_rs on x and y[s] 
 		if orders[r] < infinity then 
-			Add(res, EvalPol_rs(DTobj[2][s][r], z, elm_s[2]) mod orders[r]);
+			Add(res, DTP_EvalPol_rs(DTobj[2][s][r], z, elm_s[2]) mod orders[r]);
 			# This takes almost the same time as reducing the orders also
-			# in every step in EvalPol_rs. 
+			# in every step in DTP_EvalPol_rs. 
 		else
-			Add(res, EvalPol_rs(DTobj[2][s][r], z, elm_s[2])); 
+			Add(res, DTP_EvalPol_rs(DTobj[2][s][r], z, elm_s[2])); 
 		fi; 
 	od; 
 	
@@ -88,7 +88,7 @@ end;
 # Output:	If DTobj[4] = true, the exponent vector of the 
 #			product x * y is returned in normal form. Otherwise, the exponent
 #			vector is a reduced word.
-Multiply_rs := function(x, y, DTobj)
+DTP_Multiply_rs := function(x, y, DTobj)
 	local n, s; 
 	
 	n := DTobj[1]![PC_NUMBER_OF_GENERATORS]; 
@@ -100,12 +100,12 @@ Multiply_rs := function(x, y, DTobj)
 	
 	for s in [1 .. n] do
 		# compute ( x * a_1^y[1] ... a_{s-1}^y[s-1] ) * a_s^y[s]
-		x := Multiply_s(x, [s, y[s]], DTobj); 
+		x := DTP_Multiply_s(x, [s, y[s]], DTobj); 
 	od;
 	
 	if DTobj[4] = true then 
 		# If the collector is consistent, return the normal form. 
-		return NormalFormByDT(x, DTobj); 
+		return DTP_NormalForm(x, DTobj); 
 	else 
 		# If the collector is not consistent, return the result as a reduced 
 		# word. 
@@ -118,7 +118,7 @@ end;
 #############################################################################
 
 # evaluate polynomial f_r on input x, y
-EvalPol_r := function(pol, x, y)
+DTP_Multiply_rsEvalPol_r := function(pol, x, y)
 	local res, summand, i, j, n; 
 	
 	n := Length(x); 
@@ -148,7 +148,7 @@ end;
 # Output:	If DTobj[4] = true, the exponent vector of the 
 #			product x * y is returned in normal form. Otherwise, the exponent
 #			vector is a reduced word.
-Multiply_r := function(x, y, DTobj)
+DTP_Multiply_r := function(x, y, DTobj)
 	local n, r, s, pol, z, orders; 
 	
 	n := DTobj[1]![PC_NUMBER_OF_GENERATORS];
@@ -163,15 +163,15 @@ Multiply_r := function(x, y, DTobj)
 	for r in [1 .. n] do 
 		# evaluate polynomial f_r
 		if orders[r] < infinity then 
-			Add(z, EvalPol_r(DTobj[2][r], x, y) mod orders[r]);
+			Add(z, DTP_Multiply_rsEvalPol_r(DTobj[2][r], x, y) mod orders[r]);
 		else
-			Add(z, EvalPol_r(DTobj[2][r], x, y));
+			Add(z, DTP_Multiply_rsEvalPol_r(DTobj[2][r], x, y));
 		fi; 
 	od;
 	
 	if DTobj[4] = true then 
 		# If the collector is consistent, return the normal form. 
-		return NormalFormByDT(z, DTobj); 
+		return DTP_NormalForm(z, DTobj); 
 	else 
 		# If the collector is not consistent, return the result as a reduced 
 		# word. 

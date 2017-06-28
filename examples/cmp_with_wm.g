@@ -105,9 +105,9 @@ ComparePolynomials := function(coll, DTobj...)
 	
 	if Length(DTobj) = 0 then 
 		t := Runtime(); 
-		all_pols_nw := DTpols_rs(coll); 
+		all_pols_nw := DTP_DTpols_rs(coll); 
 		t := Runtime(); 
-		Print("Time for DTpols_rs:\n", t - t, "\n"); 
+		Print("Time for DTP_DTpols_rs:\n", t - t, "\n"); 
 	else
 		all_pols_nw := DTobj[1]; 
 	fi; 
@@ -179,7 +179,7 @@ CompareMultis := function(coll, num)
 	fi; 
 	
 	t := Runtime();
-	DTobj := DTpols_rs(coll); 
+	DTobj := DTP_DTpols_rs(coll); 
 	t := Runtime() - t;
 	Print("NW polynomials f_rs computed in ", t, " ms \n"); 
 
@@ -208,7 +208,7 @@ CompareMultis := function(coll, num)
 		
 		# multiply with nw pols
 		t := Runtime();
-		z_pols_nw := Multiply_rs(x, y, DTobj);
+		z_pols_nw := DTP_Multiply_rs(x, y, DTobj);
 		t := Runtime() - t;
 		t_pols_nw := t_pols_nw + t; 
 		

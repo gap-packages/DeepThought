@@ -22,8 +22,8 @@ invtab := function(G, lim)
 	od; 
 	elms_gr := List(elms, x -> PcpElementByExponents(coll, x)); 
 	
-	DTobj_r := DTpols_r(coll); 
-	DTobj_rs := DTpols_rs(coll); 
+	DTobj_r := DTP_DTpols_r(coll); 
+	DTobj_rs := DTP_DTpols_rs(coll); 
 	
 	invcoll := function()
 		for x in elms_gr do
@@ -33,13 +33,13 @@ invtab := function(G, lim)
 	
 	inv_r := function()
 		for x in elms do
-			Add(invr, InverseByDT(x, DTobj_r)); 
+			Add(invr, DTP_Inverse(x, DTobj_r)); 
 		od;
 	end; 
 	
 	inv_rs := function()
 		for x in elms do
-			Add(invrs, InverseByDT(x, DTobj_rs)); 
+			Add(invrs, DTP_Inverse(x, DTobj_rs)); 
 		od;
 	end; 
 	

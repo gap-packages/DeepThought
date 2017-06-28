@@ -1,12 +1,12 @@
 # This file contains the functions:
-#	DTpols_rs
-#	DTpols_r_S
+#	DTP_DTpols_rs
+#	DTP_DTpols_r_S
 #	
-#	DTpols_r
+#	DTP_DTpols_r
 #
-#	Polynomial_g_alpha
-#	ReducePolynomialsModOrder
-#	OrdersGenerators
+#	DTP_ComputeSetRepsPolynomial_g_alpha
+#	DTP_ReducePolynomialsModOrder
+#	DTP_OrdersGenerators
 #############################################################################
 
 # Input: 	- letter alpha 
@@ -26,7 +26,7 @@
 #	the correspondence 	1 <-> X_1, ..., n <-> X_n
 #						n + 1 <-> Y_1, ..., 2n <-> Y_n
 #	- "size" is "b" in the binomial coefficient 
-Polynomial_g_alpha := function(alpha, coll)
+DTP_ComputeSetRepsPolynomial_g_alpha := function(alpha, coll)
 	local g_alpha, classes_reps, classes_size, i, rep, cnj, j, n, monomial; 
 	
 	n := coll![PC_NUMBER_OF_GENERATORS]; 
@@ -94,7 +94,7 @@ end;
 # Reduce the polynomials "pols" (corresponding to the pols
 # [f_1, ..., f_n] or [f_1,s, ..., f_n,s] for a fixed s) modulo the generator 
 # orders. 
-ReducePolynomialsModOrder := function(pols, orders)
+DTP_ReducePolynomialsModOrder := function(pols, orders)
 	local r, i; 
 	
 	for r in [1 .. Length(pols)] do # polynomial f_r or f_r,s 
@@ -117,7 +117,7 @@ end;
 # Input:	DTobj where the "orders" are set to infinity 
 # Output:	none, but the orders for DTobj are computed and stored in the 
 #			third entry. 
-OrdersGenerators := function(DTobj)
+DTP_OrdersGenerators := function(DTobj)
 	local s, n, gen; 
 	
 	n := DTobj[1]![PC_NUMBER_OF_GENERATORS]; 
@@ -125,7 +125,7 @@ OrdersGenerators := function(DTobj)
 	for s in [1 .. n] do 
 		gen := [1 .. n] * 0;
 		gen[s] := 1; 
-		DTobj[3][s] := OrderByDT(gen, DTobj); 
+		DTobj[3][s] := DTP_Order(gen, DTobj); 
 	od; 
 	
 end;
@@ -141,7 +141,7 @@ end;
 #			f_rs = \sum_{\alpha in reps_rs} g_\alpha 
 # 			An entry pols_f_rs[r] contains lists as described in g_alpha
 #			which represent the summands of f_rs.
-DTpols_r_S := function(coll, s)
+DTP_DTpols_r_S := function(coll, s)
 	local n, pols_f_rs, reps, r, f_rs, reps_rs, alpha, g_alpha, term, added; 
 	
 	n := coll![PC_NUMBER_OF_GENERATORS];
@@ -149,10 +149,10 @@ DTpols_r_S := function(coll, s)
 	
 	pols_f_rs := []; 
 	# compute reps_rs for 1 <= r <= n
-	reps := ComputeSetReps(coll, s); 
+	reps := DTP_ComputeSetReps(coll, s); 
 	for r in [1 .. n] do
 		# compute polynomial f_rs: f_rs is list of summands
-		# g_alpha as described in Polynomial_g_alpha
+		# g_alpha as described in DTP_ComputeSetRepsPolynomial_g_alpha
 		f_rs := []; 
 		reps_rs := reps[r]; # = reps_rs 
 		for alpha in reps_rs do # for every representative in reps_rs 
@@ -165,7 +165,7 @@ DTpols_r_S := function(coll, s)
 			# in their leading coefficient and we may compare polynomials
 			# g_alpha as done below since the entries are sorted by 
 			# construction of g_alpha. 
-			g_alpha := Polynomial_g_alpha(alpha, coll);
+			g_alpha := DTP_ComputeSetRepsPolynomial_g_alpha(alpha, coll);
 			added := false; 
 			for term in [1 .. Length(f_rs)] do 
 				if Length(f_rs[term]) = Length(g_alpha) and f_rs[term]{[2 .. Length(f_rs[term])]} = g_alpha{[2 .. Length(g_alpha)]} then 
@@ -198,9 +198,9 @@ end;
 #			are not necessarily in normal form. If isConfl is not provided
 #			or isConlf = true, the collector is assumed to be consistent. 
 # Output:	list of the form DTobj, where the second entry contains a list 
-#			all_pols such that DTpols_rs[s] is the output of 
-#			DTpols_r_S(coll, s)
-DTpols_rs := function(coll, isConfl...)
+#			all_pols such that DTP_DTpols_rs[s] is the output of 
+#			DTP_DTpols_r_S(coll, s)
+DTP_DTpols_rs := function(coll, isConfl...)
 	local n, s, all_pols, orders, gen, DTobj;
 	
 	if Length(isConfl) = 0 then 
@@ -214,7 +214,7 @@ DTpols_rs := function(coll, isConfl...)
 			isConfl := false; 
 		fi; 
 	else 
-		Error("Call DTpols_rs with..."); 
+		Error("Call DTP_DTpols_rs with..."); 
 	fi;
 		
 	n := coll![PC_NUMBER_OF_GENERATORS];
@@ -222,7 +222,7 @@ DTpols_rs := function(coll, isConfl...)
 	all_pols := [];
 	# for every 1 <= s <= n compute the polynomials f_rs, 1 <= r <= n
 	for s in [1 .. n] do
-		Add(all_pols, DTpols_r_S(coll, s));
+		Add(all_pols, DTP_DTpols_r_S(coll, s));
 	od; 
 	
 	# Compute the orders of the generators and reduce the polynomials modulo
@@ -237,12 +237,12 @@ DTpols_rs := function(coll, isConfl...)
 	# multiplication we do not reduce any results. 
 	if isConfl then 
 		DTobj[4] := true; 
-		OrdersGenerators(DTobj); 
+		DTP_OrdersGenerators(DTobj); 
 		for s in [1 .. n] do 
-			ReducePolynomialsModOrder(DTobj[2][s], DTobj[3]); 
+			DTP_ReducePolynomialsModOrder(DTobj[2][s], DTobj[3]); 
 		od; 
 	else 
-		# We will use the same function for multiplication (Multiply_s) as 
+		# We will use the same function for multiplication (DTP_Multiply_s) as 
 		# in the case, when the generator orders are provided. The generator 
 		# orders are, if finite, used for reduction modulo the orders during 
 		# computations. Hence, if we set each generator order to be infinity, 
@@ -270,7 +270,7 @@ end;
 #				f_r = \sum_{\alpha in reps_r} g_\alpha 
 # 			An entry pols_f_r[r] contains lists as described in g_alpha
 #			which represent the summands of f_r.
-DTpols_r := function(coll, isConfl...)
+DTP_DTpols_r := function(coll, isConfl...)
 	local n, pols_f_r, reps, r, f_r, reps_r, alpha, g_alpha, term, added, DTobj; 
 	
 	if Length(isConfl) = 0 then 
@@ -284,16 +284,16 @@ DTpols_r := function(coll, isConfl...)
 			isConfl := false; 
 		fi; 
 	else 
-		Error("Call DTpols_r with..."); 
+		Error("Call DTP_DTpols_r with..."); 
 	fi;
 	
 	n := coll![PC_NUMBER_OF_GENERATORS];
 	pols_f_r := []; 
 	# compute reps_r for 1 <= r <= n
-	reps := ComputeSetReps(coll, 0); 
+	reps := DTP_ComputeSetReps(coll, 0); 
 	for r in [1 .. n] do
 		# compute polynomial f_r: f_r is list of summands
-		# g_alpha as described in Polynomial_g_alpha
+		# g_alpha as described in DTP_ComputeSetRepsPolynomial_g_alpha
 		f_r := []; 
 		reps_r := reps[r]; # = reps_r 
 		for alpha in reps_r do # for every representative in 
@@ -307,7 +307,7 @@ DTpols_r := function(coll, isConfl...)
 			# g_alpha by using 
 			#	"g_alpha1{[2 .. Length(g_alpha1)]} = g_alpha2{[2 .. Length(g_alpha2)]}" 
 			# since the entries are sorted by construction of g_alpha. 
-			g_alpha := Polynomial_g_alpha(alpha, coll);
+			g_alpha := DTP_ComputeSetRepsPolynomial_g_alpha(alpha, coll);
 			added := false;
 			for term in [1 .. Length(f_r)] do 
 				if Length(f_r[term]) = Length(g_alpha) and f_r[term]{[2 .. Length(f_r[term])]} = g_alpha{[2 .. Length(g_alpha)]} then 
@@ -339,8 +339,8 @@ DTpols_r := function(coll, isConfl...)
 	
 	if isConfl then 
 		DTobj[4] := true; 
-		OrdersGenerators(DTobj); 
-		ReducePolynomialsModOrder(DTobj[2], DTobj[3]); 
+		DTP_OrdersGenerators(DTobj); 
+		DTP_ReducePolynomialsModOrder(DTobj[2], DTobj[3]); 
 	else 
 		# We will use the same function for multiplication as 
 		# in the case, when the generator orders are provided. The generator 

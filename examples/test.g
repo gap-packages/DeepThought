@@ -6,10 +6,10 @@ TestMulti :=  function(coll, num, lim, opt...)
 	
 	if Length(opt) = 0 then 
 		t := Runtime();
-		DTobj := DTpols_rs(coll); 
-		multiply := Multiply_rs; 
-	#	DTobj := DTpols_r(coll); 
-	#	multiply := Multiply_r; 
+		DTobj := DTP_DTpols_rs(coll); 
+		multiply := DTP_Multiply_rs; 
+	#	DTobj := DTP_DTpols_r(coll); 
+	#	multiply := DTP_Multiply_r; 
 		t := Runtime() - t;
 		Print("Polynomials in ", t, "\n"); 
 	else 
@@ -72,7 +72,7 @@ TestTimeForSmallgroups := function(p, k, max)
 		H := PcGroupToPcpGroup(G);
 		c := Collector(H); 
 		t1 := Runtime();
-		DTpols_rs(c); 
+		DTP_DTpols_rs(c); 
 		t1 := Runtime() - t1;
 		# if computation of polynomials takes longer than 1 second, 
 		# display information about the group
@@ -81,7 +81,7 @@ TestTimeForSmallgroups := function(p, k, max)
 		fi;
 		
 		t2 := Runtime();
-		DTpols_r(c); 
+		DTP_DTpols_r(c); 
 		t2 := Runtime() - t2;
 		if t2 > 500 then 
 			Print("polynomials f_r, nr: ", nr, "\n"); 
@@ -97,10 +97,10 @@ TestMultiInFiniteGroup := function(coll, opt...)
 	local DTobj, x, y, y1, t, z, z_gr, t_coll, t_pols, x_gr, y_gr, G, orders, multiply; 
 	
 	if Length(opt) = 0 then 
-		DTobj := DTpols_rs(coll); 
-		multiply := Multiply_rs; 
-	#	DTobj := DTpols_r(coll); 
-	#	multiply := Multiply_r; 
+		DTobj := DTP_DTpols_rs(coll); 
+		multiply := DTP_Multiply_rs; 
+	#	DTobj := DTP_DTpols_r(coll); 
+	#	multiply := DTP_Multiply_r; 
 	else 
 		DTobj := opt[1]; 
 		multiply := opt[2]; 
@@ -146,7 +146,7 @@ TestSmallgroups := function()
 				H := PcGroupToPcpGroup(G);
 				c := Collector(H); 
 				t0 := Runtime();
-				DTpols_rs(c); 
+				DTP_DTpols_rs(c); 
 				t0 := Runtime() - t0;
 
 				if t0 > 150 then
@@ -154,7 +154,7 @@ TestSmallgroups := function()
 				fi;
 				 
 				t1 := Runtime();
-				DTpols_r(c); 
+				DTP_DTpols_r(c); 
 				t1 := Runtime() - t1;
 
 				if t1 > 150 then
@@ -178,18 +178,18 @@ TestCollector := function(coll, num, lim, which)
 	
 	if which[1] then 
 		t := Runtime(); 
-		DTobj_r := DTpols_r(coll); 
+		DTobj_r := DTP_DTpols_r(coll); 
 		t := Runtime() - t; 
 		Print("  Time f_r: ", t, "\n"); 
-		TestMulti(coll, num, lim, DTobj_r, Multiply_r); 
+		TestMulti(coll, num, lim, DTobj_r, DTP_Multiply_r); 
 	fi;
 	
 	if which[2] then 
 		t := Runtime(); 
-		DTobj_rs := DTpols_rs(coll); 
+		DTobj_rs := DTP_DTpols_rs(coll); 
 		t := Runtime() - t; 
 		Print("  Time f_rs: ", t, "\n"); 
-		TestMulti(coll, num, lim, DTobj_rs, Multiply_rs); 
+		TestMulti(coll, num, lim, DTobj_rs, DTP_Multiply_rs); 
 		# compare to wm polynomials: 
 		if not ComparePolynomials(coll, DTobj_rs) then 
 			Error("Polynomials are not equal to those computed by wm."); 
@@ -260,8 +260,8 @@ TestDTPackage := function()
 			G := SmallGroup(p^k, nr);
 			H := PcGroupToPcpGroup(G);
 			c := Collector(H); 
-			TestMultiInFiniteGroup(c, DTpols_r(c), Multiply_r);
-			TestMultiInFiniteGroup(c, DTpols_rs(c), Multiply_rs); 
+			TestMultiInFiniteGroup(c, DTP_DTpols_r(c), DTP_Multiply_r);
+			TestMultiInFiniteGroup(c, DTP_DTpols_rs(c), DTP_Multiply_rs); 
 		od;
 	od;
 	

@@ -165,7 +165,7 @@ DTapplicability := function(coll)
 	if CheckPwrRels(coll) then 
 		Print("+   power relations\n"); 
 	else
-		Print("-   power relations - you may get wrong results when using \"NormalFormByDT\" and \"OrderByDT\" may not terminate. \n"); 
+		Print("-   power relations - you may get wrong results when using \"DTP_NormalForm\" and \"DTP_Order\" may not terminate. \n"); 
 	fi; 
 	
 	# Check consistency of the collector.
@@ -175,7 +175,7 @@ DTapplicability := function(coll)
 	if IsConfluent(coll) then 
 		Print("+   consistent\n"); 
 	else
-		Print("-   consistent: you may get wrong results when using \"NormalFormByDT\" and \"OrderByDT\" may not terminate. \n"); 
+		Print("-   consistent: you may get wrong results when using \"DTP_NormalForm\" and \"DTP_Order\" may not terminate. \n"); 
 	fi; 
 	
 	# Recommend which polynomials one should use for this collector 

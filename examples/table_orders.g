@@ -30,8 +30,8 @@ orderstab := function(G, lim)
 	gens := List(gens_gr, x -> Exponents(x)); 
 	
 	t := Runtime();
-	DTobj_r := DTpols_r(coll); 
-	DTobj_rs := DTpols_rs(coll); 
+	DTobj_r := DTP_DTpols_r(coll); 
+	DTobj_rs := DTP_DTpols_rs(coll); 
 	t := Runtime() - t; 
 	Print(t, "\n"); 
 	
@@ -43,13 +43,13 @@ orderstab := function(G, lim)
 	
 	gen_r := function()
 		for x in gens do
-			Add(o_r, OrderByDT(x, DTobj_r)); 
+			Add(o_r, DTP_Order(x, DTobj_r)); 
 		od;
 	end; 
 	
 	gen_rs := function()
 		for x in gens do
-			Add(o_rs, OrderByDT(x, DTobj_rs)); 
+			Add(o_rs, DTP_Order(x, DTobj_rs)); 
 		od;
 	end; 
 
@@ -61,13 +61,13 @@ orderstab := function(G, lim)
 	
 	elms_r := function()
 		for x in elms do
-			Add(o_r, OrderByDT(x, DTobj_r)); 
+			Add(o_r, DTP_Order(x, DTobj_r)); 
 		od;
 	end; 
 	
 	elms_rs := function()
 		for x in elms do
-			Add(o_rs, OrderByDT(x, DTobj_rs)); 
+			Add(o_rs, DTP_Order(x, DTobj_rs)); 
 		od;
 	end; 
 	

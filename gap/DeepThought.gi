@@ -3,7 +3,7 @@
 #
 # Implementations
 #
-InstallGlobalFunction( DeepThought_Example,
+InstallGlobalFunction( DTP_Example,
 function()
 	Print( "This is a placeholder function, replace it with your own code.\n" );
 end );

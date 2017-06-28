@@ -1,28 +1,27 @@
 # This files contains the functions:
-#	SolveEquation
-#	InverseByDT
-#	ExpByDT
-#	NormalFormByDT
-#	OrderByDT
+#	DTP_SolveEquation
+#	DTP_Inverse
+#	DTP_Exp
+#	DTP_NormalForm
+#	DTP_Order
 #
-#	IsInNormalForm
-# 	int2binlist
-#	DetermineNormalFormByDT
-#	DetermineOrderByDT
+#	DTP_IsInNormalForm
+#	_DTP_DetermineNormalForm
+#	_DTP_DetermineOrder
 ##############################################################################
 
-# Each application (SolveEquation, NormalFormByDT, OrderByDT, ...) may take an 
-# DTobj where DTobj[2] is either the output of the function DTpols_rs or the 
-# output of DTpols_r. Let polynomials := DTobj[2]. 
+# Each application (DTP_SolveEquation, DTP_NormalForm, DTP_Order, ...) may take an 
+# DTobj where DTobj[2] is either the output of the function DTP_DTpols_rs or the 
+# output of DTP_DTpols_r. Let polynomials := DTobj[2]. 
 # Since the condition IsInt(polynomials[1][1][1]) is true if and only if
-# "polynomials" is the ouput of DTpols_r, we can decide which
+# "polynomials" is the ouput of DTP_DTpols_r, we can decide which
 # multiplication function we should use for computations. Explanation: 
-# For DTpols_r: 
+# For DTP_DTpols_r: 
 #	polynomials[1] <-> f_1
 #	polynomials[1][1] <-> first g_alpha in f_1
 #	polynomials[1][1][1] <-> constant coefficient in first g_alpha in f_1
 #
-# For DTpols_rs: 
+# For DTP_DTpols_rs: 
 #	polynomials[1] <-> list of the n polynomials f_{r, 1} (1 <= r <= n) 
 #	polynomials[1][1] <-> polynomial f_{1, 1}
 #	polynomials[1][1][1] <-> first g_alpha in f_{1, 1}, this is a list
@@ -31,25 +30,25 @@
 # by using
 # 	if IsInt(DTobj[2][1][1][1]) then 
 # 		# version f_r
-# 		multiply := Multiply_r; 
+# 		multiply := DTP_Multiply_r; 
 # 	else
 # 		# version f_rs 
-# 		multiply := Multiply_rs;
+# 		multiply := DTP_Multiply_rs;
 # 	fi; 
 
 # Input: 	- exponent vectors x, z
 #			- DTobj
 # Output:	exponent vector y such that for the corresponding elements 
 #			x * y = z. If DTobj[4] = true, y describes a normal form. 
-SolveEquation := function(x, z, DTobj)
+DTP_SolveEquation := function(x, z, DTobj)
 	local y, i, n, multiply;
 	
 	if IsInt(DTobj[2][1][1][1]) then 
 		# version f_r
-		multiply := Multiply_r; 
+		multiply := DTP_Multiply_r; 
 	else
 		# version f_rs 
-		multiply := Multiply_rs;
+		multiply := DTP_Multiply_rs;
 	fi; 
 	
 	n := DTobj[1]![PC_NUMBER_OF_GENERATORS];
@@ -71,7 +70,7 @@ SolveEquation := function(x, z, DTobj)
 	# On the other hand: x = x * y by construction
 	
 	if DTobj[4] then 
-		return NormalFormByDT(y, DTobj);
+		return DTP_NormalForm(y, DTobj);
 	else 
 		return y;
 	fi; 
@@ -81,10 +80,10 @@ end;
 #			- DTobj
 # Output:	exponent vector of x^{-1}. If DTobj[4] = true, y describes a 
 #			normal form. 
-InverseByDT := function(x, DTobj)
+DTP_Inverse := function(x, DTobj)
 	local n; 
 	n := DTobj[1]![PC_NUMBER_OF_GENERATORS];
-	return SolveEquation(x, [1 .. n] * 0, DTobj); 
+	return DTP_SolveEquation(x, [1 .. n] * 0, DTobj); 
 end;
 
 # IsInNormalFrom checks whether the element described by the exponent 
@@ -93,7 +92,7 @@ end;
 # the smallest generator index for which the condition
 # 	r[i] <> 0 and (x[i] < 0 or x[i] >= r[i])
 # is NOT fulfilled is returned. Here, r = RelativeOrders(coll).
-IsInNormalForm := function(x, coll)
+DTP_IsInNormalForm := function(x, coll)
 	local i, r; 
 	
 	r := RelativeOrders(coll); 
@@ -110,50 +109,30 @@ IsInNormalForm := function(x, coll)
 	return true; 
 end; 
 
-# Input: 	integer q
-# Output:	list q_list = [q_0, ..., q_l] such that 
-#			q = \sum_{k = 0}^l q_k 2^k
-int2binlist := function(q)
-	local q_list; 
-	
-	if q < 0 then
-		return (-1) * int2binlist(-q); 
-	fi; 
-	
-	q_list := [];
-	
-	repeat 
-		if q mod 2 = 0 then
-			Add(q_list, 0);
-			q := q/2; 
-		else
-			Add(q_list, 1);
-			q := (q - 1)/2; 
-		fi;
-	until q = 0;
-	
-	return q_list;
-end; 
 
 # Input: 	- exponent vector x
 #			- integer q 
 #			- DTobj 
-#			- multiplication function multiply (= Multiply_r or Multiply_rs)
+#			- multiplication function multiply (= DTP_Multiply_r or DTP_Multiply_rs)
 #			depending on the polynomials used in DTobj
 # Output: 	exponent vector of x^q. If DTobj[4] = true, then the result is 
 #			in normal form. 
-ExpByDT := function(x, q, DTobj)
+DTP_Exp := function(x, q, DTobj)
 	local q_list, l, k, res, multiply; 
 	
 	if IsInt(DTobj[2][1][1][1]) then 
 		# version f_r
-		multiply := Multiply_r; 
+		multiply := DTP_Multiply_r; 
 	else
 		# version f_rs 
-		multiply := Multiply_rs;
+		multiply := DTP_Multiply_rs;
 	fi; 
 
-	q_list := int2binlist(q);
+	if q < 0 then
+    	q_list := -CoefficientsQadic(-q, 2);
+	else
+    	q_list := CoefficientsQadic(q, 2);
+	fi;
 	l := Length(q_list) - 1; # q = \sum_{k = 0}^l q_list[k + 1] 2^k
 	
 	# Compute x^q = \prod_{i = 0}^l x^(q_list[i + 1] * 2^i):
@@ -161,7 +140,7 @@ ExpByDT := function(x, q, DTobj)
 	# First compute x^q_list[1], where q_list[1] \in {-1, 0, 1}.
 	if q < 0 then
 		# If q is negative, we compute (x^{-1})^|q|.
-		x := InverseByDT(x, DTobj); # x = x^-1
+		x := DTP_Inverse(x, DTobj); # x = x^-1
 	fi; 
 	
 	# First step of the computation: 
@@ -185,10 +164,10 @@ end;
 # Input: 	- exponent vector x
 #			- DTobj
 #			- empty list nf = [] where normal form is stored 
-#			- function multiply which is either Multiply_r or Multiply_rs
+#			- function multiply which is either DTP_Multiply_r or DTP_Multiply_rs
 #			depending the polynomials used in DTobj
 # Output: 	exponent vector of the normal form of x  
-DetermineNormalFormByDT := function(x, DTobj, nf, multiply)
+_DTP_DetermineNormalForm := function(x, DTobj, nf, multiply)
 	local n, j, i, q, r, q_list, l, z, pwr, k, w1, w2, w; 
 	
 	# DTobj[1] = coll 
@@ -197,7 +176,7 @@ DetermineNormalFormByDT := function(x, DTobj, nf, multiply)
 	
 	# find j = min{ 1 <= i <= n | s_i < infinity and
 	#  							(x_i < 0 or x_i >= s_i) } \cup {infinity}
-	j := IsInNormalForm(x, DTobj[1]);
+	j := DTP_IsInNormalForm(x, DTobj[1]);
 
 	if j <> true then 
 		# replace a_j^x[j] by suitable power of the power relation a_j^s_j 
@@ -222,7 +201,7 @@ DetermineNormalFormByDT := function(x, DTobj, nf, multiply)
 		od; 
 
 		# Compute w1 = z^q
-		w1 := ExpByDT(z, q, DTobj);
+		w1 := DTP_Exp(z, q, DTobj);
 
 		# w2 = a_{j + 1}^{x_{j + 1}} ... a_n^{x_n}
 		w2 := [1 .. j] * 0; # [0, ..., 0] of length j
@@ -245,7 +224,7 @@ DetermineNormalFormByDT := function(x, DTobj, nf, multiply)
 		od;
 		Add(nf, r); # j-th entry 
 
-		return DetermineNormalFormByDT(w, DTobj, nf, multiply);
+		return _DTP_DetermineNormalForm(w, DTobj, nf, multiply);
 	else
 		# Since all further relative orders are infinite, the word is 
 		# now in normal form and we simply append the exponents to the
@@ -260,20 +239,20 @@ end;
 # Input: 	- exponent vector x 
 #			- DTobj
 # Output: 	exponent vector of normal form of x  
-NormalFormByDT := function(x, DTobj)
+DTP_NormalForm := function(x, DTobj)
 	if IsInt(DTobj[2][1][1][1]) then 
 		# version f_r
-		return DetermineNormalFormByDT(x, DTobj, [], Multiply_r);
+		return _DTP_DetermineNormalForm(x, DTobj, [], DTP_Multiply_r);
 	else
 		# version f_rs 
-		return DetermineNormalFormByDT(x, DTobj, [], Multiply_rs);
+		return _DTP_DetermineNormalForm(x, DTobj, [], DTP_Multiply_rs);
 	fi; 
 end;
 
 # Input:	- exponent vector x (must describe a normal form)
 #			- DTobj
 # Output: 	order of x in group of coll 
-DetermineOrderByDT := function(x, DTobj, multiply)
+_DTP_DetermineOrder := function(x, DTobj, multiply)
 	local j, s, ord; 
 	ord := 1; 
 	# DTobj[1] = coll 
@@ -294,7 +273,7 @@ DetermineOrderByDT := function(x, DTobj, multiply)
 			# ord(x) < infinity => s | ord(x)
 			
 			# Compute y = x^s:
-			x := ExpByDT(x, s, DTobj); 
+			x := DTP_Exp(x, s, DTobj); 
 			# The normal form of x is needed, i.e. isConfl = true! 
 			# (Otherwise one may run into a infinite recursion, since the 
 			# termination of the algorithm needs the normal form of x to 
@@ -308,21 +287,21 @@ end;
 # Input: 	- exponent vector x
 #			- DTobj
 # Output: 	order of x in group of coll 
-OrderByDT := function(x, DTobj)
+DTP_Order := function(x, DTobj)
 	local multiply; 
 	
 	if IsInt(DTobj[2][1][1][1]) then 
 		# version f_r
-		multiply := Multiply_r; 
+		multiply := DTP_Multiply_r; 
 	else
 		# version f_rs 
-		multiply := Multiply_rs;
+		multiply := DTP_Multiply_rs;
 	fi; 
 
-	# check whether x is in normal form, if not call DetermineNormalFormByDT
-	if not IsInNormalForm(x, DTobj[1]) then 
-		x := DetermineNormalFormByDT(x, DTobj, [], multiply); 
+	# check whether x is in normal form, if not call _DTP_DetermineNormalForm
+	if not DTP_IsInNormalForm(x, DTobj[1]) then 
+		x := _DTP_DetermineNormalForm(x, DTobj, [], multiply); 
 	fi; 
 	
-	return DetermineOrderByDT(x, DTobj, multiply);
+	return _DTP_DetermineOrder(x, DTobj, multiply);
 end;

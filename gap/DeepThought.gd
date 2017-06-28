@@ -6,4 +6,4 @@
 
 #! @Description
 #!   Insert documentation for you function here
-DeclareGlobalFunction( "DeepThought_Example" );
+DeclareGlobalFunction( "DTP_Example" );

@@ -57,13 +57,13 @@ PlotMulti1 := function(DTobj_rs, DTobj_r, num, lim, res, name, time_pols_rs, tim
 
 	multiply_pols_rs := function()
 		for i in [1 .. num] do 
-			Add(z_rs, Multiply_rs(x[i], y[i], DTobj_rs));
+			Add(z_rs, DTP_Multiply_rs(x[i], y[i], DTobj_rs));
 		od; 
 	end; 
 	
 	multiply_pols_r := function()
 		for i in [1 .. num] do 
-			Add(z_r, Multiply_r(x[i], y[i], DTobj_r)); 
+			Add(z_r, DTP_Multiply_r(x[i], y[i], DTobj_r)); 
 		od; 
 	end; 
 
@@ -131,11 +131,11 @@ PlotMulti := function(coll, num, lim, name, nf)
 	local res, DTobj_rs, DTobj_r, time_pols_rs, time_pols_r, compute_pols_rs, compute_pols_r, file; 
 	
 	compute_pols_rs := function()
-		DTobj_rs := DTpols_rs(coll); 
+		DTobj_rs := DTP_DTpols_rs(coll); 
 	end; 
 	
 	compute_pols_r := function()
-		DTobj_r := DTpols_r(coll); 
+		DTobj_r := DTP_DTpols_r(coll); 
 	end; 
 	
 	time_pols_rs := Benchmark(compute_pols_rs, rec( maxreps := 5, minreps := 5, silent := true)); 

@@ -1,13 +1,13 @@
 # This file contains the functions: 
-#	Seq_i
-#	SequenceLetter
-#	StructureLetter
-#	StructureLetterFromExisting
+#	DTP_Seq_i
+#	DTP_SequenceLetter
+#	DTP_StructureLetter
+#	DTP_StructureLetterFromExisting
 #############################################################################
 
 # Input: 	letter "letter", integer i with 1 <= i <= letter.l
 # Output:	the subletter Seq(letter, i) 
-Seq_i := function(letter, i) 
+DTP_Seq_i := function(letter, i) 
 	
 	while letter.l > i do 
 		if letter.left.l >= i then 
@@ -24,13 +24,13 @@ end;
 
 # Input: 	letter "letter", empty list seq
 # Output:	list corresponding to Seq(letter)
-SequenceLetter := function(letter, seq) 
+DTP_SequenceLetter := function(letter, seq) 
 
 	if IsBound(letter.left) then 
-		SequenceLetter(letter.left, seq); 
+		DTP_SequenceLetter(letter.left, seq); 
 	fi;
 	if IsBound(letter.right) then 
-		SequenceLetter(letter.right, seq); 
+		DTP_SequenceLetter(letter.right, seq); 
 	fi; 
 	Add(seq, letter); 
 
@@ -48,7 +48,7 @@ end;
 #			- list classes_elms, which contains itself lists [i_1, ..., i_k]
 #			such that the subletters Seq(letter, i_1), ..., Seq(letter, i_k)
 #			describe an almost equality class of Sub(letter)
-StructureLetter := function(letter)
+DTP_StructureLetter := function(letter)
 	local has_class, classes_reps, i, j, beta, classes_size, classes_elms, equiv_class, subletter, sequence; 
 	
 	has_class := []; # has_class stores positions of all letters in 
@@ -61,7 +61,7 @@ StructureLetter := function(letter)
 	# equalitiy class. More precisely, only the pos values are stored since 
 	# almost equal letters only differ in their pos value. 
 	sequence := []; 
-	SequenceLetter(letter, sequence); 
+	DTP_SequenceLetter(letter, sequence); 
 	
 	for i in [1 .. letter.l - 1] do # Take subletter Seq(letter, i) of letter and
 		if not i in has_class then # if it has not yet a class, construct 
@@ -112,16 +112,16 @@ end;
 #			almost equality class of Sub(left). The same for "right". 
 # Output:	- false, if the letter epsilon = [left, right; r_1] is not a 
 #			least letter in its ~-class (r is an arbitrary positive integer)
-#			- the same as if we would call StructureLetter with input
+#			- the same as if we would call DTP_StructureLetter with input
 #			epsilon as above, BUT since the concrete value for "r" is left
 #			open, the letter itself is missing in "classes_reps" (last entry
 #			in this list) and the num-value is missing in "letter". That 
-#			means, to become a "valid" output of StructureLetter, in the 
+#			means, to become a "valid" output of DTP_StructureLetter, in the 
 #			third list entry (which is the letter as a record) num component
 #			for a concrete "r" must be added and afterwards this letter has 
 #			to be added to the first list entry (which is the list of
 #			representatives of almost equality classes of the letter). 
-StructureLetterFromExisting := function(left, classes_left, right, classes_right)
+DTP_StructureLetterFromExisting := function(left, classes_left, right, classes_right)
 	local letter1left, letter1, letter2, classes_letter1, classes_letter2, classes_reps, classes_size, classes_elms, has_class, i, class, rep, equiv_class, j, k, elms, sequence_letter2, found_letter2_class; 
 	
 	# Based on empirical results it seems to be a good idea to take the 
@@ -150,21 +150,21 @@ StructureLetterFromExisting := function(left, classes_left, right, classes_right
 	# compute Seq(letter2) only once. In comparison, Seq(letter1) is needed only
 	# ~ letter1.l often. 
 	sequence_letter2 := [];
-	SequenceLetter(letter2, sequence_letter2); 
+	DTP_SequenceLetter(letter2, sequence_letter2); 
 	
 	# Go through all classes of letter1 and get representative and search for
 	# almost equal subletters in letter2. If we find one, we have all thanks to 
 	# classes_letter2 list.
 	for i in [1 .. Length(classes_letter1)] do
 		class := classes_letter1[i]; 
-		rep := Seq_i(letter1, class[1]); # Let the first element from this 
+		rep := DTP_Seq_i(letter1, class[1]); # Let the first element from this 
 		# class be the representative we are working with.
 		Add(classes_reps, rep); 
 		
 		# Collect the position values of elements in class: 
 		equiv_class := []; 
 		for j in [1 .. Length(class)] do 
-			equiv_class[Seq_i(letter1, class[j]).pos] := 1; 
+			equiv_class[DTP_Seq_i(letter1, class[j]).pos] := 1; 
 		od; 
 		
 		# See if there exist subletters of letter2 in the same class, for this
@@ -249,10 +249,10 @@ StructureLetterFromExisting := function(left, classes_left, right, classes_right
 	Add(classes_size, 1); 
 	# Furthermore, we can add the corresponding component to classes_elms: 
 	Add(classes_elms, [left.l + right.l + 1]); 
-	# So, when going through the innerst for-loop in ComputeSetReps, we only have
+	# So, when going through the innerst for-loop in DTP_ComputeSetReps, we only have
 	# to add the number to the record and add the letter itself to its 
 	# classes_reps, in order to update the following output to be valid
-	# (i.e. as if called StructureLetter): 
+	# (i.e. as if called DTP_StructureLetter): 
 	
 	return [classes_reps, classes_size, rec( pos := 1, left := left, right := right, l := left.l + right.l + 1), classes_elms]; 
 end; 

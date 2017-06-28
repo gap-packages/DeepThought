@@ -3,10 +3,10 @@
 #		Display_DTobj(DTobj).
 #
 # Display polynomials only: 
-# When using the function DTpols_rs, call 
-#		Display_f_rs(DTpols_rs(...)[2])
-# When using the function DTpols_r, call 
-#		Display_f_r(DTpols_r(...)[2])
+# When using the function DTP_DTpols_rs, call 
+#		Display_f_rs(DTP_DTpols_rs(...)[2])
+# When using the function DTP_DTpols_r, call 
+#		Display_f_r(DTP_DTpols_r(...)[2])
 
 # TODO: Write function that maps DT pols to polynomials in GAP and let
 # GAP expand the polynomials. 
@@ -38,7 +38,7 @@ Display_summand := function(summand, n)
 	od; 
 end; 
 
-# displays output of DTpols_r_S()
+# displays output of DTP_DTpols_r_S()
 Display_f_r_S := function(f_r_S)
 	local r, i, n; 
 	
@@ -66,7 +66,7 @@ Display_f_r_S := function(f_r_S)
 	
 end;
 
-# display output of function DTpols_rs()
+# display output of function DTP_DTpols_rs()
 Display_f_rs := function(f_rs)
 	local s;
 	for s in [1 .. Length(f_rs)] do
@@ -75,7 +75,7 @@ Display_f_rs := function(f_rs)
 	od; 
 end;
 
-# displays output of function DTpols_r()
+# displays output of function DTP_DTpols_r()
 Display_f_r := function(f_r)
 	local r, i, n; 
 	

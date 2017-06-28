@@ -1,6 +1,6 @@
 # This file contains the functions:
 #	IsAtom
-#	SequenceLetter
+#	DTP_SequenceLetter
 #	LengthLetter
 #	AreEqualLetters
 #	AreAlmostEqual
@@ -129,8 +129,8 @@ AreSimLetters := function(letter1, letter2)
 	# letter1 and letter2 must have the same structure 
 	if HaveSameStructure(letter1, letter2) then
 		# both have the same structure 
-		Seq_letter1 := SequenceLetter(letter1);
-		Seq_letter2 := SequenceLetter(letter2);
+		Seq_letter1 := DTP_SequenceLetter(letter1);
+		Seq_letter2 := DTP_SequenceLetter(letter2);
 		# now LengthLetter(letter1) = LengthLetter(letter2) (since same structure)
 		len := Length(Seq_letter1);
 		for i in [1 .. len] do 

@@ -131,7 +131,7 @@ CompareEE_r := function()
 	od; 
 
 	# polynomials by nw
-	fr := DTpols_r(collector)[2]; 
+	fr := DTP_DTpols_r(collector)[2]; 
 
 	# compare: 
 	n := Length(fr); 

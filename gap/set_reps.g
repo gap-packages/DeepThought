@@ -1,5 +1,5 @@
 # This file contains the function:
-#	ComputeSetReps
+#	DTP_ComputeSetReps
 ##############################################################################
 
 # Input: 	- collector coll 
@@ -7,7 +7,7 @@
 # Output:	A list reps of length n. 
 #			If s = 0, then reps[r] describes the set reps_r.
 #			Otherwise reps[r] describes the set reps_rs for this value of s.
-ComputeSetReps := function(coll, s)
+DTP_ComputeSetReps := function(coll, s)
 	local reps, n, r, i, j, cnj, alpha, beta, pair, gamma, delta, l, epsilon; 
 	
 	# If s = 0, then reps = [reps_1, ..., reps_n].
@@ -23,23 +23,23 @@ ComputeSetReps := function(coll, s)
 	
 	# Initialize the sets reps with atom representatives.
 	# Indeed, we do not store letters in the sets reps_r(s), but the output 
-	# of the function StructureLetter for a letter, in order to compute 
+	# of the function DTP_StructureLetter for a letter, in order to compute 
 	# structural information only once for each letter. 
 	# 
 	# Depending on whether reps_r or reps_rs shall be computed, the 
 	# initialization differs:
 	if s = 0 then # initalization for computing the sets reps_r 
 		for r in [1 .. n] do 
-			reps[r] := [StructureLetter(rec( num := r, pos := 1, side := DT_left, l := 1)), 
-			StructureLetter(rec( num := r, pos := 1, side := DT_right, l := 1)) ];
+			reps[r] := [DTP_StructureLetter(rec( num := r, pos := 1, side := DT_left, l := 1)), 
+			DTP_StructureLetter(rec( num := r, pos := 1, side := DT_right, l := 1)) ];
 		od; 
 	else # initalization for computing the sets reps_rs 
 		for r in [1 .. n] do
 			if r = s then
-				reps[r] := [StructureLetter(rec( num := r, pos := 1, side := DT_left, l := 1)), 
-				StructureLetter(rec( num := r, pos := 1, side := DT_right, l := 1)) ];
+				reps[r] := [DTP_StructureLetter(rec( num := r, pos := 1, side := DT_left, l := 1)), 
+				DTP_StructureLetter(rec( num := r, pos := 1, side := DT_right, l := 1)) ];
 			else
-				reps[r] := [StructureLetter(rec( num := r, pos := 1, side := DT_left, l := 1))];
+				reps[r] := [DTP_StructureLetter(rec( num := r, pos := 1, side := DT_left, l := 1))];
 			fi; 
 		od; 
 	fi; 
@@ -54,7 +54,7 @@ ComputeSetReps := function(coll, s)
 				# If coll![PC_CONJUGATES][j][i] is not bound, then the 
 				# generators a_j and a_i commute and we have 
 				# 	c_{i, j, j + 1} = ... = c_{i, j, n} = 0, 
-				# hence the condition in line 5 of Algorithm "ComputeSetReps" 
+				# hence the condition in line 5 of Algorithm "DTP_ComputeSetReps" 
 				# (p. 28) is not fulfilled and there's nothing to do for 
 				# this pair (i, j)
 				if IsBound(coll![PC_CONJUGATES][j][i]) then 
@@ -100,9 +100,9 @@ ComputeSetReps := function(coll, s)
 											
 											# Now the added representative
 											# has the same content as when 
-											# calling StructureLetter with 
+											# calling DTP_StructureLetter with 
 											# input letter as below: 
-											Assert(1, reps[cnj[l]][ Length( reps[cnj[l]] )] = StructureLetter(rec( left := epsilon[3].left, right := epsilon[3].right, num := cnj[l], pos := 1, l := epsilon[3].left.l + epsilon[3].right.l + 1))); 
+											Assert(1, reps[cnj[l]][ Length( reps[cnj[l]] )] = DTP_StructureLetter(rec( left := epsilon[3].left, right := epsilon[3].right, num := cnj[l], pos := 1, l := epsilon[3].left.l + epsilon[3].right.l + 1))); 
 											
 											# TODO Try to compute the
 											# polynomials simultaneously and 

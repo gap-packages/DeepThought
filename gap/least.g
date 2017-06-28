@@ -25,7 +25,7 @@ IsLeastLetter := function(alpha)
 	od; 
 	
 	for i in [1 .. alpha[3].l] do # length of letter alpha
-		subletter := Seq_i(alpha[3], i); # go through all subletters
+		subletter := DTP_Seq_i(alpha[3], i); # go through all subletters
 		for j in [1 .. Length(classes_reps)] do  
 			# search for representative of subletters' class. 
 			if AreAlmostEqual(classes_reps[j], subletter) then 
@@ -53,7 +53,7 @@ CreateSimLetter := function(alpha, tuples)
 	for i in [1 .. Length(alpha[1])] do # for each representative 
 		class_rep := alpha[4][i]; # get class of representative
 		for j in class_rep do # for each class member
-			subletter := Seq_i(alpha[3], j); # get class member
+			subletter := DTP_Seq_i(alpha[3], j); # get class member
 			subletter.pos := tuples[i][subletter.pos]; 
 		od; 
 	od; 
@@ -118,7 +118,7 @@ NumberHSS := function(rep, letter)
 	class := [];
 	num := 0; 
 	for i in [1 .. letter.l] do 
-		subletter := Seq_i(letter, i); 
+		subletter := DTP_Seq_i(letter, i); 
 		if HaveSameStructure(subletter, rep) then 
 			if not subletter in class then
 				Add(class, subletter); 
@@ -285,7 +285,7 @@ Least := function(alpha, beta, coll)
 	sim_beta := SimilarLetters(beta, alpha, coll); 
 	 
 	for pair in Cartesian(sim_alpha, sim_beta) do 
-		epsilon := StructureLetterFromExisting(pair[2], beta[4], pair[1], alpha[4]); 
+		epsilon := DTP_StructureLetterFromExisting(pair[2], beta[4], pair[1], alpha[4]); 
 		if epsilon <> false then # If epsilon is a least letter,
 			if not epsilon in least then # TODO This should always be 
 			# fulfilled, then this if statement may be omitted. 
