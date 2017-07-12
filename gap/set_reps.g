@@ -72,8 +72,8 @@ DTP_ComputeSetReps := function(coll, s)
 					if cnj[3] = r then 
 						for alpha in reps[i] do
 							for beta in reps[j] do
-								for epsilon in Least(alpha, beta, coll) do
-									if LeftOf(epsilon[3].left, epsilon[3].right) then 
+								for epsilon in DTP_Least(alpha, beta, coll) do
+									if DTP_LeftOf(epsilon[3].left, epsilon[3].right) then 
 										for l in [3, 5 .. (Length(cnj) - 1)] do 
 											# Now we add a representative 
 											# with num value cnj[l] to reps. 
