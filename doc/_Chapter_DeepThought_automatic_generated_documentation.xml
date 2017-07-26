@@ -8,10 +8,12 @@
 <Heading>DeepThought automatic generated documentation of global functions</Heading>
 
 <ManSection>
-  <Func Arg="arg" Name="DTP_Example" />
+  <Func Arg="arg" Name="DTP_SolveEquation" />
  <Returns></Returns>
  <Description>
-Insert documentation for you function here
+The exponent vector y such that y = x^{-1} z for the group elements
+corresponding to the exponent vectors x and z. If DTobj[4] = true, then y
+describes a normal form.
  </Description>
 </ManSection>
 

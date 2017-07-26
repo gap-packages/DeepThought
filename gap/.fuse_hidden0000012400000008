@@ -40,8 +40,7 @@
 #			- DTobj
 # Output:	exponent vector y such that for the corresponding elements 
 #			x * y = z. If DTobj[4] = true, y describes a normal form. 
-InstallGlobalFunction( DTP_SolveEquation, 
-function(x, z, DTobj)
+DTP_SolveEquation := function(x, z, DTobj)
 	local y, i, n, multiply;
 	
 	if IsInt(DTobj[2][1][1][1]) then 
@@ -75,7 +74,7 @@ function(x, z, DTobj)
 	else 
 		return y;
 	fi; 
-end) ; 
+end; 
 
 # Input: 	- exponent vector x
 #			- DTobj

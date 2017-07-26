@@ -5,10 +5,10 @@
 #
 
 #! @Description
-#!	The exponent vector y such that y = x^{-1} z for the group elements 
-#!	corresponding to the exponent vectors x and z. If DTobj[4] = true, then y 
-#! describes a normal form.  
-DeclareGlobalFunction( "DTP_SolveEquation" ); 
+#!   Insert documentation for you function here
+
+DeclareGlobalFunction( "DTP_Example" );
+
 
 
 # QUICK HACK: declare some functions to resolve circular dependencies
