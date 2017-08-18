@@ -121,3 +121,81 @@ function(DTobj)
 	fi; 
 
 end); 
+
+
+#############################################################################
+
+BinomialPol := function(ind, k)
+	local bin, i; 
+	bin := ind^0; 
+	for i in [1 .. k] do 
+		bin := bin * (ind - i + 1) / i; 
+	od;
+	return bin; 
+end;
+
+g_alphaGAP := function(g_alpha, indets)
+	local bincoeff, l, g_alpha_GAP, ind; 
+	
+	l := Length(g_alpha); 
+	g_alpha_GAP := g_alpha[1] * indets[1]^0; # constant factor polynomial
+	for bincoeff in [2 .. l] do 
+		ind := indets[g_alpha[bincoeff][1]]; 
+		g_alpha_GAP := g_alpha_GAP * BinomialPol(ind, g_alpha[bincoeff][2]); 
+	od; 
+	
+	return g_alpha_GAP;
+end; 
+
+# Input: 	DTobj returned by DTpols_r/s
+# Output: 	list containing GAP polynomials corresponding to DTobj[2] and 
+#			their polynomial ring Q
+InstallGlobalFunction( DTP_pols2GAPpols, 
+function(DTobj)
+	local n, indets, r, s, Q, DTpols, GAPpols, f_DT, f_GAP, g_alpha;  
+	
+	n := NumberOfGenerators(DTobj[1]); 
+	# create polynomial ring over Q in 2n indeterminates x_1, ..., x_n, y_1, ..., y_n:
+	indets := []; 
+	for r in [1 .. n] do 
+		Add(indets, Indeterminate( Rationals, Concatenation("x", String(r)) ) ); 
+		# indeterminate x_i
+	od; 
+	for r in [1 .. n] do 
+		Add(indets, Indeterminate( Rationals, Concatenation("y", String(r)) ) ); 
+		# indeterminate y_i
+	od; 
+	Q := PolynomialRing(Rationals, indets); 
+	
+	# go through all DT polynomials and create corresponding GAP polynomial:
+	DTpols := DTobj[2]; 
+	GAPpols := []; # list of GAP polynomials corresponding to DTpols
+	
+	if IsInt(DTpols[1][1][1]) then # version with n polynomials, see 
+	# "applications.g" for explanation of this criterion 
+		for r in [1 .. n] do # go through all polynomials f_1, ..., f_n
+			f_DT := DTpols[r]; # polynomial f_r, consists of several g_alpha
+			f_GAP := 0 * indets[1]^0; # zero polynomial 
+			for g_alpha in f_DT do
+				f_GAP := f_GAP + g_alphaGAP(g_alpha, indets); 
+			od;
+			Add(GAPpols, f_GAP); 
+		od;
+	
+	else # version with n^2 polynomials
+		for s in [1 .. n] do 
+			Add(GAPpols, []); 
+			for r in [1 .. n] do 
+				f_DT := DTpols[s][r]; # polynomial f_rs
+				f_GAP := 0 * indets[1]; 
+				for g_alpha in f_DT do 
+					f_GAP := f_GAP + g_alphaGAP(g_alpha, indets); 
+				od; 
+				Add(GAPpols[s], f_GAP); 
+			od; 
+		od; 
+	fi;
+	
+	return [GAPpols, Q]; 
+	# indets = IndeterminatesOfPolynomialRing(Q); 
+end) ;  

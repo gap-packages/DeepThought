@@ -16,7 +16,7 @@ DeclareGlobalFunction( "DTP_AreAlmostEqual" );
 
 #! @Arguments coll
 #! @Returns boolean 
-#! @Description Checks the collector <C>coll</C> for applicability of Deep Thought functions. Note that depending on consistency some functions may be applicable, while others are not. Information on the applicability and which type of Deep Thought polynomials are suggested is printed to the terminal. Here, "+" means that the following property is fulfilled, otherwise there is a "-". The function returns <C>false</C> if Deep Thought is not applicable to the collector <C>coll</C> and <C>true</C> otherwise. Anyway, even if <C>true</C> is returned, **not all functions need to be applicable** (in case of inconsistencies).  
+#! @Description Checks the collector <C>coll</C> for applicability of Deep Thought functions. Note that depending on consistency some functions may be applicable, while others are not. Information on the applicability and which type of Deep Thought polynomials are suggested is printed to the terminal. Here, "+" means that the following property is fulfilled, otherwise there is a "-". The function returns <C>false</C> if Deep Thought is not applicable to the collector <C>coll</C> and <C>true</C> otherwise. Anyway, even if <C>true</C> is returned, **not all functions need to be applicable** (in case of inconsistenies).  
 DeclareGlobalFunction( "DTP_DTapplicability" ); 
 
 #! @Arguments coll, [, isConfl]
@@ -79,14 +79,22 @@ DeclareGlobalFunction( "DTP_SolveEquation" );
 #! 	In this sections, functions which can be used to display a <C>DTobj</C>, or the Deep Thought polynomials only, are documented. TODO Furthermore, Deep Thought polynomials stored in a <C>DTobj</C> can be converted to &GAP; polynomials.
 
 #! @Arguments DTobj
+#! @Returns void
 #! @Description Prints information about <C>Dtobj</C> to the terminal. In particular, the Deep Thought polynomials are printed in human-readable form. 
 DeclareGlobalFunction( "DTP_Display_DTobj" );
 
 #! @Arguments f_r
+#! @Returns void
 #! @Description Prints the polynomials f_r computed by <C>DTP_DTpols_r</C> and stored in <C>DTobj[2]</C> to the terminal in a human-readable form.  
 DeclareGlobalFunction( "DTP_Display_f_r" ); 
 
 #! @Arguments f_rs
+#! @Returns void
 #! @Description Prints the polynomials f_rs computed by <C>DTP_DTpols_rs</C> and stored in <C>DTobj[2]</C> to the terminal in a human-readable form.
 DeclareGlobalFunction( "DTP_Display_f_rs" ); 
 
+#! @Arguments DTobj 
+#! @Returns list
+#! @Description Converts the Deep Thought polynomials stored in <C>DTobj[2]</C> to &GAP; polynomials and returns them in a list together with their polynomial ring.
+DeclareGlobalFunction( "DTP_pols2GAPpols" ); 
+function(DTobj)

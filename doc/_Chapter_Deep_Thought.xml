@@ -140,7 +140,8 @@ describes a normal form.
 In this sections, functions which can be used to display a <C>DTobj</C>, or the Deep Thought polynomials only, are documented. TODO Furthermore, Deep Thought polynomials stored in a <C>DTobj</C> can be converted to &GAP; polynomials.
 <ManSection>
   <Func Arg="DTobj" Name="DTP_Display_DTobj" />
- <Returns></Returns>
+ <Returns>void
+</Returns>
  <Description>
 Prints information about <C>Dtobj</C> to the terminal. In particular, the Deep Thought polynomials are printed in human-readable form.
  </Description>
@@ -149,7 +150,8 @@ Prints information about <C>Dtobj</C> to the terminal. In particular, the Deep T
 
 <ManSection>
   <Func Arg="f_r" Name="DTP_Display_f_r" />
- <Returns></Returns>
+ <Returns>void
+</Returns>
  <Description>
 Prints the polynomials f_r computed by <C>DTP_DTpols_r</C> and stored in <C>DTobj[2]</C> to the terminal in a human-readable form.
  </Description>
@@ -158,9 +160,20 @@ Prints the polynomials f_r computed by <C>DTP_DTpols_r</C> and stored in <C>DTob
 
 <ManSection>
   <Func Arg="f_rs" Name="DTP_Display_f_rs" />
- <Returns></Returns>
+ <Returns>void
+</Returns>
  <Description>
 Prints the polynomials f_rs computed by <C>DTP_DTpols_rs</C> and stored in <C>DTobj[2]</C> to the terminal in a human-readable form.
+ </Description>
+</ManSection>
+
+
+<ManSection>
+  <Func Arg="DTobj" Name="DTP_pols2GAPpols" />
+ <Returns>list
+</Returns>
+ <Description>
+Converts the Deep Thought polynomials stored in <C>DTobj[2]</C> to &GAP; polynomials and returns them in a list together with their polynomial ring.
  </Description>
 </ManSection>
 
