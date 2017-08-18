@@ -1,23 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!-- This is an automatically generated file. -->
-<Chapter Label="Chapter_Deep_Thought">
-<Heading>Deep Thought</Heading>
+<Chapter Label="Chapter_Using_Deep_Thought_functions">
+<Heading>Using Deep Thought functions</Heading>
 
-Polycyclic and, especially, finitely generated nilpotent groups exhibit a rich structure allowing a special approach towards multiplication using polynomials. The so-called Deep Thought algorithm introduced by C. R. Leedham-Green and L. H. Soicher in "Symoblic Collection Using Deep Thought" (1998) computes these polynomials in practice for a suitable presentation of a finitely generated nilpotent group. Such a presentation is of the following form:
-<Display> \langle a_1, \ldots, a_n \mid a_i^{s_i} = a_{i+1}^{c_{i, i, i+1}} \cdots a_n^{c_{i, i, n}}, a_j a_i = a_i a_j a_{j+1}^{c_{i, j, j+1}} \ldots a_n^{c_{i, j, n}}, 1 \leq i &lt; j \leq n \rangle </Display>
-with <Math>s_i \in \mathbb{N} \cup \{ \infty \}</Math> and <Math>c_{i, j, k} \in \mathbb{Z}</Math>. This presentation may or may not be consistent. However, if the presentation is not consistent, not all functions provided in this package are applicable, see function <C>DTP_DTapplicability</C>.
-Let <Math>G</Math> denote the group presented by the above presentation. Then every element in <Math>G</Math> can be written uniquely in a so-called normal form. That is, if <Math>G_i := \langle a_i, \ldots, a_n \rangle</Math> and <Math>r_i := | G_i : G_{i+1}|</Math>, <Math>1, \leq i \leq n</Math>, are the relative orders, then each element can be written as
-<Display> a_1^{e_1} \cdots a_n^{e_n} </Display>
-with <Math>0 \leq e_i &lt; r_i</Math> if <Math>r_i &lt; \infty</Math>.
-The Deep Thought algorithm computes rational polynomials <Math>f_1, \ldots, f_n</Math> in <Math>2n</Math> indeterminates such that if <Math> x := a_1^{x_1} \cdots a_n^{x_n} </Math> and <Math>y := a_1^{y_1} \cdots a_n^{y_n} </Math> are two elements in normal form, then the normal form of their product <Math>xy</Math> is given by
-<Display>a_1^{f_1(x_1, \ldots, x_n, y_1, \ldots, y_n)} \cdots a_n^{f_n(x_1, \ldots, x_n, y_1, \ldots, y_n)}.</Display>
-Moreover, there exists a second version of the Deep Thought algorithms which computes <Math>n^2</Math> polynomials <Math>f_{rs}</Math>, <Math>1 \leq r, s \leq n</Math>, suitable for multiplications of the form
-<Display>(a_1^{x_1} \cdots a_n^{x_n}) a_s^{y_s} </Display>
-for <Math>1 \leq s \leq n</Math>. Each general multiplication can be expressed using these special multiplications. Depending on the presentation, polynomials of one version may be more efficient than the polynomials of the other version. For a suggestion on which polynomials to use, see the function <C>DTP_DTapplicability</C>. In the following, Deep Thought type <Math>f_r</Math> refers to the Deep Though algorithm which uses <Math>n</Math> polynomials and type <Math>f_{rs}</Math> refers to the Deep Though algorithm using <Math>n^2</Math> polynomials.
-In order to work with the Deep Thought functions, the group presentation is expected to be given as a collector <C>coll</C>, as defined in the &GAP; package Polycyclic.
-TODO Explain notations, such as <C>exponent vector, coll, DTobj, f_r, f_rs</C>. Explain exponent vectors are identified with their corresponding elements in the following text.
-<Section Label="Chapter_Deep_Thought_Section_Computing_Deep_Though_polynomials">
+In the following sections, functions provided for computing Deep Thought polynomials and using them for calculations are listed.
+<Section Label="Chapter_Using_Deep_Thought_functions_Section_Computing_Deep_Though_polynomials">
 <Heading>Computing Deep Though polynomials</Heading>
 
 <ManSection>
@@ -53,7 +41,7 @@ Computes the Deep Thought polynomials of type <Math>f_{rs}</Math> and stores the
 </Section>
 
 
-<Section Label="Chapter_Deep_Thought_Section_Computations_with_Deep_Thought_polynomials">
+<Section Label="Chapter_Using_Deep_Thought_functions_Section_Computations_with_Deep_Thought_polynomials">
 <Heading>Computations with Deep Thought polynomials</Heading>
 
 <ManSection>
@@ -140,8 +128,8 @@ describes a normal form.
 </Section>
 
 
-<Section Label="Chapter_Deep_Thought_Section_Accessing_the_Deep_Thought_polynomials">
-<Heading>Accessing the Deep Thought polynomials</Heading>
+<Section Label="Chapter_Using_Deep_Thought_functions_Section_Accessing_Deep_Thought_polynomials">
+<Heading>Accessing Deep Thought polynomials</Heading>
 
 In this sections, functions which can be used to display a <C>DTobj</C>, or the Deep Thought polynomials only, are documented. Furthermore, Deep Thought polynomials stored in a <C>DTobj</C> can be converted to &GAP; polynomials.
 <ManSection>
