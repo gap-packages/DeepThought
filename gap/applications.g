@@ -81,11 +81,12 @@ end) ;
 #			- DTobj
 # Output:	exponent vector of x^{-1}. If DTobj[4] = true, y describes a 
 #			normal form. 
-DTP_Inverse := function(x, DTobj)
+InstallGlobalFunction( DTP_Inverse, 
+function(x, DTobj)
 	local n; 
 	n := DTobj[1]![PC_NUMBER_OF_GENERATORS];
 	return DTP_SolveEquation(x, [1 .. n] * 0, DTobj); 
-end;
+end) ; 
 
 # IsInNormalFrom checks whether the element described by the exponent 
 # vector x is in normal form or not. 
@@ -93,7 +94,8 @@ end;
 # the smallest generator index for which the condition
 # 	r[i] <> 0 and (x[i] < 0 or x[i] >= r[i])
 # is NOT fulfilled is returned. Here, r = RelativeOrders(coll).
-DTP_IsInNormalForm := function(x, coll)
+InstallGlobalFunction( DTP_IsInNormalForm, 
+function(x, coll)
 	local i, r; 
 	
 	r := RelativeOrders(coll); 
@@ -108,17 +110,16 @@ DTP_IsInNormalForm := function(x, coll)
 	od; 
 	
 	return true; 
-end; 
+end) ; 
 
 
 # Input: 	- exponent vector x
 #			- integer q 
 #			- DTobj 
-#			- multiplication function multiply (= DTP_Multiply_r or DTP_Multiply_rs)
-#			depending on the polynomials used in DTobj
 # Output: 	exponent vector of x^q. If DTobj[4] = true, then the result is 
 #			in normal form. 
-DTP_Exp := function(x, q, DTobj)
+InstallGlobalFunction( DTP_Exp, 
+function(x, q, DTobj)
 	local q_list, l, k, res, multiply; 
 	
 	if IsInt(DTobj[2][1][1][1]) then 
@@ -160,7 +161,7 @@ DTP_Exp := function(x, q, DTobj)
 	od;
 	
 	return res; 
-end; 
+end) ; 
 
 # Input: 	- exponent vector x
 #			- DTobj
@@ -240,7 +241,8 @@ end;
 # Input: 	- exponent vector x 
 #			- DTobj
 # Output: 	exponent vector of normal form of x  
-InstallGlobalFunction( DTP_NormalForm, function(x, DTobj)
+InstallGlobalFunction( DTP_NormalForm, 
+function(x, DTobj)
 	if IsInt(DTobj[2][1][1][1]) then 
 		# version f_r
 		return _DTP_DetermineNormalForm(x, DTobj, [], DTP_Multiply_r);
@@ -288,7 +290,8 @@ end;
 # Input: 	- exponent vector x
 #			- DTobj
 # Output: 	order of x in group of coll 
-InstallGlobalFunction( DTP_Order, function(x, DTobj)
+InstallGlobalFunction( DTP_Order, 
+function(x, DTobj)
 	local multiply; 
 	
 	if IsInt(DTobj[2][1][1][1]) then 

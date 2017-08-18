@@ -4,7 +4,7 @@
 #	
 #	DTP_DTpols_r
 #
-#	DTP_ComputeSetRepsPolynomial_g_alpha
+#	DTP_Polynomial_g_alpha
 #	DTP_ReducePolynomialsModOrder
 #	DTP_OrdersGenerators
 #############################################################################
@@ -26,7 +26,7 @@
 #	the correspondence 	1 <-> X_1, ..., n <-> X_n
 #						n + 1 <-> Y_1, ..., 2n <-> Y_n
 #	- "size" is "b" in the binomial coefficient 
-DTP_ComputeSetRepsPolynomial_g_alpha := function(alpha, coll)
+DTP_Polynomial_g_alpha := function(alpha, coll)
 	local g_alpha, classes_reps, classes_size, i, rep, cnj, j, n, monomial; 
 	
 	n := coll![PC_NUMBER_OF_GENERATORS]; 
@@ -152,7 +152,7 @@ DTP_DTpols_r_S := function(coll, s)
 	reps := DTP_ComputeSetReps(coll, s); 
 	for r in [1 .. n] do
 		# compute polynomial f_rs: f_rs is list of summands
-		# g_alpha as described in DTP_ComputeSetRepsPolynomial_g_alpha
+		# g_alpha as described in DTP_Polynomial_g_alpha
 		f_rs := []; 
 		reps_rs := reps[r]; # = reps_rs 
 		for alpha in reps_rs do # for every representative in reps_rs 
@@ -165,7 +165,7 @@ DTP_DTpols_r_S := function(coll, s)
 			# in their leading coefficient and we may compare polynomials
 			# g_alpha as done below since the entries are sorted by 
 			# construction of g_alpha. 
-			g_alpha := DTP_ComputeSetRepsPolynomial_g_alpha(alpha, coll);
+			g_alpha := DTP_Polynomial_g_alpha(alpha, coll);
 			added := false; 
 			for term in [1 .. Length(f_rs)] do 
 				if Length(f_rs[term]) = Length(g_alpha) and f_rs[term]{[2 .. Length(f_rs[term])]} = g_alpha{[2 .. Length(g_alpha)]} then 
@@ -200,7 +200,8 @@ end;
 # Output:	list of the form DTobj, where the second entry contains a list 
 #			all_pols such that DTP_DTpols_rs[s] is the output of 
 #			DTP_DTpols_r_S(coll, s)
-DTP_DTpols_rs := function(coll, isConfl...)
+InstallGlobalFunction( DTP_DTpols_rs, 
+function(coll, isConfl...)
 	local n, s, all_pols, orders, gen, DTobj;
 	
 	if Length(isConfl) = 0 then 
@@ -252,7 +253,7 @@ DTP_DTpols_rs := function(coll, isConfl...)
 	fi; 
 	
 	return DTobj; 
-end; 
+end); 
 
 #############################################################################
 ####					Polynomials f_r									 ####
@@ -270,7 +271,8 @@ end;
 #				f_r = \sum_{\alpha in reps_r} g_\alpha 
 # 			An entry pols_f_r[r] contains lists as described in g_alpha
 #			which represent the summands of f_r.
-DTP_DTpols_r := function(coll, isConfl...)
+InstallGlobalFunction( DTP_DTpols_r, 
+function(coll, isConfl...)
 	local n, pols_f_r, reps, r, f_r, reps_r, alpha, g_alpha, term, added, DTobj; 
 	
 	if Length(isConfl) = 0 then 
@@ -293,7 +295,7 @@ DTP_DTpols_r := function(coll, isConfl...)
 	reps := DTP_ComputeSetReps(coll, 0); 
 	for r in [1 .. n] do
 		# compute polynomial f_r: f_r is list of summands
-		# g_alpha as described in DTP_ComputeSetRepsPolynomial_g_alpha
+		# g_alpha as described in DTP_Polynomial_g_alpha
 		f_r := []; 
 		reps_r := reps[r]; # = reps_r 
 		for alpha in reps_r do # for every representative in 
@@ -307,7 +309,7 @@ DTP_DTpols_r := function(coll, isConfl...)
 			# g_alpha by using 
 			#	"g_alpha1{[2 .. Length(g_alpha1)]} = g_alpha2{[2 .. Length(g_alpha2)]}" 
 			# since the entries are sorted by construction of g_alpha. 
-			g_alpha := DTP_ComputeSetRepsPolynomial_g_alpha(alpha, coll);
+			g_alpha := DTP_Polynomial_g_alpha(alpha, coll);
 			added := false;
 			for term in [1 .. Length(f_r)] do 
 				if Length(f_r[term]) = Length(g_alpha) and f_r[term]{[2 .. Length(f_r[term])]} = g_alpha{[2 .. Length(g_alpha)]} then 
@@ -352,4 +354,4 @@ DTP_DTpols_r := function(coll, isConfl...)
 	fi; 
 	
 	return DTobj; 
-end; 
+end); 

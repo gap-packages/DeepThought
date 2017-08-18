@@ -138,7 +138,7 @@ DTP_CheckPwrRels := function(coll)
 	return true; 
 end;
 
-# Check collector coll due to applicability of DT functions. 
+# Check collector coll for applicability of DT functions. 
 # Notice that depending on consistency some functions may be applicable
 # and some not. The result is printed to terminal. "+" means that the 
 # following property is fulfilled, otherwise there is a "-". 
@@ -146,7 +146,8 @@ end;
 # collector coll and "true" otherwise. Anyway, even if "true" is returned, 
 # NOT ALL FUNCTIONS MAY BE APPLICABLE (in case of inconsistenies). 
 # Further information is printed to the terminal. 
-DTP_DTapplicability := function(coll)
+InstallGlobalFunction( DTP_DTapplicability, 
+function(coll)
 	
 	Print("Checking collector for DT-applicability. \"+\" means the following property is fulfilled.\n"); 
 	
@@ -186,4 +187,4 @@ DTP_DTapplicability := function(coll)
 	fi; 
 	
 	return true; 
-end; 
+end);  

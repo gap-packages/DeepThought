@@ -90,7 +90,8 @@ end;
 # Output:	If DTobj[4] = true, the exponent vector of the 
 #			product x * y is returned in normal form. Otherwise, the exponent
 #			vector is a reduced word.
-DTP_Multiply_rs := function(x, y, DTobj)
+InstallGlobalFunction( DTP_Multiply_rs, 
+function(x, y, DTobj)
 	local n, s; 
 	
 	n := DTobj[1]![PC_NUMBER_OF_GENERATORS]; 
@@ -113,7 +114,7 @@ DTP_Multiply_rs := function(x, y, DTobj)
 		# word. 
 		return x; 
 	fi; 
-end; 
+end); 
 
 #############################################################################
 ####					Multiplication with f_r							 ####
@@ -150,7 +151,8 @@ end;
 # Output:	If DTobj[4] = true, the exponent vector of the 
 #			product x * y is returned in normal form. Otherwise, the exponent
 #			vector is a reduced word.
-DTP_Multiply_r := function(x, y, DTobj)
+InstallGlobalFunction( DTP_Multiply_r,
+function(x, y, DTobj)
 	local n, r, s, pol, z, orders; 
 	
 	n := DTobj[1]![PC_NUMBER_OF_GENERATORS];
@@ -179,4 +181,4 @@ DTP_Multiply_r := function(x, y, DTobj)
 		# word. 
 		return z; 
 	fi; 
-end; 
+end); 

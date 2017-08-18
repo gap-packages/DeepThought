@@ -13,7 +13,7 @@
 
 #############################################################################
 
-DTP_Display_f_r := function(k, n)
+DTP_Display_Variable := function(k, n)
 	if k <= n then
 		Print("X_", k);
 	else
@@ -28,11 +28,11 @@ DTP_Display_summand := function(summand, n)
 	fi; 
 	for i in [2 .. Length(summand)] do 
 		if summand[i][2] = 1 then
-			DTP_Display_f_r(summand[i][1], n); 
+			DTP_Display_Variable(summand[i][1], n); 
 			Print(" "); 
 		else	
 			Print("Binomial("); 
-			DTP_Display_f_r(summand[i][1], n);
+			DTP_Display_Variable(summand[i][1], n);
 			Print(", ", summand[i][2] , ") "); 
 		fi; 
 	od; 
@@ -66,17 +66,19 @@ DTP_Display_f_r_S := function(f_r_S)
 	
 end;
 
-# display output of function DTP_DTpols_rs()
-DTP_Display_f_rs := function(f_rs)
+# display output of function DTP_DTpols_rs(...)[2]
+InstallGlobalFunction( DTP_Display_f_rs, 
+function(f_rs)
 	local s;
 	for s in [1 .. Length(f_rs)] do
 		Print("Polynomials f_rs for s = ", s, ":\n"); 
 		DTP_Display_f_r_S(f_rs[s]); 
 	od; 
-end;
+end);
 
-# displays output of function DTP_DTpols_r()
-DTP_Display_f_r := function(f_r)
+# displays output of function DTP_DTpols_r(...)[2]
+InstallGlobalFunction( DTP_Display_f_r, 
+function(f_r)
 	local r, i, n; 
 	
 	if f_r = fail then 
@@ -100,10 +102,11 @@ DTP_Display_f_r := function(f_r)
 		fi;
 	od;
 	
-end;
+end);
 
 # display a DTobj
-DTP_Display_DTobj := function(DTobj)
+InstallGlobalFunction( DTP_Display_DTobj, 
+function(DTobj)
 
 	if DTobj[4] then 
 		Print("Generator orders of the consistent collector:\n", DTobj[3], "\n\n"); 
@@ -114,7 +117,7 @@ DTP_Display_DTobj := function(DTobj)
 	if IsInt(DTobj[2][1][1][1]) then 
 		DTP_Display_f_r(DTobj[2]); 
 	else
-		DTP_Display_f_r(DTobj[2]); 
+		DTP_Display_f_rs(DTobj[2]); 
 	fi; 
 
-end; 
+end); 

@@ -249,7 +249,7 @@ DTP_TestDTPackage := function()
 	Print("Test some random collectors \n"); 
 	for j in [1 .. 10] do 
 		DTP_TestCollector(DTP_rand_coll(), 10000, 10, [true, true]); 
-		CompareEE_r(); 
+		DTP_CompareEE_r(); 
 	od; 
 	
 	Print("Test some finite groups \n"); 
