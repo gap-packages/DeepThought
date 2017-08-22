@@ -19,21 +19,21 @@ Checks the collector <C>coll</C> for applicability of Deep Thought functions. No
 
 
 <ManSection>
-  <Func Arg="coll, [, isConfl]" Name="DTP_DTpols_r" />
- <Returns>a list of type <C>DTobj</C>
+  <Func Arg="coll, [, isConfluent]" Name="DTP_DTpols_r" />
+ <Returns>a DTobj list
 </Returns>
  <Description>
-Computes the Deep Thought polynomials of type <Math>f_r</Math> and stores them in <C>DTobj</C>. The optional argument <C>isConfl</C> is a boolean value. If <C>isConfl = false</C>, then the collector <C>coll</C> is supposed to be not consistent. When using the returned <C>DTobj</C> for multiplication, the results are returned as reduced words which are not necessarily in normal form. If <C>isConfl</C> is not provided or <C>isConlf = true</C>, the collector is assumed to be consistent and results returned in computations are in normal form, unless otherwise stated.
+Computes the Deep Thought polynomials of type <Math>f_r</Math> and stores them in <C>DTobj</C>. The optional argument <C>isConfluent</C> is a boolean value. If <C>isConfluent = false</C>, then the collector <C>coll</C> is supposed to be not consistent. When using the returned <C>DTobj</C> for multiplication, the results are returned as reduced words which are not necessarily in normal form. If <C>isConfluent</C> is not provided or <C>isConlf = true</C>, the collector is assumed to be consistent and results returned in computations are in normal form, unless otherwise stated.
  </Description>
 </ManSection>
 
 
 <ManSection>
-  <Func Arg="coll, [, isConfl]" Name="DTP_DTpols_rs" />
- <Returns>a list of type <C>DTobj</C>
+  <Func Arg="coll, [, isConfluent]" Name="DTP_DTpols_rs" />
+ <Returns>a DTobj list
 </Returns>
  <Description>
-Computes the Deep Thought polynomials of type <Math>f_{rs}</Math> and stores them in <C>DTobj</C>. The optional argument <C>isConfl</C> is a boolean value. If <C>isConfl = false</C>, then the collector <C>coll</C> is supposed to be not consistent. When using the returned <C>DTobj</C> for multiplication, the results are returned as reduced words which are not necessarily in normal form. If <C>isConfl</C> is not provided or <C>isConlf = true</C>, the collector is assumed to be consistent and results returned in computations are in normal form, unless otherwise stated.
+Computes the Deep Thought polynomials of type <Math>f_{rs}</Math> and stores them in <C>DTobj</C>. The optional argument <C>isConfluent</C> is a boolean value. If <C>isConfluent = false</C>, then the collector <C>coll</C> is supposed to be not consistent. When using the returned <C>DTobj</C> for multiplication, the results are returned as reduced words which are not necessarily in normal form. If <C>isConfluent</C> is not provided or <C>isConlf = true</C>, the collector is assumed to be consistent and results returned in computations are in normal form, unless otherwise stated.
  </Description>
 </ManSection>
 
@@ -69,7 +69,7 @@ Computes the exponent vector of the inverse of the element corresponding to <C>e
  <Returns>boolean or positive integer
 </Returns>
  <Description>
-Checks whether <C>expvec</C> describes a normal form or not. If yes, the return value is <C>true</C>. Otherwise the return value is the smallest generator index for which the normal form condition is violated, i.e. for which the relative order <C>RelativeOrder(coll)[i]</C> is non-zero, and <C>expvec[i]</C> &lt; <C>0</C> or <C>expvec[i]</C> <Math>\geq</Math> <C>RelativeOrder(coll)[i]</C>.
+Checks whether <C>expvec</C> is in normal form or not. If yes, the return value is <C>true</C>. Otherwise the return value is the smallest generator index for which the normal form condition is violated, i.e. for which the relative order <C>RelativeOrder(coll)[i]</C> is non-zero, and <C>expvec[i]</C> &lt; <C>0</C> or <C>expvec[i]</C> <Math>\geq</Math> <C>RelativeOrder(coll)[i]</C>.
  </Description>
 </ManSection>
 
@@ -134,7 +134,7 @@ describes a normal form.
 In this sections, functions which can be used to display a <C>DTobj</C>, or the Deep Thought polynomials only, are documented. Furthermore, Deep Thought polynomials stored in a <C>DTobj</C> can be converted to &GAP; polynomials.
 <ManSection>
   <Func Arg="DTobj" Name="DTP_Display_DTobj" />
- <Returns>void
+ <Returns>nothing
 </Returns>
  <Description>
 Prints information about <C>Dtobj</C> to the terminal. In particular, the Deep Thought polynomials are printed in human-readable form.
@@ -144,7 +144,7 @@ Prints information about <C>Dtobj</C> to the terminal. In particular, the Deep T
 
 <ManSection>
   <Func Arg="f_r" Name="DTP_Display_f_r" />
- <Returns>void
+ <Returns>nothing
 </Returns>
  <Description>
 Prints the polynomials f_r computed by <C>DTP_DTpols_r</C> and stored in <C>DTobj[2]</C> to the terminal in a human-readable form.
@@ -154,7 +154,7 @@ Prints the polynomials f_r computed by <C>DTP_DTpols_r</C> and stored in <C>DTob
 
 <ManSection>
   <Func Arg="f_rs" Name="DTP_Display_f_rs" />
- <Returns>void
+ <Returns>nothing
 </Returns>
  <Description>
 Prints the polynomials f_rs computed by <C>DTP_DTpols_rs</C> and stored in <C>DTobj[2]</C> to the terminal in a human-readable form.
