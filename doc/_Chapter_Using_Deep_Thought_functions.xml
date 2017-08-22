@@ -19,6 +19,16 @@ Checks the collector <C>coll</C> for applicability of Deep Thought functions. No
 
 
 <ManSection>
+  <Func Arg="coll, rs_flag, [,isConfluent]" Name="DTP_DTobjFromCollector" />
+ <Returns>a DTobj
+</Returns>
+ <Description>
+Computes a DTobj for the collector coll, either with polynomials of type f_rs (if <C> rs_flag = true </C> or with polynomials of type f_r otherwise. The optional argument <C>isConfluent</C> is a boolean value. If <C>isConfluent = false</C>, then the collector <C>coll</C> is supposed to be not consistent. When using the returned <C>DTobj</C> for multiplication, the results are returned as reduced words which are not necessarily in normal form. If <C>isConfluent</C> is not provided or <C>isConlf = true</C>, the collector is assumed to be consistent and results returned in computations are in normal form, unless otherwise stated. If <C>isConlf = false</C>, the collector is assumed to be not consistent (but it still may be consistent) and results of computations are generally not in normal form.
+ </Description>
+</ManSection>
+
+
+<ManSection>
   <Func Arg="coll, [, isConfluent]" Name="DTP_DTpols_r" />
  <Returns>a DTobj list
 </Returns>

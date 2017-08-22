@@ -4,8 +4,8 @@
 <!DOCTYPE Book SYSTEM "gapdoc.dtd"
 [
 <!ENTITY see '<Alt Only="LaTeX">$	o$</Alt><Alt Not="LaTeX">--&gt;</Alt>'>
-<!ENTITY Polycyclic '<Package>Polycyclic</Package>'>
 <!ENTITY DeepThought '<Package>DeepThought</Package>'>
+<!ENTITY Polycyclic '<Package>Polycyclic</Package>'>
 ]
 >
 <Book Name="DeepThought">

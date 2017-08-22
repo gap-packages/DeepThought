@@ -197,7 +197,7 @@ end;
 #			multiplication, the results are returned as reduced words which 
 #			are not necessarily in normal form. If isConfl is not provided
 #			or isConlf = true, the collector is assumed to be consistent. 
-# Output:	list of the form DTobj, where the second entry contains a list 
+# Output:	object DTobj, where the second entry contains a list 
 #			all_pols such that DTP_DTpols_rs[s] is the output of 
 #			DTP_DTpols_r_S(coll, s)
 InstallGlobalFunction( DTP_DTpols_rs, 
@@ -252,8 +252,8 @@ function(coll, isConfl...)
 		DTobj[4] := false; 
 	fi; 
 	
-	return DTobj; 
-end); 
+	return Objectify(DTObjType, DTobj); 
+end ); 
 
 #############################################################################
 ####					Polynomials f_r									 ####
@@ -266,7 +266,7 @@ end);
 #			multiplication, the results are returned as reduced words which 
 #			are not necessarily in normal form. If isConfl is not provided
 #			or isConlf = true, the collector is assumed to be consistent. 
-# Output:	DTobj such that the second entry "pols_f_r" is a list of the 
+# Output:	object DTobj such that the second entry "pols_f_r" is a list of the 
 #			polynomials f_r, 1 <= r <= n. By definition:
 #				f_r = \sum_{\alpha in reps_r} g_\alpha 
 # 			An entry pols_f_r[r] contains lists as described in g_alpha
@@ -353,5 +353,47 @@ function(coll, isConfl...)
 		DTobj[4] := false; 
 	fi; 
 	
-	return DTobj; 
-end); 
+	return Objectify(DTObjType, DTobj); 
+end ); 
+
+
+
+#############################################################################
+####					Computing a DTobj								 ####
+#############################################################################
+
+# Input: 	- collector coll
+#			- boolean rs_flag: if rs_flag = true, polynomials f_rs are will
+#			be computed, otherwise polynomials f_r 
+#			- an optional argument "isConfl". If provided, "isConfl" must be
+#			a boolean value. If isConfl = false, then the collector is 
+#			supposed to be not consistent. When using the returned DTobj for 
+#			multiplication, the results are returned as reduced words which 
+#			are not necessarily in normal form. If isConfl is not provided
+#			or isConlf = true, the collector is assumed to be consistent. 
+# Output:	If rs_flag = true, the function DTP_DTpols_rs is called and its
+#			output returned. Otherwise the function DTP_DTpols_r is called
+#			and its output returned. 
+InstallGlobalFunction( DTP_DTobjFromCollector,
+function(coll, rs_flag, isConfl...)
+
+	if Length(isConfl) = 0 then 
+		# If the optional argument is not given, it is assumed that the 
+		# collector is consistent. 
+		isConfl := true; 
+	elif Length(isConfl) = 1 and IsBool(isConfl[1]) then 
+		if isConfl[1] = true then 
+			isConfl := true;
+		elif isConfl[1] = false then 
+			isConfl := false; 
+		fi; 
+	else 
+		Error("Call DTP_DTobjFromCollector with..."); 
+	fi;
+
+	if rs_flag then 
+		return DTP_DTpols_rs(coll, isConfl);
+	else
+		return DTP_DTpols_r(coll, isConfl);
+	fi; 
+end ); 
