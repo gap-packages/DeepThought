@@ -9,4 +9,5 @@ if _PATH_SO <> fail then
 fi;
 Unbind(_PATH_SO);
 
+ReadPackage( "DeepThought", "gap/DTObj.gd");
 ReadPackage( "DeepThought", "gap/DeepThought.gd");

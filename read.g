@@ -3,6 +3,7 @@
 #
 # Reading the implementation part of the package.
 #
+ReadPackage( "DeepThought", "gap/DTObj.gi");
 ReadPackage( "DeepThought", "gap/DeepThought.gi");
 
 ReadPackage( "DeepThought", "gap/structure_letters.g");
