@@ -76,6 +76,10 @@ DeclareGlobalFunction( "DTP_Inverse" );
 #! @Description Checks whether <C>expvec</C> is in normal form or not. If yes, the return value is <C>true</C>. Otherwise the return value is the smallest generator index for which the normal form condition is violated, i.e. for which the relative order <C>RelativeOrder(coll)[i]</C> is non-zero, and <C>expvec[i]</C> &lt; <C>0</C> or <C>expvec[i]</C> $\geq$ <C>RelativeOrder(coll)[i]</C>.  
 DeclareGlobalFunction( "DTP_IsInNormalForm" ); 
 
+#! @Arguments expvec1, expvec2, DTobj
+#! @Returns an exponent vector
+#! @Description Computes the exponent vector of the product <C> expvec1 * expvec2 </C> using the Deep Thought polynomials. This function determines automatically which type of polynomials are stored in <C>DTobj</C> and calls either <C>DTP_Multiply_r</C> or <C>DTP_Multiply_rs</C>. If <C>DTobj[4] = true</C>, then the result is returned in normal form. 
+DeclareGlobalFunction( "DTP_Multiply" ); 
 
 #! @Arguments expvec1, expvec2, DTobj 
 #! @Returns an exponent vector

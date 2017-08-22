@@ -6,7 +6,7 @@
 #	DTP_Multiply_r 
 #	DTP_Multiply_rsEvalPol_r
 #
-#	DTP_CollectWordOrFail 
+#	DTP_Multiply 
 #############################################################################
 
 #############################################################################
@@ -180,5 +180,21 @@ function(x, y, DTobj)
 		# If the collector is not consistent, return the result as a reduced 
 		# word. 
 		return z; 
+	fi; 
+end); 
+
+
+#############################################################################
+####					General Multiplication	s						 ####
+#############################################################################
+
+InstallGlobalFunction( DTP_Multiply, 
+function(x, y, DTobj)
+	if IsInt(DTobj[2][1][1][1]) then 
+		# version f_r
+		return DTP_Multiply_r(x, y, DTobj); 
+	else
+		# version f_rs 
+		return DTP_Multiply_rs(x, y, DTobj);
 	fi; 
 end); 

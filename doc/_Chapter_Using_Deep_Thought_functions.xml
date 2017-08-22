@@ -75,6 +75,16 @@ Checks whether <C>expvec</C> is in normal form or not. If yes, the return value 
 
 
 <ManSection>
+  <Func Arg="expvec1, expvec2, DTobj" Name="DTP_Multiply" />
+ <Returns>an exponent vector
+</Returns>
+ <Description>
+Computes the exponent vector of the product <C> expvec1 * expvec2 </C> using the Deep Thought polynomials. This function determines automatically which type of polynomials are stored in <C>DTobj</C> and calls either <C>DTP_Multiply_r</C> or <C>DTP_Multiply_rs</C>. If <C>DTobj[4] = true</C>, then the result is returned in normal form.
+ </Description>
+</ManSection>
+
+
+<ManSection>
   <Func Arg="expvec1, expvec2, DTobj" Name="DTP_Multiply_r" />
  <Returns>an exponent vector
 </Returns>
