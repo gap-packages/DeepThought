@@ -23,7 +23,7 @@ Checks the collector <C>coll</C> for applicability of Deep Thought functions. No
  <Returns>a DTobj list
 </Returns>
  <Description>
-Computes the Deep Thought polynomials of type <Math>f_r</Math> and stores them in <C>DTobj</C>. The optional argument <C>isConfluent</C> is a boolean value. If <C>isConfluent = false</C>, then the collector <C>coll</C> is supposed to be not consistent. When using the returned <C>DTobj</C> for multiplication, the results are returned as reduced words which are not necessarily in normal form. If <C>isConfluent</C> is not provided or <C>isConlf = true</C>, the collector is assumed to be consistent and results returned in computations are in normal form, unless otherwise stated.
+Computes the Deep Thought polynomials of type <Math>f_r</Math> and stores them in <C>DTobj</C>. The optional argument <C>isConfluent</C> is a boolean value. If <C>isConfluent = false</C>, then the collector <C>coll</C> is supposed to be not consistent. When using the returned <C>DTobj</C> for multiplication, the results are returned as reduced words which are not necessarily in normal form. If <C>isConfluent</C> is not provided or <C>isConlf = true</C>, the collector is assumed to be consistent and results returned in computations are in normal form, unless otherwise stated. If <C>isConlf = false</C>, the collector is assumed to be not consistent (but it still may be consistent) and results of computations are generally not in normal form.
  </Description>
 </ManSection>
 
@@ -33,7 +33,7 @@ Computes the Deep Thought polynomials of type <Math>f_r</Math> and stores them i
  <Returns>a DTobj list
 </Returns>
  <Description>
-Computes the Deep Thought polynomials of type <Math>f_{rs}</Math> and stores them in <C>DTobj</C>. The optional argument <C>isConfluent</C> is a boolean value. If <C>isConfluent = false</C>, then the collector <C>coll</C> is supposed to be not consistent. When using the returned <C>DTobj</C> for multiplication, the results are returned as reduced words which are not necessarily in normal form. If <C>isConfluent</C> is not provided or <C>isConlf = true</C>, the collector is assumed to be consistent and results returned in computations are in normal form, unless otherwise stated.
+Computes the Deep Thought polynomials of type <Math>f_{rs}</Math> and stores them in <C>DTobj</C>. The optional argument <C>isConfluent</C> is a boolean value. If <C>isConfluent = false</C>, then the collector <C>coll</C> is supposed to be not consistent. When using the returned <C>DTobj</C> for multiplication, the results are returned as reduced words which are not necessarily in normal form. If <C>isConfluent</C> is not provided or <C>isConlf = true</C>, the collector is assumed to be consistent and results returned in computations are in normal form, unless otherwise stated. If <C>isConlf = false</C>, the collector is assumed to be not consistent (but it still may be consistent) and results of computations are generally not in normal form.
  </Description>
 </ManSection>
 

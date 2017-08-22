@@ -21,7 +21,7 @@ DeclareGlobalFunction( "DTP_AreAlmostEqual" );
 #!<P/>
 #! The Deep Thought algorithm computes rational polynomials $f_1, \ldots, f_n$ in $2n$ indeterminates such that if $ x := a_1^{x_1} \cdots a_n^{x_n} $ and $y := a_1^{y_1} \cdots a_n^{y_n} $ are two elements (in normal form or not), then their product $xy$ is given by 
 #! $$a_1^{f_1(x_1, \ldots, x_n, y_1, \ldots, y_n)} \cdots a_n^{f_n(x_1, \ldots, x_n, y_1, \ldots, y_n)}.$$ 
-#! If the collector is confluent, then the normal form of the product can be computed. 
+#! If the collector is confluent, also the normal form of the product can be computed. Otherwise this is not possible. 
 #! Moreover, there exists a second version of the Deep Thought algorithms which computes $n^2$ polynomials $f_{rs}$, $1 \leq r, s \leq n$, suitable for multiplications of the form 
 #! $$(a_1^{x_1} \cdots a_n^{x_n}) \cdot a_s^{y_s} = a_1^{f_{1s}(x_1, \ldots, x_n, y_s)} \cdots a_n^{f_{ns}(x_1, \ldots, x_n, y_s)} $$
 #! for $1 \leq s \leq n$. Each general multiplication can be expressed using these special multiplications. Depending on the presentation, polynomials of one version may be more efficient for computations than the polynomials of the other version. For a suggestion on which polynomials to use for a given presentation, see the function <C>DTP_DTapplicability</C>. In the following, Deep Thought type $f_r$ refers to the Deep Though algorithm which uses $n$ polynomials and type $f_{rs}$ refers to the Deep Thought algorithm using $n^2$ polynomials. 
@@ -38,7 +38,7 @@ DeclareGlobalFunction( "DTP_AreAlmostEqual" );
 #! <Item> <C>DTobj[3]</C>: list containing orders of group generators</Item>
 #! <Item> <C>DTobj[4]</C>: boolean value indicating whether the collector is consistent or not</Item>
 #! </List>
-#! Such a list is in the following called **DTobj list**. 
+#! In the following, such a list is called **DTobj list**. 
 
 #! @Chapter Using Deep Thought functions
 #! In the following sections, functions provided for computing Deep Thought polynomials and using them for calculations are listed. 
@@ -51,12 +51,12 @@ DeclareGlobalFunction( "DTP_DTapplicability" );
 
 #! @Arguments coll, [, isConfluent]
 #! @Returns a DTobj list
-#! @Description Computes the Deep Thought polynomials of type $f_r$ and stores them in <C>DTobj</C>. The optional argument <C>isConfluent</C> is a boolean value. If <C>isConfluent = false</C>, then the collector <C>coll</C> is supposed to be not consistent. When using the returned <C>DTobj</C> for multiplication, the results are returned as reduced words which are not necessarily in normal form. If <C>isConfluent</C> is not provided or <C>isConlf = true</C>, the collector is assumed to be consistent and results returned in computations are in normal form, unless otherwise stated. 
+#! @Description Computes the Deep Thought polynomials of type $f_r$ and stores them in <C>DTobj</C>. The optional argument <C>isConfluent</C> is a boolean value. If <C>isConfluent = false</C>, then the collector <C>coll</C> is supposed to be not consistent. When using the returned <C>DTobj</C> for multiplication, the results are returned as reduced words which are not necessarily in normal form. If <C>isConfluent</C> is not provided or <C>isConlf = true</C>, the collector is assumed to be consistent and results returned in computations are in normal form, unless otherwise stated. If <C>isConlf = false</C>, the collector is assumed to be not consistent (but it still may be consistent) and results of computations are generally not in normal form.
 DeclareGlobalFunction( "DTP_DTpols_r" );
 
 #! @Arguments coll, [, isConfluent]
 #! @Returns a DTobj list
-#! @Description Computes the Deep Thought polynomials of type $f_{rs}$ and stores them in <C>DTobj</C>. The optional argument <C>isConfluent</C> is a boolean value. If <C>isConfluent = false</C>, then the collector <C>coll</C> is supposed to be not consistent. When using the returned <C>DTobj</C> for multiplication, the results are returned as reduced words which are not necessarily in normal form. If <C>isConfluent</C> is not provided or <C>isConlf = true</C>, the collector is assumed to be consistent and results returned in computations are in normal form, unless otherwise stated. 
+#! @Description Computes the Deep Thought polynomials of type $f_{rs}$ and stores them in <C>DTobj</C>. The optional argument <C>isConfluent</C> is a boolean value. If <C>isConfluent = false</C>, then the collector <C>coll</C> is supposed to be not consistent. When using the returned <C>DTobj</C> for multiplication, the results are returned as reduced words which are not necessarily in normal form. If <C>isConfluent</C> is not provided or <C>isConlf = true</C>, the collector is assumed to be consistent and results returned in computations are in normal form, unless otherwise stated. If <C>isConlf = false</C>, the collector is assumed to be not consistent (but it still may be consistent) and results of computations are generally not in normal form. 
 DeclareGlobalFunction( "DTP_DTpols_rs" );
 
 #! @Section Computations with Deep Thought polynomials

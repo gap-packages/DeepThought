@@ -14,7 +14,7 @@ with <Math>0 \leq e_i &lt; r_i</Math> if <Math>r_i &lt; \infty</Math>.
 <P/>
 The Deep Thought algorithm computes rational polynomials <Math>f_1, \ldots, f_n</Math> in <Math>2n</Math> indeterminates such that if <Math> x := a_1^{x_1} \cdots a_n^{x_n} </Math> and <Math>y := a_1^{y_1} \cdots a_n^{y_n} </Math> are two elements (in normal form or not), then their product <Math>xy</Math> is given by
 <Display>a_1^{f_1(x_1, \ldots, x_n, y_1, \ldots, y_n)} \cdots a_n^{f_n(x_1, \ldots, x_n, y_1, \ldots, y_n)}.</Display>
-If the collector is confluent, then the normal form of the product can be computed.
+If the collector is confluent, also the normal form of the product can be computed. Otherwise this is not possible.
 Moreover, there exists a second version of the Deep Thought algorithms which computes <Math>n^2</Math> polynomials <Math>f_{rs}</Math>, <Math>1 \leq r, s \leq n</Math>, suitable for multiplications of the form
 <Display>(a_1^{x_1} \cdots a_n^{x_n}) \cdot a_s^{y_s} = a_1^{f_{1s}(x_1, \ldots, x_n, y_s)} \cdots a_n^{f_{ns}(x_1, \ldots, x_n, y_s)} </Display>
 for <Math>1 \leq s \leq n</Math>. Each general multiplication can be expressed using these special multiplications. Depending on the presentation, polynomials of one version may be more efficient for computations than the polynomials of the other version. For a suggestion on which polynomials to use for a given presentation, see the function <C>DTP_DTapplicability</C>. In the following, Deep Thought type <Math>f_r</Math> refers to the Deep Though algorithm which uses <Math>n</Math> polynomials and type <Math>f_{rs}</Math> refers to the Deep Thought algorithm using <Math>n^2</Math> polynomials.
@@ -32,7 +32,7 @@ This package uses lists with the name <C>DTobj</C> to store the Deep Though poly
 <Item> <C>DTobj[3]</C>: list containing orders of group generators</Item>
 <Item> <C>DTobj[4]</C>: boolean value indicating whether the collector is consistent or not</Item>
 </List>
-Such a list is in the following called <Emph>DTobj list</Emph>.
+In the following, such a list is called <Emph>DTobj list</Emph>.
 </Section>
 
 
