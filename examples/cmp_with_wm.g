@@ -97,28 +97,29 @@ DTP_wm2nw := function(coll)
 end;
 
 # compares for a collector coll the polynomials computed by wm and nw
-DTP_ComparePolynomials := function(coll, DTobj...)
+DTP_ComparePolynomials := function(coll, DTObj...)
 	local all_pols_nw, all_pols_wm, pols_f_rs_nw, pols_f_rs_wm, n, r, l, i, g_alpha, flag, j, t, s, equal, coeffs, orders; 
 #	Print("Notice that even if this function returns 'false', by summarizing terms the polynomials may nevertheless be equal.\n"); 
 	
 	all_pols_wm := DTP_wm2nw(coll); 
 	
-	if Length(DTobj) = 0 then 
+	# if polynomials are not provided, compute them: 
+	if not IsBound(DTObj![PC_DTPPolynomials]) then 
 		t := Runtime(); 
 		all_pols_nw := DTP_DTpols_rs(coll); 
 		t := Runtime(); 
 		Print("Time for DTP_DTpols_rs:\n", t - t, "\n"); 
-	else
-		all_pols_nw := DTobj[1]; 
+	else # otherwise use them: 
+		all_pols_nw := DTObj; 
 	fi; 
 	
-	orders := all_pols_nw[3]; 
+	orders := all_pols_nw![PC_DTPOrders]; 
 	n := NumberOfGenerators(coll); 
 	equal := true; 
 	coeffs := true; 
 	for s in [1 .. n] do 
 		# get polynomials f_1, s, ...., f_n, s
-		pols_f_rs_nw := all_pols_nw[2][s]; 
+		pols_f_rs_nw := all_pols_nw![PC_DTPPolynomials][s]; 
 		pols_f_rs_wm := all_pols_wm[s]; 
 		for r in [1 .. n] do # consider polynomial f_r, s
 			if Length(pols_f_rs_nw[r]) <> Length(pols_f_rs_wm[r]) then 
@@ -167,7 +168,7 @@ DTP_ComparePolynomials := function(coll, DTobj...)
 end; 
 
 DTP_CompareMultis := function(coll, num) 
-	local DTobj, i, x, y, k, z, z_collect, z_pols_wm, z_pols_nw, t, t_pols_wm, t_pols_nw, t_coll, lim, x1, y1, orders, rel, j, n, t_pols_nw_ord, z_pols_nw_ord; 
+	local DTObj, i, x, y, k, z, z_collect, z_pols_wm, z_pols_nw, t, t_pols_wm, t_pols_nw, t_coll, lim, x1, y1, orders, rel, j, n, t_pols_nw_ord, z_pols_nw_ord; 
 	
 	lim := 100; 
 	
@@ -179,7 +180,7 @@ DTP_CompareMultis := function(coll, num)
 	fi; 
 	
 	t := Runtime();
-	DTobj := DTP_DTpols_rs(coll); 
+	DTObj := DTP_DTpols_rs(coll); 
 	t := Runtime() - t;
 	Print("NW polynomials f_rs computed in ", t, " ms \n"); 
 
@@ -189,7 +190,7 @@ DTP_CompareMultis := function(coll, num)
 	t_coll := 0;
 	rel := RelativeOrders(coll); 
 	n := NumberOfGenerators(coll); 
-	orders := DTobj[3]; 
+	orders := DTObj![PC_DTPOrders]; 
 		
 	for i in [1 .. num] do
 		# generate num random elements (in normal form) with exponent vectors' 
@@ -208,7 +209,7 @@ DTP_CompareMultis := function(coll, num)
 		
 		# multiply with nw pols
 		t := Runtime();
-		z_pols_nw := DTP_Multiply_rs(x, y, DTobj);
+		z_pols_nw := DTP_Multiply_rs(x, y, DTObj);
 		t := Runtime() - t;
 		t_pols_nw := t_pols_nw + t; 
 		

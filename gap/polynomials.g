@@ -114,18 +114,18 @@ DTP_ReducePolynomialsModOrder := function(pols, orders)
 	
 end; 
 
-# Input:	DTobj where the "orders" are set to infinity 
-# Output:	none, but the orders for DTobj are computed and stored in the 
+# Input:	DTObj where the "orders" are set to infinity 
+# Output:	none, but the orders for DTObj are computed and stored in the 
 #			third entry. 
-DTP_OrdersGenerators := function(DTobj)
+DTP_OrdersGenerators := function(DTObj)
 	local s, n, gen; 
 	
-	n := DTobj[1]![PC_NUMBER_OF_GENERATORS]; 
+	n := DTObj![PC_NUMBER_OF_GENERATORS]; 
 	
 	for s in [1 .. n] do 
 		gen := [1 .. n] * 0;
 		gen[s] := 1; 
-		DTobj[3][s] := DTP_Order(gen, DTobj); 
+		DTObj![32][s] := DTP_Order(gen, DTObj); 
 	od; 
 	
 end;
@@ -193,16 +193,16 @@ end;
 # Input:	- collector coll
 #			- an optional argument "isConfl". If provided, "isConfl" must be
 #			a boolean value. If isConfl = false, then the collector is 
-#			supposed to be not consistent. When using the returned DTobj for 
+#			supposed to be not consistent. When using the returned DTObj for 
 #			multiplication, the results are returned as reduced words which 
 #			are not necessarily in normal form. If isConfl is not provided
 #			or isConlf = true, the collector is assumed to be consistent. 
-# Output:	object DTobj, where the second entry contains a list 
+# Output:	object DTObj, where the second entry contains a list 
 #			all_pols such that DTP_DTpols_rs[s] is the output of 
 #			DTP_DTpols_r_S(coll, s)
 InstallGlobalFunction( DTP_DTpols_rs, 
 function(coll, isConfl...)
-	local n, s, all_pols, orders, gen, DTobj;
+	local n, s, all_pols, orders, gen, DTObj;
 	
 	if Length(isConfl) = 0 then 
 		# If the optional argument is not given, it is assumed that the 
@@ -229,18 +229,25 @@ function(coll, isConfl...)
 	# Compute the orders of the generators and reduce the polynomials modulo
 	# the generator orders. This is not possible if the collector is not 
 	# consistent and thus isConfl = false. 
-	DTobj := []; 
-	DTobj[1] := coll;
-	DTobj[2] := all_pols; 
-	DTobj[3] := [1 .. n] * infinity; # for computing the generator orders we
+	DTObj := []; 
+	for s in [1..30] do
+		if IsBound(coll![s]) then
+			DTObj[s] := StructuralCopy(coll![s]);
+		fi;
+	od;
+	DTObj[PC_DTPPolynomials] := all_pols; 
+	DTObj[PC_DTPOrders] := [1 .. n] * infinity; # for computing the generator orders we
 	# also need to provide "orders", since we use the same functions for 
 	# multiplication. Hence, first assume them to be infinite. Then during 
 	# multiplication we do not reduce any results. 
+	
+	DTObj[33] := isConfl; 
+	Objectify(DTObjType, DTObj); 
+	
 	if isConfl then 
-		DTobj[4] := true; 
-		DTP_OrdersGenerators(DTobj); 
+		DTP_OrdersGenerators(DTObj); 
 		for s in [1 .. n] do 
-			DTP_ReducePolynomialsModOrder(DTobj[2][s], DTobj[3]); 
+			DTP_ReducePolynomialsModOrder(DTObj![31][s], DTObj![32]); 
 		od; 
 	else 
 		# We will use the same function for multiplication (DTP_Multiply_s) as 
@@ -249,10 +256,9 @@ function(coll, isConfl...)
 		# computations. Hence, if we set each generator order to be infinity, 
 		# this yields the same result as doing no reduction, since in 
 		# Muliply_s we always execute the "else" statement. 
-		DTobj[4] := false; 
 	fi; 
 	
-	return Objectify(DTObjType, DTobj); 
+	return Objectify(DTObjType, DTObj); 
 end ); 
 
 #############################################################################
@@ -262,18 +268,18 @@ end );
 # Input:	- collector coll
 #			- an optional argument "isConfl". If provided, "isConfl" must be
 #			a boolean value. If isConfl = false, then the collector is 
-#			supposed to be not consistent. When using the returned DTobj for 
+#			supposed to be not consistent. When using the returned DTObj for 
 #			multiplication, the results are returned as reduced words which 
 #			are not necessarily in normal form. If isConfl is not provided
 #			or isConlf = true, the collector is assumed to be consistent. 
-# Output:	object DTobj such that the second entry "pols_f_r" is a list of the 
+# Output:	object DTObj such that the second entry "pols_f_r" is a list of the 
 #			polynomials f_r, 1 <= r <= n. By definition:
 #				f_r = \sum_{\alpha in reps_r} g_\alpha 
 # 			An entry pols_f_r[r] contains lists as described in g_alpha
 #			which represent the summands of f_r.
 InstallGlobalFunction( DTP_DTpols_r, 
 function(coll, isConfl...)
-	local n, pols_f_r, reps, r, f_r, reps_r, alpha, g_alpha, term, added, DTobj; 
+	local n, pols_f_r, reps, r, f_r, reps_r, alpha, g_alpha, term, added, DTObj; 
 	
 	if Length(isConfl) = 0 then 
 		# If the optional argument is not given, it is assumed that the 
@@ -332,34 +338,40 @@ function(coll, isConfl...)
 	# Compute the orders of the generators and reduce the polynomials modulo
 	# the generator orders. This is not possible if the collector is not 
 	# consistent and thus isConfl = false. 
-	DTobj := []; 
-	DTobj[1] := coll;
-	DTobj[2] := pols_f_r; 
-	DTobj[3] := [1 .. n] * infinity; # for computing the generator orders we
+	DTObj := []; 
+	for r in [1..30] do
+		if IsBound(coll![r]) then
+			DTObj[r] := StructuralCopy(coll![r]);
+		fi;
+	od;
+	
+	DTObj[PC_DTPPolynomials] := pols_f_r; 
+	DTObj[PC_DTPOrders] := [1 .. n] * infinity; # for computing the generator orders we
 	# also need to provide "orders", since we use the same functions for 
 	# multiplication. Hence, first assume them to be infinite. 
 	
+	DTObj[33] := isConfl; 
+	Objectify(DTObjType, DTObj); 
+	
 	if isConfl then 
-		DTobj[4] := true; 
-		DTP_OrdersGenerators(DTobj); 
-		DTP_ReducePolynomialsModOrder(DTobj[2], DTobj[3]); 
+		DTP_OrdersGenerators(DTObj); 
+		DTP_ReducePolynomialsModOrder(DTObj![31], DTObj![32]); 
 	else 
 		# We will use the same function for multiplication as 
 		# in the case, when the generator orders are provided. The generator 
 		# orders are, if finite, used for reduction modulo the orders during 
 		# computations. Hence, if we set each generator order to be infinity, 
 		# this yields the same result as doing no reduction, since in 
-		# Muliply_s we always execute the "else" statement. 
-		DTobj[4] := false; 
+		# Muliply_s we always execute the "else" statement.  
 	fi; 
 	
-	return Objectify(DTObjType, DTobj); 
+	return DTObj; 
 end ); 
 
 
 
 #############################################################################
-####					Computing a DTobj								 ####
+####					Computing a DTObj								 ####
 #############################################################################
 
 # Input: 	- collector coll
@@ -367,16 +379,16 @@ end );
 #			be computed, otherwise polynomials f_r 
 #			- an optional argument "isConfl". If provided, "isConfl" must be
 #			a boolean value. If isConfl = false, then the collector is 
-#			supposed to be not consistent. When using the returned DTobj for 
+#			supposed to be not consistent. When using the returned DTObj for 
 #			multiplication, the results are returned as reduced words which 
 #			are not necessarily in normal form. If isConfl is not provided
 #			or isConlf = true, the collector is assumed to be consistent. 
 # Output:	If rs_flag = true, the function DTP_DTpols_rs is called and its
 #			output returned. Otherwise the function DTP_DTpols_r is called
 #			and its output returned. 
-InstallGlobalFunction( DTP_DTobjFromCollector,
+InstallGlobalFunction( DTP_DTObjFromCollector,
 function(coll, rs_flag, isConfl...)
-
+	
 	if Length(isConfl) = 0 then 
 		# If the optional argument is not given, it is assumed that the 
 		# collector is consistent. 
@@ -388,7 +400,7 @@ function(coll, rs_flag, isConfl...)
 			isConfl := false; 
 		fi; 
 	else 
-		Error("Call DTP_DTobjFromCollector with..."); 
+		Error("Call DTP_DTObjFromCollector with..."); 
 	fi;
 
 	if rs_flag then 
@@ -396,4 +408,5 @@ function(coll, rs_flag, isConfl...)
 	else
 		return DTP_DTpols_r(coll, isConfl);
 	fi; 
+	
 end ); 

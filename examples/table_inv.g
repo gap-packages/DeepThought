@@ -1,5 +1,5 @@
 DTP_invtab := function(G, lim)
-	local coll, n, elms, elms_gr, i, DTobj_r, DTobj_rs, invcoll, invr, invrs, x, avg_invcoll, avg_inv_r, avg_inv_rs, invc, inv_r, inv_rs, k, rel;
+	local coll, n, elms, elms_gr, i, DTObj_r, DTObj_rs, invcoll, invr, invrs, x, avg_invcoll, avg_inv_r, avg_inv_rs, invc, inv_r, inv_rs, k, rel;
 	
 	coll := Collector(G); 
 	n := NumberOfGenerators(coll); 
@@ -22,8 +22,8 @@ DTP_invtab := function(G, lim)
 	od; 
 	elms_gr := List(elms, x -> PcpElementByExponents(coll, x)); 
 	
-	DTobj_r := DTP_DTpols_r(coll); 
-	DTobj_rs := DTP_DTpols_rs(coll); 
+	DTObj_r := DTP_DTpols_r(coll); 
+	DTObj_rs := DTP_DTpols_rs(coll); 
 	
 	invcoll := function()
 		for x in elms_gr do
@@ -33,13 +33,13 @@ DTP_invtab := function(G, lim)
 	
 	inv_r := function()
 		for x in elms do
-			Add(invr, DTP_Inverse(x, DTobj_r)); 
+			Add(invr, DTP_Inverse(x, DTObj_r)); 
 		od;
 	end; 
 	
 	inv_rs := function()
 		for x in elms do
-			Add(invrs, DTP_Inverse(x, DTobj_rs)); 
+			Add(invrs, DTP_Inverse(x, DTObj_rs)); 
 		od;
 	end; 
 	

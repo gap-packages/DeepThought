@@ -1,5 +1,5 @@
 DTP_orderstab := function(G, lim)
-	local coll, n, elms, elms_gr, i, gens, gens_gr, DTobj_r, DTobj_rs, gen_coll, gen_r, gen_rs, x, elms_coll, elms_r, elms_rs, avg_gen_coll, avg_gen_r, avg_gen_rs, avg_elms_coll, avg_elms_r, avg_elms_rs, o_c, o_r, o_rs, rel, k, t;
+	local coll, n, elms, elms_gr, i, gens, gens_gr, DTObj_r, DTObj_rs, gen_coll, gen_r, gen_rs, x, elms_coll, elms_r, elms_rs, avg_gen_coll, avg_gen_r, avg_gen_rs, avg_elms_coll, avg_elms_r, avg_elms_rs, o_c, o_r, o_rs, rel, k, t;
 	
 	coll := Collector(G); 
 	n := NumberOfGenerators(coll); 
@@ -30,8 +30,8 @@ DTP_orderstab := function(G, lim)
 	gens := List(gens_gr, x -> Exponents(x)); 
 	
 	t := Runtime();
-	DTobj_r := DTP_DTpols_r(coll); 
-	DTobj_rs := DTP_DTpols_rs(coll); 
+	DTObj_r := DTP_DTpols_r(coll); 
+	DTObj_rs := DTP_DTpols_rs(coll); 
 	t := Runtime() - t; 
 	Print(t, "\n"); 
 	
@@ -43,13 +43,13 @@ DTP_orderstab := function(G, lim)
 	
 	gen_r := function()
 		for x in gens do
-			Add(o_r, DTP_Order(x, DTobj_r)); 
+			Add(o_r, DTP_Order(x, DTObj_r)); 
 		od;
 	end; 
 	
 	gen_rs := function()
 		for x in gens do
-			Add(o_rs, DTP_Order(x, DTobj_rs)); 
+			Add(o_rs, DTP_Order(x, DTObj_rs)); 
 		od;
 	end; 
 
@@ -61,13 +61,13 @@ DTP_orderstab := function(G, lim)
 	
 	elms_r := function()
 		for x in elms do
-			Add(o_r, DTP_Order(x, DTobj_r)); 
+			Add(o_r, DTP_Order(x, DTObj_r)); 
 		od;
 	end; 
 	
 	elms_rs := function()
 		for x in elms do
-			Add(o_rs, DTP_Order(x, DTobj_rs)); 
+			Add(o_rs, DTP_Order(x, DTObj_rs)); 
 		od;
 	end; 
 	

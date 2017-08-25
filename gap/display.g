@@ -1,6 +1,6 @@
-# Functions to display Deep Thought polynomials/DTobj
-# To display a DTobj use 
-#		DTP_Display_DTobj(DTobj).
+# Functions to display Deep Thought polynomials/DTObj
+# To display a DTObj use 
+#		DTP_Display_DTObj(DTObj).
 #
 # Display polynomials only: 
 # When using the function DTP_DTpols_rs, call 
@@ -104,20 +104,20 @@ function(f_r)
 	
 end);
 
-# display a DTobj
-InstallGlobalFunction( DTP_Display_DTobj, 
-function(DTobj)
+# display a DTObj
+InstallGlobalFunction( DTP_Display_DTObj, 
+function(DTObj)
 
-	if DTobj[4] then 
-		Print("Generator orders of the consistent collector:\n", DTobj[3], "\n\n"); 
+	if DTObj![PC_DTPConfluent] then 
+		Print("Generator orders of the consistent collector:\n", DTObj, "\n\n"); 
 	else
 		Print("The polynomials were computed with isConfl=false. No generator orders were computed.\n\n"); 
 	fi; 
 	
-	if IsInt(DTobj[2][1][1][1]) then 
-		DTP_Display_f_r(DTobj[2]); 
+	if IsInt(DTObj![PC_DTPPolynomials][1][1][1]) then 
+		DTP_Display_f_r(DTObj![PC_DTPPolynomials]); 
 	else
-		DTP_Display_f_rs(DTobj[2]); 
+		DTP_Display_f_rs(DTObj![PC_DTPPolynomials]); 
 	fi; 
 
 end); 
@@ -147,14 +147,14 @@ g_alphaGAP := function(g_alpha, indets)
 	return g_alpha_GAP;
 end; 
 
-# Input: 	DTobj returned by DTpols_r/s
-# Output: 	list containing GAP polynomials corresponding to DTobj[2] and 
+# Input: 	DTObj returned by DTpols_r/s
+# Output: 	list containing GAP polynomials corresponding to DTObj![PC_DTPPolynomials] and 
 #			their polynomial ring Q
 InstallGlobalFunction( DTP_pols2GAPpols, 
-function(DTobj)
+function(DTObj)
 	local n, indets, r, s, Q, DTpols, GAPpols, f_DT, f_GAP, g_alpha;  
 	
-	n := NumberOfGenerators(DTobj[1]); 
+	n := NumberOfGenerators(DTObj); 
 	# create polynomial ring over Q in 2n indeterminates x_1, ..., x_n, y_1, ..., y_n:
 	indets := []; 
 	for r in [1 .. n] do 
@@ -168,7 +168,7 @@ function(DTobj)
 	Q := PolynomialRing(Rationals, indets); 
 	
 	# go through all DT polynomials and create corresponding GAP polynomial:
-	DTpols := DTobj[2]; 
+	DTpols := DTObj![PC_DTPPolynomials]; 
 	GAPpols := []; # list of GAP polynomials corresponding to DTpols
 	
 	if IsInt(DTpols[1][1][1]) then # version with n polynomials, see 

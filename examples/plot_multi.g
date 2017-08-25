@@ -18,7 +18,7 @@
 # DTP_PlotMulti(UT_10, 100, 1, "ut10", true);
 
 
-DTP_PlotMulti1 := function(DTobj_rs, DTobj_r, num, lim, res, name, time_pols_rs, time_pols_r, nf)
+DTP_PlotMulti1 := function(DTObj_rs, DTObj_r, num, lim, res, name, time_pols_rs, time_pols_r, nf)
 	local coll, n, i, j, rel,
 	x, y, x_coll, y_coll, x_exp, y_exp, x_pcp, y_pcp, 
 	multiply_pols_rs, multiply_pols_r, multiply_coll,
@@ -27,7 +27,7 @@ DTP_PlotMulti1 := function(DTobj_rs, DTobj_r, num, lim, res, name, time_pols_rs,
 	str, out_str, line, file; 
 	
 	Print("Limit: ", lim, ", "); 
-	coll := DTobj_rs[1];
+	coll := DTObj_rs[1];
 	n := NumberOfGenerators(coll); 
 	rel := RelativeOrders(coll); 
 	# generate num random elements (in normal form) with exponent vectors' 
@@ -57,13 +57,13 @@ DTP_PlotMulti1 := function(DTobj_rs, DTobj_r, num, lim, res, name, time_pols_rs,
 
 	multiply_pols_rs := function()
 		for i in [1 .. num] do 
-			Add(z_rs, DTP_Multiply_rs(x[i], y[i], DTobj_rs));
+			Add(z_rs, DTP_Multiply_rs(x[i], y[i], DTObj_rs));
 		od; 
 	end; 
 	
 	multiply_pols_r := function()
 		for i in [1 .. num] do 
-			Add(z_r, DTP_Multiply_r(x[i], y[i], DTobj_r)); 
+			Add(z_r, DTP_Multiply_r(x[i], y[i], DTObj_r)); 
 		od; 
 	end; 
 
@@ -108,7 +108,7 @@ DTP_PlotMulti1 := function(DTobj_rs, DTobj_r, num, lim, res, name, time_pols_rs,
 	Add(res, rec( lim := lim, avg_rs := res_rs.avg, avg_r := res_r.avg, avg_coll := res_coll.avg ) ); 
 	
 	if Length(res) < 50 then 
-		DTP_PlotMulti1(DTobj_rs, DTobj_r, num, lim + 1, res, name, time_pols_rs, time_pols_r, nf);
+		DTP_PlotMulti1(DTObj_rs, DTObj_r, num, lim + 1, res, name, time_pols_rs, time_pols_r, nf);
 	fi; 
 	
 	# write results to file
@@ -128,14 +128,14 @@ DTP_PlotMulti1 := function(DTobj_rs, DTobj_r, num, lim, res, name, time_pols_rs,
 end; 
 
 DTP_PlotMulti := function(coll, num, lim, name, nf)
-	local res, DTobj_rs, DTobj_r, time_pols_rs, time_pols_r, compute_pols_rs, compute_pols_r, file; 
+	local res, DTObj_rs, DTObj_r, time_pols_rs, time_pols_r, compute_pols_rs, compute_pols_r, file; 
 	
 	compute_pols_rs := function()
-		DTobj_rs := DTP_DTpols_rs(coll); 
+		DTObj_rs := DTP_DTpols_rs(coll); 
 	end; 
 	
 	compute_pols_r := function()
-		DTobj_r := DTP_DTpols_r(coll); 
+		DTObj_r := DTP_DTpols_r(coll); 
 	end; 
 	
 	time_pols_rs := DTP_Benchmark(compute_pols_rs, rec( maxreps := 5, minreps := 5, silent := true)); 
@@ -148,5 +148,5 @@ DTP_PlotMulti := function(coll, num, lim, name, nf)
 	AppendTo(file, time_pols_rs.avg, " ");
 	AppendTo(file, time_pols_r.avg, "\n");
 	
-	return DTP_PlotMulti1(DTobj_rs, DTobj_r, num, lim, [], name, time_pols_rs.avg, time_pols_r.avg, nf);
+	return DTP_PlotMulti1(DTObj_rs, DTObj_r, num, lim, [], name, time_pols_rs.avg, time_pols_r.avg, nf);
 end; 

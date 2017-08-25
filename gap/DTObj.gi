@@ -39,6 +39,7 @@ end);
 #  (and perhaps rename them, e.g.:
 #      DTObjFromCollector( coll, rs_flag )
 #  where rs_flag indicates whether to generate r or rs polynomials
+# NW: done
 
 # format of the new DTObj:
 
@@ -51,7 +52,11 @@ end);
 #   fi;
 # od;
 # 
-# Then store "your" data in the extra slots
+# Then store "your" data in the extra slots:
+# NW: mapping: 
+# DTObj[2] = DT polynomials = coll[31]
+# DTObj[3] = generator orders = coll[32]
+# DTObj[4] = isConfl flag = coll[33]
 
 # then go on...
 
@@ -71,4 +76,13 @@ end);
 # alternatively, also look at the polycyclic source code to see
 # what kind of methods you might need to implement...
 
+
+coll_paper := FromTheLeftCollector(4);
+SetConjugate(coll_paper, 2, 1, [2, 1, 3, 2]);
+SetConjugate(coll_paper, 3, 1, [3, 1, 4, 1]);
+SetConjugate(coll_paper, 3, 2, [3, 1, 4, 5]);
+UpdatePolycyclicCollector(coll_paper);
+
+Read("examples/ex_colls.g");
+Read("examples/test.g"); 
 

@@ -30,15 +30,13 @@ DeclareGlobalFunction( "DTP_AreAlmostEqual" );
 #! In the following text, a group element $a_1^{x_1} \cdots a_n^{x_n}$ is identified with its exponent vector in form of the list <C>[x_1, ..., x_n]</C>. For example, if <C>expvec1, expvec2</C> are exponent vectors of elements in the same group, than <C>expvec1 * expvec2</C> describes the multiplication of the corresponding group elements, and so on. Note that generally exponent vectors are not assumed to represent normal forms. 
 #!<P/>
 
-#! @Section DTobj lists
-#! This package uses lists with the name <C>DTobj</C> to store the Deep Though polynomials of a collector together with some additional information. That is, the functions <C>DTP_DTpols_r</C> and <C>DTP_DTpols_rs</C> return a list (<C>DTobj</C>) with four entries: 
+#! @Section Category DTObj 
+#! This package uses the category <C>DTObj</C>. A <C>DTObj</C> is a <C>IsFromTheLeftCollectorRep</C> with certain further list entries to store the Deep Thought polynomials of a collector together with some additional information. That is, the functions <C>DTP_DTpols_r</C> and <C>DTP_DTpols_rs</C> return a (<C>DTObj</C>) which has entries as <C>IsFromTheLeftCollectorRep</C> and additionally: 
 #! <List>
-#! <Item> <C>DTobj[1]</C>: collector <C>coll</C> which was input of the function</Item>
-#! <Item> <C>DTobj[2]</C>: Deep Thought polynomials in form of (nested) lists</Item>
-#! <Item> <C>DTobj[3]</C>: list containing orders of group generators</Item>
-#! <Item> <C>DTobj[4]</C>: boolean value indicating whether the collector is consistent or not</Item>
+#! <Item> <C>DTObj![PC_DTPPolynomials]</C>: Deep Thought polynomials in form of (nested) lists</Item>
+#! <Item> <C>DTObj![PC_DTPOrders]</C>: list containing orders of group generators</Item>
+#! <Item> <C>DTObj![PC_DTPConfluent]</C>: boolean value indicating whether the collector is consistent or not</Item>
 #! </List>
-#! In the following, such a list is called **DTobj list**. 
 
 #! @Chapter Using Deep Thought functions
 #! In the following sections, functions provided for computing Deep Thought polynomials and using them for calculations are listed. 
@@ -50,30 +48,30 @@ DeclareGlobalFunction( "DTP_AreAlmostEqual" );
 DeclareGlobalFunction( "DTP_DTapplicability" ); 
 
 #! @Arguments coll, rs_flag, [,isConfluent]
-#! @Returns a DTobj
-#! @Description Computes a DTobj for the collector coll, either with polynomials of type f_rs (if <C> rs_flag = true </C> or with polynomials of type f_r otherwise. The optional argument <C>isConfluent</C> is a boolean value. If <C>isConfluent = false</C>, then the collector <C>coll</C> is supposed to be not consistent. When using the returned <C>DTobj</C> for multiplication, the results are returned as reduced words which are not necessarily in normal form. If <C>isConfluent</C> is not provided or <C>isConlf = true</C>, the collector is assumed to be consistent and results returned in computations are in normal form, unless otherwise stated. If <C>isConlf = false</C>, the collector is assumed to be not consistent (but it still may be consistent) and results of computations are generally not in normal form.
-DeclareGlobalFunction( "DTP_DTobjFromCollector" ); 
+#! @Returns a DTObj
+#! @Description Computes a DTObj for the collector coll, either with polynomials of type $f_{rs}$ (if <C>rs_flag = true</C>) or with polynomials of type $f_r$, otherwise. The optional argument <C>isConfluent</C> is a boolean value. If <C>isConfluent = false</C>, then the collector <C>coll</C> is supposed to be not consistent. When using the returned <C>DTObj</C> for multiplication, the results are returned as reduced words which are not necessarily in normal form. If <C>isConfluent</C> is not provided or <C>isConlf = true</C>, the collector is assumed to be consistent and results returned in computations are in normal form, unless otherwise stated. If <C>isConlf = false</C>, the collector is assumed to be not consistent (but it still may be consistent) and results of computations are generally not in normal form.
+DeclareGlobalFunction( "DTP_DTObjFromCollector" ); 
 
 #! @Arguments coll, [, isConfluent]
-#! @Returns a DTobj list
-#! @Description Computes the Deep Thought polynomials of type $f_r$ and stores them in <C>DTobj</C>. The optional argument <C>isConfluent</C> is a boolean value. If <C>isConfluent = false</C>, then the collector <C>coll</C> is supposed to be not consistent. When using the returned <C>DTobj</C> for multiplication, the results are returned as reduced words which are not necessarily in normal form. If <C>isConfluent</C> is not provided or <C>isConlf = true</C>, the collector is assumed to be consistent and results returned in computations are in normal form, unless otherwise stated. If <C>isConlf = false</C>, the collector is assumed to be not consistent (but it still may be consistent) and results of computations are generally not in normal form.
+#! @Returns a DTObj 
+#! @Description Computes the Deep Thought polynomials of type $f_r$ and stores them in <C>DTObj</C>. The optional argument <C>isConfluent</C> is a boolean value. If <C>isConfluent = false</C>, then the collector <C>coll</C> is supposed to be not consistent. When using the returned <C>DTObj</C> for multiplication, the results are returned as reduced words which are not necessarily in normal form. If <C>isConfluent</C> is not provided or <C>isConlf = true</C>, the collector is assumed to be consistent and results returned in computations are in normal form, unless otherwise stated. If <C>isConlf = false</C>, the collector is assumed to be not consistent (but it still may be consistent) and results of computations are generally not in normal form.
 DeclareGlobalFunction( "DTP_DTpols_r" );
 
 #! @Arguments coll, [, isConfluent]
-#! @Returns a DTobj list
-#! @Description Computes the Deep Thought polynomials of type $f_{rs}$ and stores them in <C>DTobj</C>. The optional argument <C>isConfluent</C> is a boolean value. If <C>isConfluent = false</C>, then the collector <C>coll</C> is supposed to be not consistent. When using the returned <C>DTobj</C> for multiplication, the results are returned as reduced words which are not necessarily in normal form. If <C>isConfluent</C> is not provided or <C>isConlf = true</C>, the collector is assumed to be consistent and results returned in computations are in normal form, unless otherwise stated. If <C>isConlf = false</C>, the collector is assumed to be not consistent (but it still may be consistent) and results of computations are generally not in normal form. 
+#! @Returns a DTObj 
+#! @Description Computes the Deep Thought polynomials of type $f_{rs}$ and stores them in <C>DTObj</C>. The optional argument <C>isConfluent</C> is a boolean value. If <C>isConfluent = false</C>, then the collector <C>coll</C> is supposed to be not consistent. When using the returned <C>DTObj</C> for multiplication, the results are returned as reduced words which are not necessarily in normal form. If <C>isConfluent</C> is not provided or <C>isConlf = true</C>, the collector is assumed to be consistent and results returned in computations are in normal form, unless otherwise stated. If <C>isConlf = false</C>, the collector is assumed to be not consistent (but it still may be consistent) and results of computations are generally not in normal form. 
 DeclareGlobalFunction( "DTP_DTpols_rs" );
 
 #! @Section Computations with Deep Thought polynomials
 
-#! @Arguments expvec, int, DTobj
+#! @Arguments expvec, int, DTObj
 #! @Returns an exponent vector
-#! @Description Computes the exponent vector of <C>expvec</C>$^{int}$. If <C>DTobj[4] = true</C>, then the result is in normal form. 
+#! @Description Computes the exponent vector of <C>expvec</C>$^{int}$. If <C>DTObj![PC_DTPConfluent] = true</C>, then the result is in normal form. 
 DeclareGlobalFunction( "DTP_Exp" ); 
 
-#! @Arguments expvec, DTobj 
+#! @Arguments expvec, DTObj 
 #! @Returns an exponent vector 
-#! @Description Computes the exponent vector of the inverse of the element corresponding to <C>expvec</C>. If <C>DTobj[4] = true</C>, then the result describes a normal form.   
+#! @Description Computes the exponent vector of the inverse of the element corresponding to <C>expvec</C>. If <C>DTObj![PC_DTPConfluent] = true</C>, then the result describes a normal form.   
 DeclareGlobalFunction( "DTP_Inverse" ); 
 
 #! @Arguments expvec, coll
@@ -81,57 +79,57 @@ DeclareGlobalFunction( "DTP_Inverse" );
 #! @Description Checks whether <C>expvec</C> is in normal form or not. If yes, the return value is <C>true</C>. Otherwise the return value is the smallest generator index for which the normal form condition is violated, i.e. for which the relative order <C>RelativeOrder(coll)[i]</C> is non-zero, and <C>expvec[i]</C> &lt; <C>0</C> or <C>expvec[i]</C> $\geq$ <C>RelativeOrder(coll)[i]</C>.  
 DeclareGlobalFunction( "DTP_IsInNormalForm" ); 
 
-#! @Arguments expvec1, expvec2, DTobj
+#! @Arguments expvec1, expvec2, DTObj
 #! @Returns an exponent vector
-#! @Description Computes the exponent vector of the product <C> expvec1 * expvec2 </C> using the Deep Thought polynomials. This function determines automatically which type of polynomials are stored in <C>DTobj</C> and calls either <C>DTP_Multiply_r</C> or <C>DTP_Multiply_rs</C>. If <C>DTobj[4] = true</C>, then the result is returned in normal form. 
+#! @Description Computes the exponent vector of the product <C> expvec1 * expvec2 </C> using the Deep Thought polynomials. This function determines automatically which type of polynomials are stored in <C>DTObj</C> and calls either <C>DTP_Multiply_r</C> or <C>DTP_Multiply_rs</C>. If <C>DTObj![PC_DTPConfluent] = true</C>, then the result is returned in normal form. 
 DeclareGlobalFunction( "DTP_Multiply" ); 
 
-#! @Arguments expvec1, expvec2, DTobj 
+#! @Arguments expvec1, expvec2, DTObj 
 #! @Returns an exponent vector
-#! @Description Computes the exponent vector of the product <C> expvec1 * expvec2 </C> using the Deep Thought polynomials of type $f_r$. If <C>DTobj[4] = true</C>, then the result is returned in normal form. 
+#! @Description Computes the exponent vector of the product <C> expvec1 * expvec2 </C> using the Deep Thought polynomials of type $f_r$. If <C>DTObj![PC_DTPConfluent] = true</C>, then the result is returned in normal form. 
 DeclareGlobalFunction( "DTP_Multiply_r" ); 
 
-#! @Arguments expvec1, expvec2, DTobj 
+#! @Arguments expvec1, expvec2, DTObj 
 #! @Returns an exponent vector
-#! @Description Computes the exponent vector of the product <C> expvec1 * expvec2 </C> using the Deep Thought polynomials of type $f_{rs}$. If <C>DTobj[4] = true</C>, then the result is returned in normal form. 
+#! @Description Computes the exponent vector of the product <C> expvec1 * expvec2 </C> using the Deep Thought polynomials of type $f_{rs}$. If <C>DTObj![PC_DTPConfluent] = true</C>, then the result is returned in normal form. 
 DeclareGlobalFunction( "DTP_Multiply_rs" ); 
 
-#! @Arguments expvec, DTobj 
+#! @Arguments expvec, DTObj 
 #! @Returns an exponent vector
 #! @Description Computes the exponent vector of the normal form of <C>expvec</C>. 
 DeclareGlobalFunction( "DTP_NormalForm" );
 
-#! @Arguments expvec, DTobj 
+#! @Arguments expvec, DTObj 
 #! @Returns positive integer or infinity 
 #! @Description Computes the order of the element described by <C>expvec</C>. 
 DeclareGlobalFunction( "DTP_Order" );
 
-#! @Arguments expvec1, expvec2, DTobj
+#! @Arguments expvec1, expvec2, DTObj
 #! @Returns an exponent vector 
-#! @Description Computes the exponent vector of the element corresponding to <C>expvec1</C>$^{-1}$ <C>* expvec2</C>, i.e. the result solves the equation <C>expvec1 * result = expvec2</C>. If <C>DTobj[4] = true</C>, then the result 
+#! @Description Computes the exponent vector of the element corresponding to <C>expvec1</C>$^{-1}$ <C>* expvec2</C>, i.e. the result solves the equation <C>expvec1 * result = expvec2</C>. If <C>DTObj![PC_DTPConfluent] = true</C>, then the result 
 #! describes a normal form.  
 DeclareGlobalFunction( "DTP_SolveEquation" ); 
 
 
 #! @Section Accessing Deep Thought polynomials 
-#! 	In this sections, functions which can be used to display a <C>DTobj</C>, or the Deep Thought polynomials only, are documented. Furthermore, Deep Thought polynomials stored in a <C>DTobj</C> can be converted to &GAP; polynomials.
+#! 	In this sections, functions which can be used to display a <C>DTObj</C>, or the Deep Thought polynomials only, are documented. Furthermore, Deep Thought polynomials stored in a <C>DTObj</C> can be converted to &GAP; polynomials.
 
-#! @Arguments DTobj 
+#! @Arguments DTObj 
 #! @Returns nothing
-#! @Description Prints information about <C>Dtobj</C> to the terminal. In particular, the Deep Thought polynomials are printed in human-readable form. 
-DeclareGlobalFunction( "DTP_Display_DTobj" );
+#! @Description Prints information about <C>DTObj</C> to the terminal. In particular, the Deep Thought polynomials are printed in human-readable form. 
+DeclareGlobalFunction( "DTP_Display_DTObj" );
 
 #! @Arguments f_r
 #! @Returns nothing
-#! @Description Prints the polynomials f_r computed by <C>DTP_DTpols_r</C> and stored in <C>DTobj[2]</C> to the terminal in a human-readable form.  
+#! @Description Prints the polynomials f_r computed by <C>DTP_DTpols_r</C> and stored in <C>DTOb!j[PC_DTPPolynomials]</C> to the terminal in a human-readable form.  
 DeclareGlobalFunction( "DTP_Display_f_r" ); 
 
 #! @Arguments f_rs
 #! @Returns nothing
-#! @Description Prints the polynomials f_rs computed by <C>DTP_DTpols_rs</C> and stored in <C>DTobj[2]</C> to the terminal in a human-readable form.
+#! @Description Prints the polynomials f_rs computed by <C>DTP_DTpols_rs</C> and stored in <C>DTObj[PC_DTPPolynomials]</C> to the terminal in a human-readable form.
 DeclareGlobalFunction( "DTP_Display_f_rs" ); 
 
-#! @Arguments DTobj 
+#! @Arguments DTObj 
 #! @Returns list
-#! @Description Converts the Deep Thought polynomials stored in <C>DTobj[2]</C> to &GAP; polynomials and returns them in a list together with their polynomial ring.
+#! @Description Converts the Deep Thought polynomials stored in <C>DTObj[PC_DTPPolynomials]</C> to &GAP; polynomials and returns them in a list together with their polynomial ring.
 DeclareGlobalFunction( "DTP_pols2GAPpols" ); 

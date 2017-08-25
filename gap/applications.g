@@ -11,8 +11,8 @@
 ##############################################################################
 
 # Each application (DTP_SolveEquation, DTP_NormalForm, DTP_Order, ...) may take an 
-# DTobj where DTobj[2] is either the output of the function DTP_DTpols_rs or the 
-# output of DTP_DTpols_r. Let polynomials := DTobj[2]. 
+# DTObj where DTObj![PC_DTPPolynomials] is either the output of the function DTP_DTpols_rs or the 
+# output of DTP_DTpols_r. Let polynomials := DTObj![PC_DTPPolynomials]. 
 # Since the condition IsInt(polynomials[1][1][1]) is true if and only if
 # "polynomials" is the ouput of DTP_DTpols_r, we can decide which
 # multiplication function we should use for computations. Explanation: 
@@ -28,7 +28,7 @@
 #
 # Hence, we can determine the suitable multiplication function "multiply"
 # by using
-# 	if IsInt(DTobj[2][1][1][1]) then 
+# 	if IsInt(DTObj![PC_DTPPolynomials][1][1][1]) then 
 # 		# version f_r
 # 		multiply := DTP_Multiply_r; 
 # 	else
@@ -37,14 +37,14 @@
 # 	fi; 
 
 # Input: 	- exponent vectors x, z
-#			- DTobj
+#			- DTObj
 # Output:	exponent vector y such that for the corresponding elements 
-#			x * y = z. If DTobj[4] = true, y describes a normal form. 
+#			x * y = z. If DTObj![PC_DTPConfluent] = true, y describes a normal form. 
 InstallGlobalFunction( DTP_SolveEquation, 
-function(x, z, DTobj)
+function(x, z, DTObj)
 	local y, i, n, multiply;
 	
-	if IsInt(DTobj[2][1][1][1]) then 
+	if IsInt(DTObj![PC_DTPPolynomials][1][1][1]) then 
 		# version f_r
 		multiply := DTP_Multiply_r; 
 	else
@@ -52,7 +52,7 @@ function(x, z, DTobj)
 		multiply := DTP_Multiply_rs;
 	fi; 
 	
-	n := DTobj[1]![PC_NUMBER_OF_GENERATORS];
+	n := DTObj![PC_NUMBER_OF_GENERATORS];
 	y := []; 
 	
 	# both exponent vectors must have length n 
@@ -65,27 +65,27 @@ function(x, z, DTobj)
 		# x = a_1^z_1 ... a_{i-1}^{z_{i-1}} * a_i^x_i ... a_n^x_n 
 		y[i] := z[i] - x[i];
 		# calculate x * a_i^y_i
-		x := multiply(x, ExponentsByObj(DTobj[1], [i, y[i]]), DTobj); 
+		x := multiply(x, ExponentsByObj(DTObj, [i, y[i]]), DTObj); 
 	od;
 	# Now by the loop invariant: x = z
 	# On the other hand: x = x * y by construction
 	
-	if DTobj[4] then 
-		return DTP_NormalForm(y, DTobj);
+	if DTObj![PC_DTPConfluent] then 
+		return DTP_NormalForm(y, DTObj);
 	else 
 		return y;
 	fi; 
 end) ; 
 
 # Input: 	- exponent vector x
-#			- DTobj
-# Output:	exponent vector of x^{-1}. If DTobj[4] = true, y describes a 
+#			- DTObj
+# Output:	exponent vector of x^{-1}. If DTObj![PC_DTPConfluent] = true, y describes a 
 #			normal form. 
 InstallGlobalFunction( DTP_Inverse, 
-function(x, DTobj)
+function(x, DTObj)
 	local n; 
-	n := DTobj[1]![PC_NUMBER_OF_GENERATORS];
-	return DTP_SolveEquation(x, [1 .. n] * 0, DTobj); 
+	n := DTObj![PC_NUMBER_OF_GENERATORS];
+	return DTP_SolveEquation(x, [1 .. n] * 0, DTObj); 
 end) ; 
 
 # IsInNormalFrom checks whether the element described by the exponent 
@@ -115,14 +115,14 @@ end) ;
 
 # Input: 	- exponent vector x
 #			- integer q 
-#			- DTobj 
-# Output: 	exponent vector of x^q. If DTobj[4] = true, then the result is 
+#			- DTObj 
+# Output: 	exponent vector of x^q. If DTObj![PC_DTPConfluent] = true, then the result is 
 #			in normal form. 
 InstallGlobalFunction( DTP_Exp, 
-function(x, q, DTobj)
+function(x, q, DTObj)
 	local q_list, l, k, res, multiply; 
 	
-	if IsInt(DTobj[2][1][1][1]) then 
+	if IsInt(DTObj![PC_DTPPolynomials][1][1][1]) then 
 		# version f_r
 		multiply := DTP_Multiply_r; 
 	else
@@ -142,21 +142,21 @@ function(x, q, DTobj)
 	# First compute x^q_list[1], where q_list[1] \in {-1, 0, 1}.
 	if q < 0 then
 		# If q is negative, we compute (x^{-1})^|q|.
-		x := DTP_Inverse(x, DTobj); # x = x^-1
+		x := DTP_Inverse(x, DTObj); # x = x^-1
 	fi; 
 	
 	# First step of the computation: 
 	if q_list[1] = 0 then # res = 1_G = [0, ..., 0]
-		res := [1 .. NumberOfGenerators(DTobj[1])] * 0; 
+		res := [1 .. NumberOfGenerators(DTObj)] * 0; 
 	else # res = z
 		res := x;
 	fi;
 
 	# Compute x^|q| = \prod_{k = 0}^l z^(q_list[k + 1] * 2^k)
 	for k in [1 .. l] do
-		x := multiply(x, x, DTobj);
+		x := multiply(x, x, DTObj);
 		if q_list[k + 1] <> 0 then
-			res := multiply(res, x, DTobj); 
+			res := multiply(res, x, DTObj); 
 		fi; 
 	od;
 	
@@ -164,28 +164,27 @@ function(x, q, DTobj)
 end) ; 
 
 # Input: 	- exponent vector x
-#			- DTobj
+#			- DTObj
 #			- empty list nf = [] where normal form is stored 
 #			- function multiply which is either DTP_Multiply_r or DTP_Multiply_rs
-#			depending the polynomials used in DTobj
+#			depending the polynomials used in DTObj
 # Output: 	exponent vector of the normal form of x  
-_DTP_DetermineNormalForm := function(x, DTobj, nf, multiply)
+_DTP_DetermineNormalForm := function(x, DTObj, nf, multiply)
 	local n, j, i, q, r, q_list, l, z, pwr, k, w1, w2, w; 
 	
-	# DTobj[1] = coll 
-	# DTobj[2] = DTpols(coll)
-	n := DTobj[1]![PC_NUMBER_OF_GENERATORS]; 
+	# DTObj![PC_DTPPolynomials] = DTpols(coll)
+	n := DTObj![PC_NUMBER_OF_GENERATORS]; 
 	
 	# find j = min{ 1 <= i <= n | s_i < infinity and
 	#  							(x_i < 0 or x_i >= s_i) } \cup {infinity}
-	j := DTP_IsInNormalForm(x, DTobj[1]);
+	j := DTP_IsInNormalForm(x, DTObj);
 
 	if j <> true then 
 		# replace a_j^x[j] by suitable power of the power relation a_j^s_j 
 		
 		# x[j] = q * rel_orders[j] + r, 0 <= r < rel_orders[j]:
-		r := x[j] mod RelativeOrders(DTobj[1])[j];
-		q := (x[j] - r)/RelativeOrders(DTobj[1])[j];
+		r := x[j] mod RelativeOrders(DTObj)[j];
+		q := (x[j] - r)/RelativeOrders(DTObj)[j];
 		
 		# In the following, compute w = w1 * w2, where
 		# w1 = ( a_j^rel_orders[j] )^q 
@@ -195,7 +194,7 @@ _DTP_DetermineNormalForm := function(x, DTobj, nf, multiply)
 		# Then w only depends on the generators a_{j + 1}, ..., a_n and
 		# its normal form can be computed (recursively). 
 		
-		pwr := GetPower(DTobj[1], j); 
+		pwr := GetPower(DTObj, j); 
 		# z = a_{j + 1}^c_{j, j, j + 1} ... a_n^{c_{j, j, n}}
 		z := [1 .. n] * 0; 
 		for k in [1, 3 .. (Length(pwr) - 1)] do 
@@ -203,7 +202,7 @@ _DTP_DetermineNormalForm := function(x, DTobj, nf, multiply)
 		od; 
 
 		# Compute w1 = z^q
-		w1 := DTP_Exp(z, q, DTobj);
+		w1 := DTP_Exp(z, q, DTObj);
 
 		# w2 = a_{j + 1}^{x_{j + 1}} ... a_n^{x_n}
 		w2 := [1 .. j] * 0; # [0, ..., 0] of length j
@@ -212,7 +211,7 @@ _DTP_DetermineNormalForm := function(x, DTobj, nf, multiply)
 		od;
 		
 		# w = w1 * w2 
-		w := multiply(w1, w2, DTobj); 
+		w := multiply(w1, w2, DTObj); 
 		
 		# At this point, nf is a list describing the beginning of the exponent
 		# vector of the normal form of x. If some relative orders are
@@ -226,7 +225,7 @@ _DTP_DetermineNormalForm := function(x, DTobj, nf, multiply)
 		od;
 		Add(nf, r); # j-th entry 
 
-		return _DTP_DetermineNormalForm(w, DTobj, nf, multiply);
+		return _DTP_DetermineNormalForm(w, DTObj, nf, multiply);
 	else
 		# Since all further relative orders are infinite, the word is 
 		# now in normal form and we simply append the exponents to the
@@ -239,44 +238,43 @@ _DTP_DetermineNormalForm := function(x, DTobj, nf, multiply)
 end; 
 
 # Input: 	- exponent vector x 
-#			- DTobj
+#			- DTObj
 # Output: 	exponent vector of normal form of x  
 InstallGlobalFunction( DTP_NormalForm, 
-function(x, DTobj)
-	if IsInt(DTobj[2][1][1][1]) then 
+function(x, DTObj)
+	if IsInt(DTObj![PC_DTPPolynomials][1][1][1]) then 
 		# version f_r
-		return _DTP_DetermineNormalForm(x, DTobj, [], DTP_Multiply_r);
+		return _DTP_DetermineNormalForm(x, DTObj, [], DTP_Multiply_r);
 	else
 		# version f_rs 
-		return _DTP_DetermineNormalForm(x, DTobj, [], DTP_Multiply_rs);
+		return _DTP_DetermineNormalForm(x, DTObj, [], DTP_Multiply_rs);
 	fi; 
 end );
 
 # Input:	- exponent vector x (must describe a normal form)
-#			- DTobj
+#			- DTObj
 # Output: 	order of x in group of coll 
-_DTP_DetermineOrder := function(x, DTobj, multiply)
+_DTP_DetermineOrder := function(x, DTObj, multiply)
 	local j, s, ord; 
 	ord := 1; 
-	# DTobj[1] = coll 
-	# DTobj[2] = DTpols(coll)
+	# DTObj![PC_DTPPolynomials] = DTpols(coll)
 	
-	while x <> [1 .. DTobj[1]![PC_NUMBER_OF_GENERATORS]] * 0 do
+	while x <> [1 .. DTObj![PC_NUMBER_OF_GENERATORS]] * 0 do
 		j := 1;
 		while x[j] = 0 do
 			j := j + 1; # exists, since x <> neutral element
 		od; 
-		if RelativeOrders(DTobj[1])[j] = 0 then # relative order s_j = infinity 
+		if RelativeOrders(DTObj)[j] = 0 then # relative order s_j = infinity 
 			return infinity;
 		else
 			# s = s_j/gcd(s_j, x_j) 
-			s := RelativeOrders(DTobj[1])[j]/Gcd(RelativeOrders(DTobj[1])[j], x[j]); 
+			s := RelativeOrders(DTObj)[j]/Gcd(RelativeOrders(DTObj)[j], x[j]); 
 			
 			# ord(x) = infinity <=> ord(x^s) = infinity
 			# ord(x) < infinity => s | ord(x)
 			
 			# Compute y = x^s:
-			x := DTP_Exp(x, s, DTobj); 
+			x := DTP_Exp(x, s, DTObj); 
 			# The normal form of x is needed, i.e. isConfl = true! 
 			# (Otherwise one may run into a infinite recursion, since the 
 			# termination of the algorithm needs the normal form of x to 
@@ -288,13 +286,13 @@ _DTP_DetermineOrder := function(x, DTobj, multiply)
 end; 
 
 # Input: 	- exponent vector x
-#			- DTobj
+#			- DTObj
 # Output: 	order of x in group of coll 
 InstallGlobalFunction( DTP_Order, 
-function(x, DTobj)
+function(x, DTObj)
 	local multiply; 
 	
-	if IsInt(DTobj[2][1][1][1]) then 
+	if IsInt(DTObj![31][1][1][1]) then 
 		# version f_r
 		multiply := DTP_Multiply_r; 
 	else
@@ -303,9 +301,9 @@ function(x, DTobj)
 	fi; 
 
 	# check whether x is in normal form, if not call _DTP_DetermineNormalForm
-	if not DTP_IsInNormalForm(x, DTobj[1]) then 
-		x := _DTP_DetermineNormalForm(x, DTobj, [], multiply); 
+	if not DTP_IsInNormalForm(x, DTObj) then 
+		x := _DTP_DetermineNormalForm(x, DTObj, [], multiply); 
 	fi; 
 	
-	return _DTP_DetermineOrder(x, DTobj, multiply);
+	return _DTP_DetermineOrder(x, DTObj, multiply);
 end );

@@ -1,5 +1,5 @@
 DTP_frfrs := function(coll)
-	local n, dc, x, y, i, j, x_exp, y_exp, pol_r, pol_rs, avg_pol_r, avg_pol_rs, mult_r, mult_rs, avg_r, avg_rs, z, DTobj_r, DTobj_rs, dcfunction, avg_dc; 
+	local n, dc, x, y, i, j, x_exp, y_exp, pol_r, pol_rs, avg_pol_r, avg_pol_rs, mult_r, mult_rs, avg_r, avg_rs, z, DTObj_r, DTObj_rs, dcfunction, avg_dc; 
 	
 	n := NumberOfGenerators(coll); 
 	
@@ -26,11 +26,11 @@ DTP_frfrs := function(coll)
 	od;
 	
 	pol_r := function()
-		DTobj_r := DTP_DTpols_r(coll); 
+		DTObj_r := DTP_DTpols_r(coll); 
 	end; 
 	
 	pol_rs := function()
-		DTobj_rs := DTP_DTpols_rs(coll); 
+		DTObj_rs := DTP_DTpols_rs(coll); 
 	end; 
 	
 	avg_pol_r := DTP_Benchmark(pol_r, rec( maxreps := 2, minreps := 2, silent := true)).avg;
@@ -39,7 +39,7 @@ DTP_frfrs := function(coll)
 	mult_r := function()
 		for x_exp in x do 
 			for y_exp in y do
-				z := DTP_Multiply_r(x_exp, y_exp, DTobj_r); 
+				z := DTP_Multiply_r(x_exp, y_exp, DTObj_r); 
 			od;
 		od; 
 	end; 
@@ -47,7 +47,7 @@ DTP_frfrs := function(coll)
 	mult_rs := function()
 		for x_exp in x do 
 			for y_exp in y do
-				z := DTP_Multiply_rs(x_exp, y_exp, DTobj_rs); 
+				z := DTP_Multiply_rs(x_exp, y_exp, DTObj_rs); 
 			od;
 		od;
 	end; 

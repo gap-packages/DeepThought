@@ -3,20 +3,20 @@ ReadPackage("DeepThought", "examples/EickEngel.g");
 
 # tests num-times multiplications in coll with exponent limit lim
 DTP_TestMulti :=  function(coll, num, lim, opt...) 
-	local DTobj, i, x, y, y1, k, z, z_gr, t, t_pols, t_coll, orders, n, rel, multiply;
+	local DTObj, i, x, y, y1, k, z, z_gr, t, t_pols, t_coll, orders, n, rel, multiply;
 	
 	n := NumberOfGenerators(coll); 
 	
 	if Length(opt) = 0 then 
 		t := Runtime();
-		DTobj := DTP_DTpols_rs(coll); 
+		DTObj := DTP_DTpols_rs(coll); 
 		multiply := DTP_Multiply_rs; 
-	#	DTobj := DTP_DTpols_r(coll); 
+	#	DTObj := DTP_DTpols_r(coll); 
 	#	multiply := DTP_Multiply_r; 
 		t := Runtime() - t;
 		Print("Polynomials in ", t, "\n"); 
 	else 
-		DTobj := opt[1]; 
+		DTObj := opt[1]; 
 		multiply := opt[2]; 
 	fi; 
 	
@@ -38,7 +38,7 @@ DTP_TestMulti :=  function(coll, num, lim, opt...)
 			fi; 
 		od; 
 		t := Runtime();
-		z := multiply(x, y, DTobj);
+		z := multiply(x, y, DTObj);
 		t := Runtime() - t;
 		t_pols := t_pols + t; 
 
@@ -97,15 +97,15 @@ DTP_TestTimeForSmallgroups := function(p, k, max)
 end;
 
 DTP_TestMultiInFiniteGroup := function(coll, opt...)
-	local DTobj, x, y, y1, t, z, z_gr, t_coll, t_pols, x_gr, y_gr, G, orders, multiply; 
+	local DTObj, x, y, y1, t, z, z_gr, t_coll, t_pols, x_gr, y_gr, G, orders, multiply; 
 	
 	if Length(opt) = 0 then 
-		DTobj := DTP_DTpols_rs(coll); 
+		DTObj := DTP_DTpols_rs(coll); 
 		multiply := DTP_Multiply_rs; 
-	#	DTobj := DTP_DTpols_r(coll); 
+	#	DTObj := DTP_DTpols_r(coll); 
 	#	multiply := DTP_Multiply_r; 
 	else 
-		DTobj := opt[1]; 
+		DTObj := opt[1]; 
 		multiply := opt[2]; 
 	fi; 
 	G := PcpGroupByCollector(coll); 
@@ -116,7 +116,7 @@ DTP_TestMultiInFiniteGroup := function(coll, opt...)
 		for y_gr in G do
 			y := Exponents(y_gr);
 			t := Runtime();
-			z := multiply(x, y, DTobj);
+			z := multiply(x, y, DTObj);
 			t := Runtime() - t;
 			t_pols := t_pols + t; 
 			
@@ -177,24 +177,24 @@ DTP_TestSmallgroups := function()
 end;
 
 DTP_TestCollector := function(coll, num, lim, which)
-	local DTobj_r, DTobj_rs, t; 
+	local DTObj_r, DTObj_rs, t; 
 	
 	if which[1] then 
 		t := Runtime(); 
-		DTobj_r := DTP_DTpols_r(coll); 
+		DTObj_r := DTP_DTpols_r(coll); 
 		t := Runtime() - t; 
 		Print("  Time f_r: ", t, "\n"); 
-		DTP_TestMulti(coll, num, lim, DTobj_r, DTP_Multiply_r); 
+		DTP_TestMulti(coll, num, lim, DTObj_r, DTP_Multiply_r); 
 	fi;
 	
 	if which[2] then 
 		t := Runtime(); 
-		DTobj_rs := DTP_DTpols_rs(coll); 
+		DTObj_rs := DTP_DTpols_rs(coll); 
 		t := Runtime() - t; 
 		Print("  Time f_rs: ", t, "\n"); 
-		DTP_TestMulti(coll, num, lim, DTobj_rs, DTP_Multiply_rs); 
+		DTP_TestMulti(coll, num, lim, DTObj_rs, DTP_Multiply_rs); 
 		# compare to wm polynomials: 
-		if not DTP_ComparePolynomials(coll, DTobj_rs) then 
+		if not DTP_ComparePolynomials(coll, DTObj_rs) then 
 			Error("Polynomials are not equal to those computed by wm."); 
 		fi; 
 	fi; 

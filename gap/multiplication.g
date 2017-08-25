@@ -44,15 +44,15 @@ end;
 
 # Input: 	- exponent vector z (arbitrary) 
 #			- list elm_s = [s, y_s] representing element a_s^y_s
-#			- DTobj
+#			- DTObj
 # Output: 	exponent vector [res_1, ..., res_n] such that 
 #			(a_1^z[1] ... a_n^z[n]) * a_s^y_s = a_1^res[1] ... a_n^res[n]
-DTP_Multiply_s := function(z, elm_s, DTobj)
+DTP_Multiply_s := function(z, elm_s, DTObj)
 	local n, res, r, s, orders;
 	
-	n := DTobj[1]![PC_NUMBER_OF_GENERATORS];	
+	n := DTObj![PC_NUMBER_OF_GENERATORS];	
 	s := elm_s[1]; 
-	orders := DTobj[3]; 
+	orders := DTObj![PC_DTPOrders]; 
 	res := [];
 	
 	# use Prop. 2.5.3 for 1 <= r <= s: 
@@ -72,11 +72,11 @@ DTP_Multiply_s := function(z, elm_s, DTobj)
 	for r in [s + 1 .. n] do 
 		# evaluate polynomial f_rs on x and y[s] 
 		if orders[r] < infinity then 
-			Add(res, DTP_EvalPol_rs(DTobj[2][s][r], z, elm_s[2]) mod orders[r]);
+			Add(res, DTP_EvalPol_rs(DTObj![PC_DTPPolynomials][s][r], z, elm_s[2]) mod orders[r]);
 			# This takes almost the same time as reducing the orders also
 			# in every step in DTP_EvalPol_rs. 
 		else
-			Add(res, DTP_EvalPol_rs(DTobj[2][s][r], z, elm_s[2])); 
+			Add(res, DTP_EvalPol_rs(DTObj![PC_DTPPolynomials][s][r], z, elm_s[2])); 
 		fi; 
 	od; 
 	
@@ -86,15 +86,15 @@ DTP_Multiply_s := function(z, elm_s, DTobj)
 end; 
 
 # Input: 	- exponent vectors x, y (arbitrary)
-#			- DTobj
-# Output:	If DTobj[4] = true, the exponent vector of the 
+#			- DTObj
+# Output:	If DTObj![PC_DTPConfluent] = true, the exponent vector of the 
 #			product x * y is returned in normal form. Otherwise, the exponent
 #			vector is a reduced word.
 InstallGlobalFunction( DTP_Multiply_rs, 
-function(x, y, DTobj)
+function(x, y, DTObj)
 	local n, s; 
 	
-	n := DTobj[1]![PC_NUMBER_OF_GENERATORS]; 
+	n := DTObj![PC_NUMBER_OF_GENERATORS]; 
 	
 	# check that both exponent vectors x, y have correct length 
 	if Length(x) <> n or Length(y) <> n then
@@ -103,12 +103,12 @@ function(x, y, DTobj)
 	
 	for s in [1 .. n] do
 		# compute ( x * a_1^y[1] ... a_{s-1}^y[s-1] ) * a_s^y[s]
-		x := DTP_Multiply_s(x, [s, y[s]], DTobj); 
+		x := DTP_Multiply_s(x, [s, y[s]], DTObj); 
 	od;
 	
-	if DTobj[4] = true then 
+	if DTObj![PC_DTPConfluent] = true then 
 		# If the collector is consistent, return the normal form. 
-		return DTP_NormalForm(x, DTobj); 
+		return DTP_NormalForm(x, DTObj); 
 	else 
 		# If the collector is not consistent, return the result as a reduced 
 		# word. 
@@ -147,16 +147,16 @@ DTP_Multiply_rsEvalPol_r := function(pol, x, y)
 end;
 
 # Input: 	- exponent vectors x, y (arbitrary)
-#			- DTobj
-# Output:	If DTobj[4] = true, the exponent vector of the 
+#			- DTObj
+# Output:	If DTObj![PC_DTPConfluent] = true, the exponent vector of the 
 #			product x * y is returned in normal form. Otherwise, the exponent
 #			vector is a reduced word.
 InstallGlobalFunction( DTP_Multiply_r,
-function(x, y, DTobj)
+function(x, y, DTObj)
 	local n, r, s, pol, z, orders; 
 	
-	n := DTobj[1]![PC_NUMBER_OF_GENERATORS];
-	orders := DTobj[3]; 
+	n := DTObj![PC_NUMBER_OF_GENERATORS];
+	orders := DTObj![PC_DTPOrders]; 
 	
 	# check that both exponent vectors x, y have correct length 
 	if Length(x) <> n or Length(y) <> n then
@@ -167,15 +167,15 @@ function(x, y, DTobj)
 	for r in [1 .. n] do 
 		# evaluate polynomial f_r
 		if orders[r] < infinity then 
-			Add(z, DTP_Multiply_rsEvalPol_r(DTobj[2][r], x, y) mod orders[r]);
+			Add(z, DTP_Multiply_rsEvalPol_r(DTObj![PC_DTPPolynomials][r], x, y) mod orders[r]);
 		else
-			Add(z, DTP_Multiply_rsEvalPol_r(DTobj[2][r], x, y));
+			Add(z, DTP_Multiply_rsEvalPol_r(DTObj![PC_DTPPolynomials][r], x, y));
 		fi; 
 	od;
 	
-	if DTobj[4] = true then 
+	if DTObj![PC_DTPConfluent] = true then 
 		# If the collector is consistent, return the normal form. 
-		return DTP_NormalForm(z, DTobj); 
+		return DTP_NormalForm(z, DTObj); 
 	else 
 		# If the collector is not consistent, return the result as a reduced 
 		# word. 
@@ -189,12 +189,12 @@ end);
 #############################################################################
 
 InstallGlobalFunction( DTP_Multiply, 
-function(x, y, DTobj)
-	if IsInt(DTobj[2][1][1][1]) then 
+function(x, y, DTObj)
+	if IsInt(DTObj![PC_DTPPolynomials][1][1][1]) then 
 		# version f_r
-		return DTP_Multiply_r(x, y, DTobj); 
+		return DTP_Multiply_r(x, y, DTObj); 
 	else
 		# version f_rs 
-		return DTP_Multiply_rs(x, y, DTobj);
+		return DTP_Multiply_rs(x, y, DTObj);
 	fi; 
 end); 
