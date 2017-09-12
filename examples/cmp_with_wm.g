@@ -1,7 +1,7 @@
 MakeReadWriteGlobal("USE_COMBINATORIAL_COLLECTOR");
 USE_COMBINATORIAL_COLLECTOR := true;
 
-# Merkwitz' can be found in /usr/local/lib/gap4r5/src, 
+# Merkwitz' code can be found in /usr/local/lib/gap4r5/src, 
 # see dt.c and dteval.c. Furthermore, /gap4r5/lib/dt.g.
 
 # DTP_wm2nw converts the Hall polynomials stored in coll![PC_DEEP_THOUGHT_POLS]
@@ -101,17 +101,17 @@ DTP_ComparePolynomials := function(coll, DTObj...)
 	local all_pols_nw, all_pols_wm, pols_f_rs_nw, pols_f_rs_wm, n, r, l, i, g_alpha, flag, j, t, s, equal, coeffs, orders; 
 #	Print("Notice that even if this function returns 'false', by summarizing terms the polynomials may nevertheless be equal.\n"); 
 	
-	all_pols_wm := DTP_wm2nw(coll); 
-	
 	# if polynomials are not provided, compute them: 
 	if not IsBound(DTObj![PC_DTPPolynomials]) then 
 		t := Runtime(); 
-		all_pols_nw := DTP_DTpols_rs(coll); 
+		all_pols_nw := DTP_DTObjFromCollector(coll); 
 		t := Runtime(); 
 		Print("Time for DTP_DTpols_rs:\n", t - t, "\n"); 
 	else # otherwise use them: 
 		all_pols_nw := DTObj; 
 	fi; 
+	
+	all_pols_wm := DTP_wm2nw(coll); 
 	
 	orders := all_pols_nw![PC_DTPOrders]; 
 	n := NumberOfGenerators(coll); 
@@ -152,7 +152,6 @@ DTP_ComparePolynomials := function(coll, DTObj...)
 					od; 
 					if flag = false then 
 						Print("different polynomials for f_", r, ", ", s, "\n"); 
-#						Print("   term ", g_alpha, " not in nw\n"); 
 						equal := false; 
 					fi; 
 				od; 
@@ -180,7 +179,7 @@ DTP_CompareMultis := function(coll, num)
 	fi; 
 	
 	t := Runtime();
-	DTObj := DTP_DTpols_rs(coll); 
+	DTObj := DTP_DTObjFromCollector(coll); 
 	t := Runtime() - t;
 	Print("NW polynomials f_rs computed in ", t, " ms \n"); 
 

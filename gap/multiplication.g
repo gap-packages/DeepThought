@@ -185,9 +185,16 @@ end);
 
 
 #############################################################################
-####					General Multiplication	s						 ####
+####					General Multiplication							 ####
 #############################################################################
 
+# Input: 	- exponent vectors x, y (arbitrary)
+#			- DTObj
+# Output:	If DTObj![PC_DTPConfluent] = true, the exponent vector of the 
+#			product x * y is returned in normal form. Otherwise, the exponent
+#			vector is a reduced word. 
+#			The functions determines whether f_rs or f_r were computed and
+#			calls DTP_Multiply_rs or DTP_Multiply_r, respectively. 
 InstallGlobalFunction( DTP_Multiply, 
 function(x, y, DTObj)
 	if IsInt(DTObj![PC_DTPPolynomials][1][1][1]) then 

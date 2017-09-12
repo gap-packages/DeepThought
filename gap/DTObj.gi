@@ -1,8 +1,3 @@
-# How to make a DTObj:
-#   dt := [ 1,2,3];
-#   Objectify( DTObjType, dt );
-
-
 InstallMethod( ViewObj,
     "for a DTObj",
     [ IsDTObj ],
@@ -14,60 +9,52 @@ end);
 InstallMethod( CollectWordOrFail,
     "for a DTObj, an exponent vector, and gen-exp-pair",
     [ IsDTObj, IsList, IsList ],
-function(dt, expvec, genexp)
-    Error("TODO");
-end);
+function(DTObj, expvec, genexp)
+	local multiply, b1, res, i; 
+	
+	# CollectWordOrFail always returns normal forms, so the collector must
+	# be confluent. 
+	if not DTObj![PC_DTPConfluent] = true then 
+		Error("Can not compute normal forms since the collector is not confluent. Use DTP_Multiply instead."); 
+	fi; 
+	
+	# decide which polynomials were computed (either f_r or f_rs) for coll
+	# in order to choose the correct multiplication function: 
+	if IsInt(DTObj![PC_DTPPolynomials][1][1][1]) then 
+		multiply := DTP_Multiply_r; 
+	else
+		multiply := DTP_Multiply_rs; 
+	fi; 
 
-InstallMethod( UpdatePolycyclicCollector,
-    "for a DTObj",
-    [ IsDTObj ],
-function(dt)
-    Print("TODO: implement UpdatePolycyclicCollector\n");
+	# since multiply expects exponent vectors, transform genexp:
+	b1 := ExponentsByObj(DTObj, genexp); 
+	
+	res := multiply(expvec, b1, DTObj); 
+	
+	# the result of the multiplication is stored in a: 
+	for i in [1 .. Length(expvec)] do 
+		expvec[i] := res[i]; 
+	od; 
+	
+	return true; 
 end);
 
 InstallMethod( IsConfluent,
-    "for a DTObj",
-    [ IsDTObj ],
-function(dt)
-    # TODO: is this correct?
-    return dt![4];
-end);
-
-
-# Step 1: change DTP_DTpols_r and DTP_DTpols_rs
-#  to return a DTObj, i.e. use Objectify in them
-#  (and perhaps rename them, e.g.:
-#      DTObjFromCollector( coll, rs_flag )
-#  where rs_flag indicates whether to generate r or rs polynomials
-# NW: done
-
-# format of the new DTObj:
-
-# first, all entries are as in other collectors; i.e., you just copy the content
-# of the given original collector, like this:
-# 
-# for i in [1..22] do
-#   if IsBound(coll![i]) then
-#     dt[i] := StructuralCopy(coll![i]);
-#   fi;
-# od;
-# 
-# Then store "your" data in the extra slots:
-# NW: mapping: 
-# DTObj[2] = DT polynomials = coll[31]
-# DTObj[3] = generator orders = coll[32]
-# DTObj[4] = isConfl flag = coll[33]
-
-# then go on...
+        "for a DTObj",
+        [ IsDTObj ],
+function( DTObj )
+	# when computing DTP_DTObjFromCollector, the functino IsConfluent for 
+	# collector is called and the result is stored in the following variable:
+	return DTObj![PC_DTPConfluent]; 
+end );
 
 
 # Step 2: Make it possible to use a DTObj to define a pcp group
 #
 # Try this to see what still needs to be done:
-#  dt := Objectify( DTObjType, [1,2,3, true] );
 #  PcpGroupByCollector(dt);
 #
-# e.g. install method for UpdatePolycyclicCollector...
+# e.g. install method for UpdatePolycyclicCollector... --> recompute polynomials! compute isconfluent again 
 #
 #  this then needs a method for IsConfluent...
 

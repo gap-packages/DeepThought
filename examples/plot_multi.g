@@ -131,11 +131,11 @@ DTP_PlotMulti := function(coll, num, lim, name, nf)
 	local res, DTObj_rs, DTObj_r, time_pols_rs, time_pols_r, compute_pols_rs, compute_pols_r, file; 
 	
 	compute_pols_rs := function()
-		DTObj_rs := DTP_DTpols_rs(coll); 
+		DTObj_rs := DTP_DTObjFromCollector(coll); 
 	end; 
 	
 	compute_pols_r := function()
-		DTObj_r := DTP_DTpols_r(coll); 
+		DTObj_r := DTP_DTObjFromCollector(coll, false); 
 	end; 
 	
 	time_pols_rs := DTP_Benchmark(compute_pols_rs, rec( maxreps := 5, minreps := 5, silent := true)); 

@@ -191,33 +191,19 @@ DTP_DTpols_r_S := function(coll, s)
 end; 
 
 # Input:	- collector coll
-#			- an optional argument "isConfl". If provided, "isConfl" must be
-#			a boolean value. If isConfl = false, then the collector is 
+#			- "isConfl" must be a boolean value. 
+#			If isConfl = false, then the collector is 
 #			supposed to be not consistent. When using the returned DTObj for 
 #			multiplication, the results are returned as reduced words which 
-#			are not necessarily in normal form. If isConfl is not provided
-#			or isConlf = true, the collector is assumed to be consistent. 
+#			are not necessarily in normal form. If isConlf = true, the 
+#			collector is assumed to be consistent. 
 # Output:	object DTObj, where the second entry contains a list 
 #			all_pols such that DTP_DTpols_rs[s] is the output of 
 #			DTP_DTpols_r_S(coll, s)
 InstallGlobalFunction( DTP_DTpols_rs, 
-function(coll, isConfl...)
+function(coll, isConfl)
 	local n, s, all_pols, orders, gen, DTObj;
 	
-	if Length(isConfl) = 0 then 
-		# If the optional argument is not given, it is assumed that the 
-		# collector is consistent. 
-		isConfl := true; 
-	elif Length(isConfl) = 1 and IsBool(isConfl[1]) then 
-		if isConfl[1] = true then 
-			isConfl := true;
-		elif isConfl[1] = false then 
-			isConfl := false; 
-		fi; 
-	else 
-		Error("Call DTP_DTpols_rs with..."); 
-	fi;
-		
 	n := coll![PC_NUMBER_OF_GENERATORS];
 	
 	all_pols := [];
@@ -266,34 +252,20 @@ end );
 #############################################################################
 
 # Input:	- collector coll
-#			- an optional argument "isConfl". If provided, "isConfl" must be
-#			a boolean value. If isConfl = false, then the collector is 
+#			- "isConfl" must be a boolean value. 
+#			If isConfl = false, then the collector is 
 #			supposed to be not consistent. When using the returned DTObj for 
 #			multiplication, the results are returned as reduced words which 
-#			are not necessarily in normal form. If isConfl is not provided
-#			or isConlf = true, the collector is assumed to be consistent. 
+#			are not necessarily in normal form. If isConlf = true, the 
+#			collector is assumed to be consistent. 
 # Output:	object DTObj such that the second entry "pols_f_r" is a list of the 
 #			polynomials f_r, 1 <= r <= n. By definition:
 #				f_r = \sum_{\alpha in reps_r} g_\alpha 
 # 			An entry pols_f_r[r] contains lists as described in g_alpha
 #			which represent the summands of f_r.
 InstallGlobalFunction( DTP_DTpols_r, 
-function(coll, isConfl...)
+function(coll, isConfl)
 	local n, pols_f_r, reps, r, f_r, reps_r, alpha, g_alpha, term, added, DTObj; 
-	
-	if Length(isConfl) = 0 then 
-		# If the optional argument is not given, it is assumed that the 
-		# collector is consistent. 
-		isConfl := true; 
-	elif Length(isConfl) = 1 and IsBool(isConfl[1]) then 
-		if isConfl[1] = true then 
-			isConfl := true;
-		elif isConfl[1] = false then 
-			isConfl := false; 
-		fi; 
-	else 
-		Error("Call DTP_DTpols_r with..."); 
-	fi;
 	
 	n := coll![PC_NUMBER_OF_GENERATORS];
 	pols_f_r := []; 
@@ -310,7 +282,7 @@ function(coll, isConfl...)
 			# If yes, add the constant factor of g_alpha to the 
 			# constant factor of term which is already contained. 
 			#
-			# Notice that we may simplify terms if they only differ
+			# Note that we may simplify terms if they only differ
 			# in their leading coefficient and we may compare polynomials
 			# g_alpha by using 
 			#	"g_alpha1{[2 .. Length(g_alpha1)]} = g_alpha2{[2 .. Length(g_alpha2)]}" 
@@ -375,38 +347,33 @@ end );
 #############################################################################
 
 # Input: 	- collector coll
-#			- boolean rs_flag: if rs_flag = true, polynomials f_rs are will
-#			be computed, otherwise polynomials f_r 
-#			- an optional argument "isConfl". If provided, "isConfl" must be
-#			a boolean value. If isConfl = false, then the collector is 
-#			supposed to be not consistent. When using the returned DTObj for 
-#			multiplication, the results are returned as reduced words which 
-#			are not necessarily in normal form. If isConfl is not provided
-#			or isConlf = true, the collector is assumed to be consistent. 
-# Output:	If rs_flag = true, the function DTP_DTpols_rs is called and its
-#			output returned. Otherwise the function DTP_DTpols_r is called
-#			and its output returned. 
+#			- optional boolean rs_flag: if rs_flag = true, polynomials f_rs 
+#			will be computed, otherwise polynomials f_r. If not provided, 
+#			by default the polynomials f_rs will be computed.  
+# Output:	If rs_flag = true or not provided, the function DTP_DTpols_rs is 
+#			called and its output returned. Otherwise the function 
+#			DTP_DTpols_r is called and its output returned. 
 InstallGlobalFunction( DTP_DTObjFromCollector,
-function(coll, rs_flag, isConfl...)
+function(coll, rs_flag...)
+	local isConfl;
 	
-	if Length(isConfl) = 0 then 
-		# If the optional argument is not given, it is assumed that the 
-		# collector is consistent. 
-		isConfl := true; 
-	elif Length(isConfl) = 1 and IsBool(isConfl[1]) then 
-		if isConfl[1] = true then 
-			isConfl := true;
-		elif isConfl[1] = false then 
-			isConfl := false; 
+	isConfl := IsConfluent(coll); 
+	
+	if not isConfl then
+		Print("Note that the collector is not confluent.\n"); 
+	fi;
+	
+	if Length(rs_flag) = 0 then 
+		# If the optional argument is not given, compute f_rs 
+		return DTP_DTpols_rs(coll, isConfl); 
+	elif Length(rs_flag) = 1 and IsBool(rs_flag[1]) then 
+		if rs_flag[1] = true then 
+			return DTP_DTpols_rs(coll, isConfl);
+		elif rs_flag[1] = false then 
+			return DTP_DTpols_r(coll, isConfl);
 		fi; 
 	else 
 		Error("Call DTP_DTObjFromCollector with..."); 
 	fi;
-
-	if rs_flag then 
-		return DTP_DTpols_rs(coll, isConfl);
-	else
-		return DTP_DTpols_r(coll, isConfl);
-	fi; 
 	
 end ); 
