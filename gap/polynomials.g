@@ -222,10 +222,10 @@ function(coll, isConfl)
 		fi;
 	od;
 	DTObj[PC_DTPPolynomials] := all_pols; 
-	DTObj[PC_DTPOrders] := [1 .. n] * infinity; # for computing the generator orders we
-	# also need to provide "orders", since we use the same functions for 
-	# multiplication. Hence, first assume them to be infinite. Then during 
-	# multiplication we do not reduce any results. 
+	DTObj[PC_DTPOrders] := [1 .. n] * infinity; # for computing the generator 
+	# orders we also need to provide "orders", since we use the same 
+	# functions for multiplication. Hence, first assume them to be infinite. 
+	# Then during multiplication we do not reduce any results. 
 	
 	DTObj[33] := isConfl; 
 	Objectify(DTObjType, DTObj); 
@@ -236,12 +236,12 @@ function(coll, isConfl)
 			DTP_ReducePolynomialsModOrder(DTObj![31][s], DTObj![32]); 
 		od; 
 	else 
-		# We will use the same function for multiplication (DTP_Multiply_s) as 
-		# in the case, when the generator orders are provided. The generator 
-		# orders are, if finite, used for reduction modulo the orders during 
-		# computations. Hence, if we set each generator order to be infinity, 
-		# this yields the same result as doing no reduction, since in 
-		# Muliply_s we always execute the "else" statement. 
+		# We will use the same function for multiplication (DTP_Multiply_s) 
+		# as in the case, when the generator orders are provided. The 
+		# generator orders are, if finite, used for reduction modulo the 
+		# orders during computations. Hence, if we set each generator order 
+		# to be infinity, this yields the same result as doing no reduction, 
+		# since in Muliply_s we always execute the "else" statement. 
 	fi; 
 	
 	return Objectify(DTObjType, DTObj); 
@@ -258,8 +258,8 @@ end );
 #			multiplication, the results are returned as reduced words which 
 #			are not necessarily in normal form. If isConlf = true, the 
 #			collector is assumed to be consistent. 
-# Output:	object DTObj such that the second entry "pols_f_r" is a list of the 
-#			polynomials f_r, 1 <= r <= n. By definition:
+# Output:	object DTObj such that the second entry "pols_f_r" is a list of 
+# 			the polynomials f_r, 1 <= r <= n. By definition:
 #				f_r = \sum_{\alpha in reps_r} g_\alpha 
 # 			An entry pols_f_r[r] contains lists as described in g_alpha
 #			which represent the summands of f_r.
@@ -318,9 +318,9 @@ function(coll, isConfl)
 	od;
 	
 	DTObj[PC_DTPPolynomials] := pols_f_r; 
-	DTObj[PC_DTPOrders] := [1 .. n] * infinity; # for computing the generator orders we
-	# also need to provide "orders", since we use the same functions for 
-	# multiplication. Hence, first assume them to be infinite. 
+	DTObj[PC_DTPOrders] := [1 .. n] * infinity; # for computing the generator
+	# orders we also need to provide "orders", since we use the same 
+	# functions for multiplication. Hence, first assume them to be infinite. 
 	
 	DTObj[33] := isConfl; 
 	Objectify(DTObjType, DTObj); 
@@ -339,7 +339,6 @@ function(coll, isConfl)
 	
 	return DTObj; 
 end ); 
-
 
 
 #############################################################################

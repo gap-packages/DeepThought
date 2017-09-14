@@ -43,9 +43,42 @@ InstallMethod( IsConfluent,
         "for a DTObj",
         [ IsDTObj ],
 function( DTObj )
-	# when computing DTP_DTObjFromCollector, the functino IsConfluent for 
+	# when computing DTP_DTObjFromCollector, the function IsConfluent for 
 	# collector is called and the result is stored in the following variable:
 	return DTObj![PC_DTPConfluent]; 
+end );
+
+InstallMethod( UpdatePolycyclicCollector,
+        "for a DTObj",
+        [ IsDTObj ],
+function( DTObj )
+	# same code as for FromTheLeftCollector in collect.gi package Polycyclic:
+    if not IsPolycyclicPresentation( DTObj ) then
+       Error("the input presentation is not a polcyclic presentation");
+    fi;
+
+    FromTheLeftCollector_SetCommute( DTObj );
+
+    ## We have to declare the collector up to date now because the following
+    ## functions need to collect and are careful enough.
+    SetFilterObj( DTObj, IsUpToDatePolycyclicCollector );
+
+    FromTheLeftCollector_CompleteConjugate( DTObj );
+    FromTheLeftCollector_CompletePowers( DTObj );
+
+    if IsWeightedCollector( DTObj ) then
+        FromTheLeftCollector_SetNilpotentCommute( DTObj );
+    fi;
+    
+    # Additionally, update Deep Thought polynomials, for this determine which
+    # type of polynomials were computed: 
+    if IsInt(DTObj![PC_DTPPolynomials][1][1][1]) then 
+		# version f_r
+		DTObj := DTP_DTObjFromCollector(DTObj, false); 
+	else
+		# version f_rs 
+		DTObj := DTP_DTObjFromCollector(DTObj); 
+	fi; 
 end );
 
 
@@ -63,7 +96,6 @@ end );
 # alternatively, also look at the polycyclic source code to see
 # what kind of methods you might need to implement...
 
-
 coll_paper := FromTheLeftCollector(4);
 SetConjugate(coll_paper, 2, 1, [2, 1, 3, 2]);
 SetConjugate(coll_paper, 3, 1, [3, 1, 4, 1]);
@@ -72,4 +104,3 @@ UpdatePolycyclicCollector(coll_paper);
 
 Read("examples/ex_colls.g");
 Read("examples/test.g"); 
-
