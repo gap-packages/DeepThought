@@ -356,6 +356,8 @@ InstallGlobalFunction( DTP_DTObjFromCollector,
 function(coll, rs_flag...)
 	local isConfl;
 	
+	# TODO make sure that here always the correct result is returned,
+	# also if the input is a DTObj (for example, when updating a DTObj)
 	isConfl := IsConfluent(coll); 
 	
 	if not isConfl then

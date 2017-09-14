@@ -35,7 +35,6 @@ function(DTObj, expvec, genexp)
 	for i in [1 .. Length(expvec)] do 
 		expvec[i] := res[i]; 
 	od; 
-	
 	return true; 
 end);
 
@@ -46,6 +45,10 @@ function( DTObj )
 	# when computing DTP_DTObjFromCollector, the function IsConfluent for 
 	# collector is called and the result is stored in the following variable:
 	return DTObj![PC_DTPConfluent]; 
+	
+	# TODO Is this function also called when using UpdatePolycyclicCollector?
+	# Then confluency is NOT checked for a changed DTObj and the old value
+	# is taken. Call method for a collector instead?! 
 end );
 
 InstallMethod( UpdatePolycyclicCollector,
@@ -53,6 +56,8 @@ InstallMethod( UpdatePolycyclicCollector,
         [ IsDTObj ],
 function( DTObj )
 	# same code as for FromTheLeftCollector in collect.gi package Polycyclic:
+	# TODO Can the method be called directly s.t. the code doesn't need to
+	# be copied into this method?
     if not IsPolycyclicPresentation( DTObj ) then
        Error("the input presentation is not a polcyclic presentation");
     fi;
@@ -80,21 +85,6 @@ function( DTObj )
 		DTObj := DTP_DTObjFromCollector(DTObj); 
 	fi; 
 end );
-
-
-# Step 2: Make it possible to use a DTObj to define a pcp group
-#
-# Try this to see what still needs to be done:
-#  PcpGroupByCollector(dt);
-#
-# e.g. install method for UpdatePolycyclicCollector... --> recompute polynomials! compute isconfluent again 
-#
-#  this then needs a method for IsConfluent...
-
-# ... and so on...
-
-# alternatively, also look at the polycyclic source code to see
-# what kind of methods you might need to implement...
 
 coll_paper := FromTheLeftCollector(4);
 SetConjugate(coll_paper, 2, 1, [2, 1, 3, 2]);
