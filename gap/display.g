@@ -107,12 +107,6 @@ end);
 # display a DTObj
 InstallGlobalFunction( DTP_Display_DTObj, 
 function(DTObj)
-
-	if DTObj![PC_DTPConfluent] then 
-		Print("Generator orders of the consistent collector:\n", DTObj, "\n\n"); 
-	else
-		Print("The polynomials were computed with isConfl=false. No generator orders were computed.\n\n"); 
-	fi; 
 	
 	if IsInt(DTObj![PC_DTPPolynomials][1][1][1]) then 
 		DTP_Display_f_r(DTObj![PC_DTPPolynomials]); 
