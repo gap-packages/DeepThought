@@ -5,12 +5,22 @@ function(dt)
     Print("<DTObj>");
 end);
 
+InstallMethod( Display, 
+	"for a DTObj", 
+	[ IsDTObj ], 
+function(DTObj)
+	DTP_Display_DTObj(DTObj); 
+end); 
 
 InstallMethod( CollectWordOrFail,
     "for a DTObj, an exponent vector, and gen-exp-pair",
     [ IsDTObj, IsList, IsList ],
 function(DTObj, expvec, genexp)
-	local multiply, b1, res, i; 
+	local multiply, b1, res, i, n, tmp, l; 
+	
+	if not IsBound(DTObj![PC_DTPPolynomials]) then 
+		TryNextMethod(); 
+	fi; 
 	
 	# CollectWordOrFail always returns normal forms, so the collector must
 	# be confluent. 
@@ -25,36 +35,37 @@ function(DTObj, expvec, genexp)
 	else
 		multiply := DTP_Multiply_rs; 
 	fi; 
-
-	# since multiply expects exponent vectors, transform genexp:
-	b1 := ExponentsByObj(DTObj, genexp); 
 	
+	# genexp is of the form [gen1, exp1, gen2, exp2,...] where the generators
+	# are not necessarily increasing, i.e. gen1 > gen2 possible. 
+	# Need to compute corresponding reduced word of form 
+	# gen1^exp1 * gen2^exp2 * ... and store the reduced word's exponents. 
+	l := Length(genexp);
+	n := NumberOfGenerators(DTObj); 
+	b1 := 0 * [1 .. n]; 
+	b1[genexp[1]] := genexp[2]; 
+	for i in [2 .. l/2] do 
+		tmp := 0 * [1 .. n];
+		tmp[genexp[2 * i - 1]] := genexp[2 * i]; 
+		b1 := multiply(b1, tmp, DTObj); 	
+	od;
+
 	res := multiply(expvec, b1, DTObj); 
 	
 	# the result of the multiplication is stored in a: 
 	for i in [1 .. Length(expvec)] do 
 		expvec[i] := res[i]; 
 	od; 
+
 	return true; 
 end);
-
-InstallMethod( IsConfluent,
-        "for a DTObj",
-        [ IsDTObj ],
-function( DTObj )
-	# when computing DTP_DTObjFromCollector, the function IsConfluent for 
-	# collector is called and the result is stored in the following variable:
-	return DTObj![PC_DTPConfluent]; 
-	
-	# TODO Is this function also called when using UpdatePolycyclicCollector?
-	# Then confluency is NOT checked for a changed DTObj and the old value
-	# is taken. Call method for a collector instead?! 
-end );
 
 InstallMethod( UpdatePolycyclicCollector,
         "for a DTObj",
         [ IsDTObj ],
 function( DTObj )
+	local f_r, res; 
+	
 	# same code as for FromTheLeftCollector in collect.gi package Polycyclic:
 	# TODO Can the method be called directly s.t. the code doesn't need to
 	# be copied into this method?
@@ -75,15 +86,27 @@ function( DTObj )
         FromTheLeftCollector_SetNilpotentCommute( DTObj );
     fi;
     
-    # Additionally, update Deep Thought polynomials, for this determine which
-    # type of polynomials were computed: 
-    if IsInt(DTObj![PC_DTPPolynomials][1][1][1]) then 
+    # f_r = true <=> polynomials f_r were computed initally
+    f_r := IsInt(DTObj![PC_DTPPolynomials][1][1][1]);
+    
+    # delete old DT data: 
+    Unbind(DTObj![PC_DTPPolynomials]); 
+    Unbind(DTObj![PC_DTPOrders]); 
+    Unbind(DTObj![PC_DTPConfluent]); 
+    
+    # Now update Deep Thought polynomials, for this determine which
+    # type of polynomials were computed initally: 
+    if f_r then 
 		# version f_r
-		DTObj := DTP_DTObjFromCollector(DTObj, false); 
+		res := DTP_DTObjFromCollector(DTObj, false); 
 	else
 		# version f_rs 
-		DTObj := DTP_DTObjFromCollector(DTObj); 
+		res := DTP_DTObjFromCollector(DTObj); 
 	fi; 
+	
+	DTObj![PC_DTPPolynomials] := res![PC_DTPPolynomials]; 
+	DTObj![PC_DTPOrders] := res![PC_DTPOrders]; 
+	DTObj![PC_DTPConfluent] := res![PC_DTPConfluent]; 
 end );
 
 coll_paper := FromTheLeftCollector(4);
@@ -91,6 +114,7 @@ SetConjugate(coll_paper, 2, 1, [2, 1, 3, 2]);
 SetConjugate(coll_paper, 3, 1, [3, 1, 4, 1]);
 SetConjugate(coll_paper, 3, 2, [3, 1, 4, 5]);
 UpdatePolycyclicCollector(coll_paper);
+IsConfluent(coll_paper); 
 
 Read("examples/ex_colls.g");
 Read("examples/test.g"); 
