@@ -52,6 +52,8 @@ DeclareGlobalFunction( "DTP_DTapplicability" );
 #! @Description Computes a DTObj for the collector coll, either with polynomials of type $f_{rs}$ (if <C>rs_flag = true</C>) or with polynomials of type $f_r$, otherwise. The optional argument <C>isConfluent</C> is a boolean value. If <C>isConfluent = false</C>, then the collector <C>coll</C> is supposed to be not consistent. When using the returned <C>DTObj</C> for multiplication, the results are returned as reduced words which are not necessarily in normal form. If <C>isConfluent</C> is not provided or <C>isConlf = true</C>, the collector is assumed to be consistent and results returned in computations are in normal form, unless otherwise stated. If <C>isConlf = false</C>, the collector is assumed to be not consistent (but it still may be consistent) and results of computations are generally not in normal form.
 DeclareGlobalFunction( "DTP_DTObjFromCollector" ); 
 
+DeclareGlobalFunction( "DTP_AddDTPolsToCollector" ); 
+
 #! @Arguments coll, [, isConfluent]
 #! @Returns a DTObj 
 #! @Description Computes the Deep Thought polynomials of type $f_r$ and stores them in <C>DTObj</C>. The optional argument <C>isConfluent</C> is a boolean value. If <C>isConfluent = false</C>, then the collector <C>coll</C> is supposed to be not consistent. When using the returned <C>DTObj</C> for multiplication, the results are returned as reduced words which are not necessarily in normal form. If <C>isConfluent</C> is not provided or <C>isConlf = true</C>, the collector is assumed to be consistent and results returned in computations are in normal form, unless otherwise stated. If <C>isConlf = false</C>, the collector is assumed to be not consistent (but it still may be consistent) and results of computations are generally not in normal form.
@@ -69,10 +71,14 @@ DeclareGlobalFunction( "DTP_DTpols_rs" );
 #! @Description Computes the exponent vector of <C>expvec</C>$^{int}$. If <C>DTObj![PC_DTPConfluent] = true</C>, then the result is in normal form. 
 DeclareGlobalFunction( "DTP_Exp" ); 
 
+DeclareGlobalFunction( "DTP_PCP_Exp" ); 
+
 #! @Arguments expvec, DTObj 
 #! @Returns an exponent vector 
 #! @Description Computes the exponent vector of the inverse of the element corresponding to <C>expvec</C>. If <C>DTObj![PC_DTPConfluent] = true</C>, then the result describes a normal form.   
 DeclareGlobalFunction( "DTP_Inverse" ); 
+
+DeclareGlobalFunction( "DTP_PCP_Inverse" ); 
 
 #! @Arguments expvec, coll
 #! @Returns boolean or positive integer
@@ -99,10 +105,14 @@ DeclareGlobalFunction( "DTP_Multiply_rs" );
 #! @Description Computes the exponent vector of the normal form of <C>expvec</C>. 
 DeclareGlobalFunction( "DTP_NormalForm" );
 
+DeclareGlobalFunction( "DTP_PCP_NormalForm" ); 
+
 #! @Arguments expvec, DTObj 
 #! @Returns positive integer or infinity 
 #! @Description Computes the order of the element described by <C>expvec</C>. 
 DeclareGlobalFunction( "DTP_Order" );
+
+DeclareGlobalFunction( "DTP_PCP_Order" );
 
 #! @Arguments expvec1, expvec2, DTObj
 #! @Returns an exponent vector 
@@ -110,6 +120,7 @@ DeclareGlobalFunction( "DTP_Order" );
 #! describes a normal form.  
 DeclareGlobalFunction( "DTP_SolveEquation" ); 
 
+DeclareGlobalFunction( "DTP_PCP_SolveEquation" ); 
 
 #! @Section Accessing Deep Thought polynomials 
 #! 	In this sections, functions which can be used to display a <C>DTObj</C>, or the Deep Thought polynomials only, are documented. Furthermore, Deep Thought polynomials stored in a <C>DTObj</C> can be converted to &GAP; polynomials.
