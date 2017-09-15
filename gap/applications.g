@@ -8,6 +8,12 @@
 #	DTP_IsInNormalForm
 #	_DTP_DetermineNormalForm
 #	_DTP_DetermineOrder
+#
+#	DTP_PCP_SolveEquation
+#	DTP_PCP_Inverse
+#	DTP_PCP_Exp
+#	DTP_PCP_NormalForm
+#	DTP_PCP_Order
 ##############################################################################
 
 # Each application (DTP_SolveEquation, DTP_NormalForm, DTP_Order, ...) may take an 
@@ -77,6 +83,20 @@ function(x, z, DTObj)
 	fi; 
 end) ; 
 
+# Input: 	pcp elements pcp1, pcp2 belonging to same collector 
+# Output:	pcp element res such that pcp1 * res = pcp2  
+InstallGlobalFunction( DTP_PCP_SolveEquation, 
+function(pcp1, pcp2)
+	local coll; 
+	
+	coll := Collector(pcp1);
+	if not IsBound(coll![PC_DTPPolynomials]) then  
+		DTP_AddDTPolsToCollector(coll); 
+	fi; 
+	
+	return PcpElementByExponents(coll, DTP_SolveEquation(Exponents(pcp1), Exponents(pcp2), coll)); 
+end );
+
 # Input: 	- exponent vector x
 #			- DTObj
 # Output:	exponent vector of x^{-1}. If DTObj![PC_DTPConfluent] = true, y describes a 
@@ -87,6 +107,20 @@ function(x, DTObj)
 	n := DTObj![PC_NUMBER_OF_GENERATORS];
 	return DTP_SolveEquation(x, [1 .. n] * 0, DTObj); 
 end) ; 
+
+# Input: 	pcp element pcp
+# Output:	inverse of pcp as pcp element  
+InstallGlobalFunction( DTP_PCP_Inverse, 
+function(pcp)
+	local coll; 
+	
+	coll := Collector(pcp);
+	if not IsBound(coll![PC_DTPPolynomials]) then
+		DTP_AddDTPolsToCollector(coll); 
+	fi; 
+	
+	return PcpElementByExponents(coll, DTP_Inverse(Exponents(pcp), coll)); 
+end );
 
 # IsInNormalFrom checks whether the element described by the exponent 
 # vector x is in normal form or not. 
@@ -162,6 +196,21 @@ function(x, q, DTObj)
 	
 	return res; 
 end) ; 
+
+# Input: 	- pcp element pcp
+#			- integer q 
+# Output:	pcp^q
+InstallGlobalFunction( DTP_PCP_Exp, 
+function(pcp, q)
+	local coll; 
+	
+	coll := Collector(pcp);
+	if not IsBound(coll![PC_DTPPolynomials]) then
+		DTP_AddDTPolsToCollector(coll); 
+	fi; 
+	
+	return PcpElementByExponents(coll, DTP_Exp(Exponents(pcp), q, coll)); 
+end );
 
 # Input: 	- exponent vector x
 #			- DTObj
@@ -251,6 +300,21 @@ function(x, DTObj)
 	fi; 
 end );
 
+
+# Input: 	pcp element
+# Output: 	pcp element in normal form 
+InstallGlobalFunction( DTP_PCP_NormalForm, 
+function(pcp)
+	local coll; 
+	
+	coll := Collector(pcp);
+	if not IsBound(coll![PC_DTPPolynomials]) then
+		DTP_AddDTPolsToCollector(coll); 
+	fi; 
+	
+	return PcpElementByExponents(coll, DTP_NormalForm(Exponents(pcp), coll)); 
+end );
+
 # Input:	- exponent vector x (must describe a normal form)
 #			- DTObj
 # Output: 	order of x in group of coll 
@@ -306,4 +370,18 @@ function(x, DTObj)
 	fi; 
 	
 	return _DTP_DetermineOrder(x, DTObj, multiply);
+end );
+
+# Input: 	pcp element
+# Output: 	order of pcp 
+InstallGlobalFunction( DTP_PCP_Order, 
+function(pcp)
+	local coll; 
+	
+	coll := Collector(pcp);
+	if not IsBound(coll![PC_DTPPolynomials]) then
+		DTP_AddDTPolsToCollector(coll); 
+	fi; 
+	
+	return DTP_Order(Exponents(pcp), coll); 
 end );
