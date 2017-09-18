@@ -16,9 +16,10 @@
 #	DTP_PCP_Order
 ##############################################################################
 
-# Each application (DTP_SolveEquation, DTP_NormalForm, DTP_Order, ...) may take an 
-# DTObj where DTObj![PC_DTPPolynomials] is either the output of the function DTP_DTpols_rs or the 
-# output of DTP_DTpols_r. Let polynomials := DTObj![PC_DTPPolynomials]. 
+# Each application (DTP_SolveEquation, DTP_NormalForm, DTP_Order, ...) may 
+# take an DTObj where DTObj![PC_DTPPolynomials] is either the output of the 
+# function DTP_DTpols_rs or the output of DTP_DTpols_r. Let 
+# polynomials := DTObj![PC_DTPPolynomials]. 
 # Since the condition IsInt(polynomials[1][1][1]) is true if and only if
 # "polynomials" is the ouput of DTP_DTpols_r, we can decide which
 # multiplication function we should use for computations. Explanation: 
@@ -41,22 +42,29 @@
 # 		# version f_rs 
 # 		multiply := DTP_Multiply_rs;
 # 	fi; 
+# Input: 	DTObj
+# Output: 	function DTP_Multiply_r or DTP_Multiply_rs depending on whether
+#			polynomials f_r or f_rs were computed for DTObj. 
+DTP_DetermineMultiplicationFunction := function(DTObj)
+	if IsInt(DTObj![PC_DTPPolynomials][1][1][1]) then 
+		# version f_r
+		return DTP_Multiply_r; 
+	else
+		# version f_rs 
+		return DTP_Multiply_rs;
+	fi; 
+end; 
 
 # Input: 	- exponent vectors x, z
 #			- DTObj
 # Output:	exponent vector y such that for the corresponding elements 
-#			x * y = z. If DTObj![PC_DTPConfluent] = true, y describes a normal form. 
+#			x * y = z. If DTObj![PC_DTPConfluent] = true, y describes a normal 
+#			form. 
 InstallGlobalFunction( DTP_SolveEquation, 
 function(x, z, DTObj)
 	local y, i, n, multiply;
 	
-	if IsInt(DTObj![PC_DTPPolynomials][1][1][1]) then 
-		# version f_r
-		multiply := DTP_Multiply_r; 
-	else
-		# version f_rs 
-		multiply := DTP_Multiply_rs;
-	fi; 
+	multiply := DTP_DetermineMultiplicationFunction(DTObj); 
 	
 	n := DTObj![PC_NUMBER_OF_GENERATORS];
 	y := []; 
@@ -83,7 +91,7 @@ function(x, z, DTObj)
 	fi; 
 end) ; 
 
-# Input: 	pcp elements pcp1, pcp2 belonging to same collector 
+# Input: 	pcp elements pcp1, pcp2 belonging to the same collector 
 # Output:	pcp element res such that pcp1 * res = pcp2  
 InstallGlobalFunction( DTP_PCP_SolveEquation, 
 function(pcp1, pcp2)
@@ -103,8 +111,8 @@ end );
 
 # Input: 	- exponent vector x
 #			- DTObj
-# Output:	exponent vector of x^{-1}. If DTObj![PC_DTPConfluent] = true, y describes a 
-#			normal form. 
+# Output:	exponent vector of x^{-1}. If DTObj![PC_DTPConfluent] = true, y 
+#			describes a normal form. 
 InstallGlobalFunction( DTP_Inverse, 
 function(x, DTObj)
 	local n; 
@@ -128,7 +136,7 @@ function(pcp)
 	
 end );
 
-# IsInNormalFrom checks whether the element described by the exponent 
+# DTP_IsInNormalFrom checks whether the element described by the exponent 
 # vector x is in normal form or not. 
 # It returns "true", if x describes a normal form and otherwise
 # the smallest generator index for which the condition
@@ -156,20 +164,14 @@ end) ;
 # Input: 	- exponent vector x
 #			- integer q 
 #			- DTObj 
-# Output: 	exponent vector of x^q. If DTObj![PC_DTPConfluent] = true, then the result is 
-#			in normal form. 
+# Output: 	exponent vector of x^q. If DTObj![PC_DTPConfluent] = true, then
+#			the result is in normal form. 
 InstallGlobalFunction( DTP_Exp, 
 function(x, q, DTObj)
 	local q_list, l, k, res, multiply; 
 	
-	if IsInt(DTObj![PC_DTPPolynomials][1][1][1]) then 
-		# version f_r
-		multiply := DTP_Multiply_r; 
-	else
-		# version f_rs 
-		multiply := DTP_Multiply_rs;
-	fi; 
-
+	multiply := DTP_DetermineMultiplicationFunction(DTObj); 
+	
 	if q < 0 then
     	q_list := -CoefficientsQadic(-q, 2);
 	else
@@ -223,8 +225,8 @@ end );
 # Input: 	- exponent vector x
 #			- DTObj
 #			- empty list nf = [] where normal form is stored 
-#			- function multiply which is either DTP_Multiply_r or DTP_Multiply_rs
-#			depending the polynomials used in DTObj
+#			- function multiply which is either DTP_Multiply_r or 
+#			DTP_Multiply_rs depending the polynomials used in DTObj
 # Output: 	exponent vector of the normal form of x  
 _DTP_DetermineNormalForm := function(x, DTObj, nf, multiply)
 	local n, j, i, q, r, q_list, l, z, pwr, k, w1, w2, w; 
@@ -270,10 +272,10 @@ _DTP_DetermineNormalForm := function(x, DTObj, nf, multiply)
 		# w = w1 * w2 
 		w := multiply(w1, w2, DTObj); 
 		
-		# At this point, nf is a list describing the beginning of the exponent
-		# vector of the normal form of x. If some relative orders are
-		# infinite, the corresponding exponents in x are simply added, and
-		# lastly the exponent r of the generator a_j is added. Afterwards,
+		# At this point, nf is a list describing the beginning of the 
+		# exponent vector of the normal form of x. If some relative orders 
+		# are infinite, the corresponding exponents in x are simply added, 
+		# and lastly the exponent r of the generator a_j is added. Afterwards,
 		# nf is a list of length j, which must be completed in the following
 		# recursion steps, in which the normal form of "the rest" w" of x is 
 		# computed. 
@@ -299,13 +301,11 @@ end;
 # Output: 	exponent vector of normal form of x  
 InstallGlobalFunction( DTP_NormalForm, 
 function(x, DTObj)
-	if IsInt(DTObj![PC_DTPPolynomials][1][1][1]) then 
-		# version f_r
-		return _DTP_DetermineNormalForm(x, DTObj, [], DTP_Multiply_r);
-	else
-		# version f_rs 
-		return _DTP_DetermineNormalForm(x, DTObj, [], DTP_Multiply_rs);
-	fi; 
+	local multiply; 
+	
+	multiply := DTP_DetermineMultiplicationFunction(DTObj); 
+	
+	return _DTP_DetermineNormalForm(x, DTObj, [], multiply);
 end );
 
 
@@ -368,13 +368,7 @@ InstallGlobalFunction( DTP_Order,
 function(x, DTObj)
 	local multiply; 
 	
-	if IsInt(DTObj![31][1][1][1]) then 
-		# version f_r
-		multiply := DTP_Multiply_r; 
-	else
-		# version f_rs 
-		multiply := DTP_Multiply_rs;
-	fi; 
+	multiply := DTP_DetermineMultiplicationFunction(DTObj); 
 
 	# check whether x is in normal form, if not call _DTP_DetermineNormalForm
 	if not DTP_IsInNormalForm(x, DTObj) then 
