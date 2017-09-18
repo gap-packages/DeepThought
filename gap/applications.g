@@ -176,6 +176,8 @@ function(x, q, DTObj)
 	
 	if q < 0 then
     	q_list := -CoefficientsQadic(-q, 2);
+    elif q = 0 then 
+		return [1 .. NumberOfGenerators(DTObj)] * 0; 
 	else
     	q_list := CoefficientsQadic(q, 2);
 	fi;

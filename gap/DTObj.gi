@@ -39,7 +39,9 @@ function(DTObj, expvec, genexp)
 	l := Length(genexp);
 	n := NumberOfGenerators(DTObj); 
 	b1 := 0 * [1 .. n]; 
-	b1[genexp[1]] := genexp[2]; 
+	if l > 0 then 
+		b1[genexp[1]] := genexp[2]; 
+	fi; 
 	for i in [2 .. l/2] do 
 		tmp := 0 * [1 .. n];
 		tmp[genexp[2 * i - 1]] := genexp[2 * i]; 
