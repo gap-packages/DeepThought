@@ -17,7 +17,7 @@ InstallMethod( CollectWordOrFail,
     [ IsDTObj, IsList, IsList ],
 function(DTObj, expvec, genexp)
 	local multiply, b1, res, i, n, tmp, l; 
-	
+	Print("Here\n"); 
 	if not IsBound(DTObj![PC_DTPPolynomials]) then 
 		TryNextMethod(); 
 	fi; 

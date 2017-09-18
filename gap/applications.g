@@ -87,14 +87,18 @@ end) ;
 # Output:	pcp element res such that pcp1 * res = pcp2  
 InstallGlobalFunction( DTP_PCP_SolveEquation, 
 function(pcp1, pcp2)
-	local coll; 
+	local dtobj; 
 	
-	coll := Collector(pcp1);
-	if not IsBound(coll![PC_DTPPolynomials]) then  
-		DTP_AddDTPolsToCollector(coll); 
+	dtobj := Collector(pcp1);
+	
+	if not IsDTObj(dtobj) then 
+		Error("Collector(pcp1) must be a DTObj");
+	elif not Collector(pcp2) = dtobj then 
+		Error("pcp1 and pcp2 must belong to the same DTObj"); 
+	else
+		return PcpElementByExponents(dtobj, DTP_SolveEquation(Exponents(pcp1), Exponents(pcp2), dtobj));
 	fi; 
 	
-	return PcpElementByExponents(coll, DTP_SolveEquation(Exponents(pcp1), Exponents(pcp2), coll)); 
 end );
 
 # Input: 	- exponent vector x
@@ -112,14 +116,16 @@ end) ;
 # Output:	inverse of pcp as pcp element  
 InstallGlobalFunction( DTP_PCP_Inverse, 
 function(pcp)
-	local coll; 
+	local dtobj; 
 	
-	coll := Collector(pcp);
-	if not IsBound(coll![PC_DTPPolynomials]) then
-		DTP_AddDTPolsToCollector(coll); 
+	dtobj := Collector(pcp);
+	
+	if not IsDTObj(dtobj) then 
+		Error("Collector(pcp) must be a DTObj");
+	else
+		return PcpElementByExponents(dtobj, DTP_Inverse(Exponents(pcp), dtobj)); 
 	fi; 
 	
-	return PcpElementByExponents(coll, DTP_Inverse(Exponents(pcp), coll)); 
 end );
 
 # IsInNormalFrom checks whether the element described by the exponent 
@@ -202,14 +208,16 @@ end) ;
 # Output:	pcp^q
 InstallGlobalFunction( DTP_PCP_Exp, 
 function(pcp, q)
-	local coll; 
+	local dtobj; 
 	
-	coll := Collector(pcp);
-	if not IsBound(coll![PC_DTPPolynomials]) then
-		DTP_AddDTPolsToCollector(coll); 
+	dtobj := Collector(pcp);
+	
+	if not IsDTObj(dtobj) then 
+		Error("Collector(pcp) must be a DTObj");
+	else
+		return PcpElementByExponents(dtobj, DTP_Exp(Exponents(pcp), q, dtobj)); 
 	fi; 
 	
-	return PcpElementByExponents(coll, DTP_Exp(Exponents(pcp), q, coll)); 
 end );
 
 # Input: 	- exponent vector x
@@ -305,14 +313,18 @@ end );
 # Output: 	pcp element in normal form 
 InstallGlobalFunction( DTP_PCP_NormalForm, 
 function(pcp)
-	local coll; 
+	local dtobj; 
 	
-	coll := Collector(pcp);
-	if not IsBound(coll![PC_DTPPolynomials]) then
-		DTP_AddDTPolsToCollector(coll); 
+	dtobj := Collector(pcp);
+	
+	if not IsDTObj(dtobj) then 
+		Error("Collector(pcp) must be a DTObj");
+	elif not dtobj![PC_DTPConfluent] = true then 
+		Error("collector must be confluent"); 
+	else
+		return PcpElementByExponents(dtobj, DTP_NormalForm(Exponents(pcp), dtobj)); 
 	fi; 
 	
-	return PcpElementByExponents(coll, DTP_NormalForm(Exponents(pcp), coll)); 
 end );
 
 # Input:	- exponent vector x (must describe a normal form)
@@ -376,12 +388,16 @@ end );
 # Output: 	order of pcp 
 InstallGlobalFunction( DTP_PCP_Order, 
 function(pcp)
-	local coll; 
+	local dtobj; 
 	
-	coll := Collector(pcp);
-	if not IsBound(coll![PC_DTPPolynomials]) then
-		DTP_AddDTPolsToCollector(coll); 
+	dtobj := Collector(pcp);
+	
+	if not IsDTObj(dtobj) then 
+		Error("Collector(pcp) must be a DTObj");
+	elif not dtobj![PC_DTPConfluent] = true then 
+		Error("collector must be confluent"); 
+	else
+		return DTP_Order(Exponents(pcp), dtobj); 
 	fi; 
 	
-	return DTP_Order(Exponents(pcp), coll); 
 end );
