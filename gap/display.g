@@ -8,10 +8,7 @@
 # When using the function DTP_DTpols_r, call 
 #		DTP_Display_f_r(DTP_DTpols_r(...)[2])
 
-# TODO: Write function that maps DT pols to polynomials in GAP and let
-# GAP expand the polynomials. 
-
-#############################################################################
+##############################################################################
 
 DTP_Display_Variable := function(k, n)
 	if k <= n then
@@ -67,18 +64,16 @@ DTP_Display_f_r_S := function(f_r_S)
 end;
 
 # display output of function DTP_DTpols_rs(...)[2]
-InstallGlobalFunction( DTP_Display_f_rs, 
-function(f_rs)
+DTP_Display_f_rs := function(f_rs)
 	local s;
 	for s in [1 .. Length(f_rs)] do
 		Print("Polynomials f_rs for s = ", s, ":\n"); 
 		DTP_Display_f_r_S(f_rs[s]); 
 	od; 
-end);
+end;
 
 # displays output of function DTP_DTpols_r(...)[2]
-InstallGlobalFunction( DTP_Display_f_r, 
-function(f_r)
+DTP_Display_f_r := function(f_r)
 	local r, i, n; 
 	
 	if f_r = fail then 
@@ -102,7 +97,7 @@ function(f_r)
 		fi;
 	od;
 	
-end);
+end;
 
 # display a DTObj
 InstallGlobalFunction( DTP_Display_DTObj, 
@@ -117,7 +112,7 @@ function(DTObj)
 end); 
 
 
-#############################################################################
+##############################################################################
 
 BinomialPol := function(ind, k)
 	local bin, i; 

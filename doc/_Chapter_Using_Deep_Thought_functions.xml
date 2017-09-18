@@ -19,31 +19,11 @@ Checks the collector <C>coll</C> for applicability of Deep Thought functions. No
 
 
 <ManSection>
-  <Func Arg="coll, rs_flag, [,isConfluent]" Name="DTP_DTObjFromCollector" />
+  <Func Arg="coll, [, rs_flag]" Name="DTP_DTObjFromCollector" />
  <Returns>a DTObj
 </Returns>
  <Description>
-Computes a DTObj for the collector coll, either with polynomials of type <Math>f_{rs}</Math> (if <C>rs_flag = true</C>) or with polynomials of type <Math>f_r</Math>, otherwise. The optional argument <C>isConfluent</C> is a boolean value. If <C>isConfluent = false</C>, then the collector <C>coll</C> is supposed to be not consistent. When using the returned <C>DTObj</C> for multiplication, the results are returned as reduced words which are not necessarily in normal form. If <C>isConfluent</C> is not provided or <C>isConlf = true</C>, the collector is assumed to be consistent and results returned in computations are in normal form, unless otherwise stated. If <C>isConlf = false</C>, the collector is assumed to be not consistent (but it still may be consistent) and results of computations are generally not in normal form.
- </Description>
-</ManSection>
-
-
-<ManSection>
-  <Func Arg="coll, [, isConfluent]" Name="DTP_DTpols_r" />
- <Returns>a DTObj list
-</Returns>
- <Description>
-Computes the Deep Thought polynomials of type <Math>f_r</Math> and stores them in <C>DTObj</C>. The optional argument <C>isConfluent</C> is a boolean value. If <C>isConfluent = false</C>, then the collector <C>coll</C> is supposed to be not consistent. When using the returned <C>DTObj</C> for multiplication, the results are returned as reduced words which are not necessarily in normal form. If <C>isConfluent</C> is not provided or <C>isConlf = true</C>, the collector is assumed to be consistent and results returned in computations are in normal form, unless otherwise stated. If <C>isConlf = false</C>, the collector is assumed to be not consistent (but it still may be consistent) and results of computations are generally not in normal form.
- </Description>
-</ManSection>
-
-
-<ManSection>
-  <Func Arg="coll, [, isConfluent]" Name="DTP_DTpols_rs" />
- <Returns>a DTObj list
-</Returns>
- <Description>
-Computes the Deep Thought polynomials of type <Math>f_{rs}</Math> and stores them in <C>DTObj</C>. The optional argument <C>isConfluent</C> is a boolean value. If <C>isConfluent = false</C>, then the collector <C>coll</C> is supposed to be not consistent. When using the returned <C>DTObj</C> for multiplication, the results are returned as reduced words which are not necessarily in normal form. If <C>isConfluent</C> is not provided or <C>isConlf = true</C>, the collector is assumed to be consistent and results returned in computations are in normal form, unless otherwise stated. If <C>isConlf = false</C>, the collector is assumed to be not consistent (but it still may be consistent) and results of computations are generally not in normal form.
+Computes a DTObj for the collector coll, either with polynomials of type <Math>f_{rs}</Math> (if <C>rs_flag = true</C>) or with polynomials of type <Math>f_r</Math>, otherwise. If the optional argument <C>rs_flag</C> is not provided, polynomials of type <Math>f_{rs}</Math> are computed. The function checks whether the collector <C>coll</C> is confluent. If not, a warning is displayed. Note that the functions assumes the collector <C>coll</C> to be suitable for Deep Thought, see function <C>DTP_DTapplicability</C>.
  </Description>
 </ManSection>
 
@@ -59,7 +39,7 @@ Computes the Deep Thought polynomials of type <Math>f_{rs}</Math> and stores the
  <Returns>an exponent vector
 </Returns>
  <Description>
-Computes the exponent vector of <C>expvec</C><Math>^{int}</Math>. If <C>DTObj[4] = true</C>, then the result is in normal form.
+Computes the exponent vector of <C>expvec</C><Math>^{int}</Math>. If <C>DTObj![PC_DTPConfluent] = true</C>, then the result is in normal form.
  </Description>
 </ManSection>
 
@@ -69,7 +49,7 @@ Computes the exponent vector of <C>expvec</C><Math>^{int}</Math>. If <C>DTObj[4]
  <Returns>an exponent vector
 </Returns>
  <Description>
-Computes the exponent vector of the inverse of the element corresponding to <C>expvec</C>. If <C>DTObj[4] = true</C>, then the result describes a normal form.
+Computes the exponent vector of the inverse of the element corresponding to <C>expvec</C>. If <C>DTObj![PC_DTPConfluent] = true</C>, then the result describes a normal form.
  </Description>
 </ManSection>
 
@@ -89,27 +69,7 @@ Checks whether <C>expvec</C> is in normal form or not. If yes, the return value 
  <Returns>an exponent vector
 </Returns>
  <Description>
-Computes the exponent vector of the product <C> expvec1 * expvec2 </C> using the Deep Thought polynomials. This function determines automatically which type of polynomials are stored in <C>DTObj</C> and calls either <C>DTP_Multiply_r</C> or <C>DTP_Multiply_rs</C>. If <C>DTObj[4] = true</C>, then the result is returned in normal form.
- </Description>
-</ManSection>
-
-
-<ManSection>
-  <Func Arg="expvec1, expvec2, DTObj" Name="DTP_Multiply_r" />
- <Returns>an exponent vector
-</Returns>
- <Description>
-Computes the exponent vector of the product <C> expvec1 * expvec2 </C> using the Deep Thought polynomials of type <Math>f_r</Math>. If <C>DTObj[4] = true</C>, then the result is returned in normal form.
- </Description>
-</ManSection>
-
-
-<ManSection>
-  <Func Arg="expvec1, expvec2, DTObj" Name="DTP_Multiply_rs" />
- <Returns>an exponent vector
-</Returns>
- <Description>
-Computes the exponent vector of the product <C> expvec1 * expvec2 </C> using the Deep Thought polynomials of type <Math>f_{rs}</Math>. If <C>DTObj[4] = true</C>, then the result is returned in normal form.
+Computes the exponent vector of the product <C>expvec1 * expvec2</C> using the Deep Thought polynomials. If <C>DTObj![PC_DTPConfluent] = true</C>, then the result is returned in normal form.
  </Description>
 </ManSection>
 
@@ -119,7 +79,7 @@ Computes the exponent vector of the product <C> expvec1 * expvec2 </C> using the
  <Returns>an exponent vector
 </Returns>
  <Description>
-Computes the exponent vector of the normal form of <C>expvec</C>.
+Computes the exponent vector of the normal form of <C>expvec</C>. For this function to be applicable, we need <C>DTObj![PC_DTPConfluent] = true</C>.
  </Description>
 </ManSection>
 
@@ -129,7 +89,7 @@ Computes the exponent vector of the normal form of <C>expvec</C>.
  <Returns>positive integer or infinity
 </Returns>
  <Description>
-Computes the order of the element described by <C>expvec</C>.
+Computes the order of the element described by <C>expvec</C>. For this function to be applicable, we need <C>DTObj![PC_DTPConfluent] = true</C>.
  </Description>
 </ManSection>
 
@@ -139,7 +99,66 @@ Computes the order of the element described by <C>expvec</C>.
  <Returns>an exponent vector
 </Returns>
  <Description>
-Computes the exponent vector of the element corresponding to <C>expvec1</C><Math>^{-1}</Math> <C>* expvec2</C>, i.e. the result solves the equation <C>expvec1 * result = expvec2</C>. If <C>DTObj[4] = true</C>, then the result
+Computes the exponent vector of the element corresponding to <C>expvec1</C><Math>^{-1}</Math> <C>* expvec2</C>, i.e. the result solves the equation <C>expvec1 * result = expvec2</C>. If <C>DTObj![PC_DTPConfluent] = true</C>, then the result
+describes a normal form.
+ </Description>
+</ManSection>
+
+
+</Section>
+
+
+<Section Label="Chapter_Using_Deep_Thought_functions_Section_Computations_with_pcp-elements">
+<Heading>Computations with pcp-elements</Heading>
+
+When Deep Thought polynomials are available, certain computations allow different approaches which may be faster than the methods used by default.
+In this sections, computations for which such extra functions taking pcp-elements as input are available are listed. All of these functions need the collector belonging to the pcp-elements to be a <C>DTObj</C>.
+<ManSection>
+  <Func Arg="pcp-element, int" Name="DTP_PCP_Exp" />
+ <Returns>pcp-element
+</Returns>
+ <Description>
+Returns the pcp-element <C>pcp-element</C><Math>^{\text{int}}</Math>. If <C>DTObj![PC_DTPConfluent] = true</C>, then the result is in normal form.
+ </Description>
+</ManSection>
+
+
+<ManSection>
+  <Func Arg="pcp-element" Name="DTP_PCP_Inverse" />
+ <Returns>pcp-element
+</Returns>
+ <Description>
+Returns the pcp-elment <C>pcp-element^-1</C>. If <C>DTObj![PC_DTPConfluent] = true</C>, then the result describes a normal form.
+ </Description>
+</ManSection>
+
+
+<ManSection>
+  <Func Arg="pcp-element" Name="DTP_PCP_NormalForm" />
+ <Returns>pcp-element
+</Returns>
+ <Description>
+Returns a pcp-element which is the normal form of the input pcp-element. For this function to be applicable, we need <C>DTObj![PC_DTPConfluent] = true</C>.
+ </Description>
+</ManSection>
+
+
+<ManSection>
+  <Func Arg="pcp-element" Name="DTP_PCP_Order" />
+ <Returns>positive integer or infinity
+</Returns>
+ <Description>
+Computes the order of the pcp-element. For this function to be applicable, we need <C>DTObj![PC_DTPConfluent] = true</C>.
+ </Description>
+</ManSection>
+
+
+<ManSection>
+  <Func Arg="pcp-element1, pcp-element2" Name="DTP_PCP_SolveEquation" />
+ <Returns>pcp-element
+</Returns>
+ <Description>
+Returns the pcp-element <C>pcp-element1</C><Math>^{-1}</Math> <C>* pcp-element2</C>, i.e. the result solves the equation <C>pcp-element1 * pcp-element = pcp-element2</C>. If <C>DTObj![PC_DTPConfluent] = true</C>, then the result
 describes a normal form.
  </Description>
 </ManSection>
@@ -151,33 +170,13 @@ describes a normal form.
 <Section Label="Chapter_Using_Deep_Thought_functions_Section_Accessing_Deep_Thought_polynomials">
 <Heading>Accessing Deep Thought polynomials</Heading>
 
-In this sections, functions which can be used to display a <C>DTObj</C>, or the Deep Thought polynomials only, are documented. Furthermore, Deep Thought polynomials stored in a <C>DTObj</C> can be converted to &GAP; polynomials.
+In this sections, functions which can be used to display the content of a <C>DTObj</C> are documented. Furthermore, Deep Thought polynomials stored in a <C>DTObj</C> can be converted to &GAP; polynomials.
 <ManSection>
   <Func Arg="DTObj" Name="DTP_Display_DTObj" />
  <Returns>nothing
 </Returns>
  <Description>
-Prints information about <C>DTObj</C> to the terminal. In particular, the Deep Thought polynomials are printed in human-readable form.
- </Description>
-</ManSection>
-
-
-<ManSection>
-  <Func Arg="f_r" Name="DTP_Display_f_r" />
- <Returns>nothing
-</Returns>
- <Description>
-Prints the polynomials f_r computed by <C>DTP_DTpols_r</C> and stored in <C>DTObj[2]</C> to the terminal in a human-readable form.
- </Description>
-</ManSection>
-
-
-<ManSection>
-  <Func Arg="f_rs" Name="DTP_Display_f_rs" />
- <Returns>nothing
-</Returns>
- <Description>
-Prints the polynomials f_rs computed by <C>DTP_DTpols_rs</C> and stored in <C>DTObj[2]</C> to the terminal in a human-readable form.
+Prints information about <C>DTObj</C> to the terminal. In particular, the Deep Thought polynomials are printed in human-readable form. This function is also called by the method of Display for a DTObj.
  </Description>
 </ManSection>
 
@@ -187,7 +186,7 @@ Prints the polynomials f_rs computed by <C>DTP_DTpols_rs</C> and stored in <C>DT
  <Returns>list
 </Returns>
  <Description>
-Converts the Deep Thought polynomials stored in <C>DTObj[2]</C> to &GAP; polynomials and returns them in a list together with their polynomial ring.
+Converts the Deep Thought polynomials stored in <C>DTObj[PC_DTPPolynomials]</C> to &GAP; polynomials and returns them in a list together with their polynomial ring.
  </Description>
 </ManSection>
 

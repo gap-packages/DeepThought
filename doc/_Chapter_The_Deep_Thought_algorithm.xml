@@ -22,17 +22,15 @@ for <Math>1 \leq s \leq n</Math>. Each general multiplication can be expressed u
 In order to work with the Deep Thought functions, the group presentation is expected to be given as a collector <C>coll</C>, as defined in the &GAP; package &Polycyclic;. Moreover, the &Polycyclic; package introduces the structure of exponent vectors <C>expvec</C>, which will be used also in this package to represent group elements.
 In the following text, a group element <Math>a_1^{x_1} \cdots a_n^{x_n}</Math> is identified with its exponent vector in form of the list <C>[x_1, ..., x_n]</C>. For example, if <C>expvec1, expvec2</C> are exponent vectors of elements in the same group, than <C>expvec1 * expvec2</C> describes the multiplication of the corresponding group elements, and so on. Note that generally exponent vectors are not assumed to represent normal forms.
 <P/>
-<Section Label="Chapter_The_Deep_Thought_algorithm_Section_DTObj_lists">
-<Heading>DTObj lists</Heading>
+<Section Label="Chapter_The_Deep_Thought_algorithm_Section_Category_DTObj">
+<Heading>Category DTObj</Heading>
 
-This package uses lists with the name <C>DTObj</C> to store the Deep Though polynomials of a collector together with some additional information. That is, the functions <C>DTP_DTpols_r</C> and <C>DTP_DTpols_rs</C> return a list (<C>DTObj</C>) with four entries:
+This package uses the category <C>DTObj</C>. A <C>DTObj</C> is a <C>IsFromTheLeftCollectorRep</C> with certain further list entries to store the Deep Thought polynomials of a collector together with some additional information. That is, the functions <C>DTP_DTpols_r</C> and <C>DTP_DTpols_rs</C> return a (<C>DTObj</C>) which has entries as <C>IsFromTheLeftCollectorRep</C> and additionally:
 <List>
-<Item> <C>DTObj[1]</C>: collector <C>coll</C> which was input of the function</Item>
-<Item> <C>DTObj[2]</C>: Deep Thought polynomials in form of (nested) lists</Item>
-<Item> <C>DTObj[3]</C>: list containing orders of group generators</Item>
-<Item> <C>DTObj[4]</C>: boolean value indicating whether the collector is consistent or not</Item>
+<Item> <C>DTObj![PC_DTPPolynomials]</C>: Deep Thought polynomials in form of (nested) lists</Item>
+<Item> <C>DTObj![PC_DTPOrders]</C>: list containing orders of group generators if the collector is consistent</Item>
+<Item> <C>DTObj![PC_DTPConfluent]</C>: boolean value indicating whether the collector is consistent or not</Item>
 </List>
-In the following, such a list is called <Emph>DTObj list</Emph>.
 </Section>
 
 

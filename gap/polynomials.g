@@ -200,8 +200,7 @@ end;
 # Output:	object DTObj, where the second entry contains a list 
 #			all_pols such that DTP_DTpols_rs[s] is the output of 
 #			DTP_DTpols_r_S(coll, s)
-InstallGlobalFunction( DTP_DTpols_rs, 
-function(coll, isConfl)
+DTP_DTpols_rs := function(coll, isConfl)
 	local n, s, all_pols, orders, gen, DTObj;
 	
 	n := coll![PC_NUMBER_OF_GENERATORS];
@@ -245,7 +244,7 @@ function(coll, isConfl)
 	fi; 
 	
 	return Objectify(DTObjType, DTObj); 
-end ); 
+end; 
 
 #############################################################################
 ####					Polynomials f_r									 ####
@@ -263,8 +262,7 @@ end );
 #				f_r = \sum_{\alpha in reps_r} g_\alpha 
 # 			An entry pols_f_r[r] contains lists as described in g_alpha
 #			which represent the summands of f_r.
-InstallGlobalFunction( DTP_DTpols_r, 
-function(coll, isConfl)
+DTP_DTpols_r := function(coll, isConfl)
 	local n, pols_f_r, reps, r, f_r, reps_r, alpha, g_alpha, term, added, DTObj; 
 	
 	n := coll![PC_NUMBER_OF_GENERATORS];
@@ -285,7 +283,8 @@ function(coll, isConfl)
 			# Note that we may simplify terms if they only differ
 			# in their leading coefficient and we may compare polynomials
 			# g_alpha by using 
-			#	"g_alpha1{[2 .. Length(g_alpha1)]} = g_alpha2{[2 .. Length(g_alpha2)]}" 
+			#	"g_alpha1{[2 .. Length(g_alpha1)]} = 
+			#							g_alpha2{[2 .. Length(g_alpha2)]}" 
 			# since the entries are sorted by construction of g_alpha. 
 			g_alpha := DTP_Polynomial_g_alpha(alpha, coll);
 			added := false;
@@ -338,7 +337,7 @@ function(coll, isConfl)
 	fi; 
 	
 	return DTObj; 
-end ); 
+end; 
 
 
 #############################################################################

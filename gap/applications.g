@@ -5,6 +5,7 @@
 #	DTP_NormalForm
 #	DTP_Order
 #
+# 	DTP_DetermineMultiplicationFunction
 #	DTP_IsInNormalForm
 #	_DTP_DetermineNormalForm
 #	_DTP_DetermineOrder
@@ -45,7 +46,8 @@
 # Input: 	DTObj
 # Output: 	function DTP_Multiply_r or DTP_Multiply_rs depending on whether
 #			polynomials f_r or f_rs were computed for DTObj. 
-DTP_DetermineMultiplicationFunction := function(DTObj)
+InstallGlobalFunction( DTP_DetermineMultiplicationFunction, 
+function(DTObj)
 	if IsInt(DTObj![PC_DTPPolynomials][1][1][1]) then 
 		# version f_r
 		return DTP_Multiply_r; 
@@ -53,7 +55,7 @@ DTP_DetermineMultiplicationFunction := function(DTObj)
 		# version f_rs 
 		return DTP_Multiply_rs;
 	fi; 
-end; 
+end) ; 
 
 # Input: 	- exponent vectors x, z
 #			- DTObj

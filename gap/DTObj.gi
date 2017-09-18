@@ -17,7 +17,7 @@ InstallMethod( CollectWordOrFail,
     [ IsDTObj, IsList, IsList ],
 function(DTObj, expvec, genexp)
 	local multiply, b1, res, i, n, tmp, l; 
-	Print("Here\n"); 
+	
 	if not IsBound(DTObj![PC_DTPPolynomials]) then 
 		TryNextMethod(); 
 	fi; 
@@ -28,13 +28,9 @@ function(DTObj, expvec, genexp)
 		Error("Can not compute normal forms since the collector is not confluent. Use DTP_Multiply instead."); 
 	fi; 
 	
-	# decide which polynomials were computed (either f_r or f_rs) for coll
+	# decide which polynomials were computed (either f_r or f_rs) for DTObj
 	# in order to choose the correct multiplication function: 
-	if IsInt(DTObj![PC_DTPPolynomials][1][1][1]) then 
-		multiply := DTP_Multiply_r; 
-	else
-		multiply := DTP_Multiply_rs; 
-	fi; 
+	multiply := DTP_DetermineMultiplicationFunction(DTObj); 
 	
 	# genexp is of the form [gen1, exp1, gen2, exp2,...] where the generators
 	# are not necessarily increasing, i.e. gen1 > gen2 possible. 

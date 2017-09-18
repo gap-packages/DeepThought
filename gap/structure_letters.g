@@ -63,7 +63,7 @@ DTP_StructureLetter := function(letter)
 	sequence := []; 
 	DTP_SequenceLetter(letter, sequence); 
 	
-	for i in [1 .. letter.l - 1] do # Take subletter Seq(letter, i) of letter and
+	for i in [1 .. letter.l - 1] do # Take subletter Seq(letter, i) of letter,
 		if not i in has_class then # if it has not yet a class, construct 
 			# the equivalence class of this letter:
 			beta := sequence[i]; # beta = Seq(letter, i)
@@ -147,14 +147,14 @@ DTP_StructureLetterFromExisting := function(left, classes_left, right, classes_r
 	has_class := []; 
 	
 	# The subletters of letter2 are needed quite often, so it makes sense to 
-	# compute Seq(letter2) only once. In comparison, Seq(letter1) is needed only
-	# ~ letter1.l often. 
+	# compute Seq(letter2) only once. In comparison, Seq(letter1) is needed 
+	# only ~ letter1.l often. 
 	sequence_letter2 := [];
 	DTP_SequenceLetter(letter2, sequence_letter2); 
 	
 	# Go through all classes of letter1 and get representative and search for
-	# almost equal subletters in letter2. If we find one, we have all thanks to 
-	# classes_letter2 list.
+	# almost equal subletters in letter2. If we find one, we have all thanks 
+	# to classes_letter2 list.
 	for i in [1 .. Length(classes_letter1)] do
 		class := classes_letter1[i]; 
 		rep := DTP_Seq_i(letter1, class[1]); # Let the first element from this 
@@ -201,8 +201,8 @@ DTP_StructureLetterFromExisting := function(left, classes_left, right, classes_r
 			Append(elms, classes_letter1[i]); 
 			if found_letter2_class then 
 				# found also a class of Sub(letter2)
-				# Since letter2 is the right part of the letter, add the length
-				# of letter1 to the index of the subletters 
+				# Since letter2 is the right part of the letter, add the 
+				# length of letter1 to the index of the subletters 
 				Append(elms, classes_letter2[k] + letter1.l); 
 			fi; 
 		else # letter2 = left
@@ -249,9 +249,9 @@ DTP_StructureLetterFromExisting := function(left, classes_left, right, classes_r
 	Add(classes_size, 1); 
 	# Furthermore, we can add the corresponding component to classes_elms: 
 	Add(classes_elms, [left.l + right.l + 1]); 
-	# So, when going through the innerst for-loop in DTP_ComputeSetReps, we only have
-	# to add the number to the record and add the letter itself to its 
-	# classes_reps, in order to update the following output to be valid
+	# So, when going through the innerst for-loop in DTP_ComputeSetReps, we 
+	# only have to add the number to the record and add the letter itself to 
+	# its classes_reps, in order to update the following output to be valid
 	# (i.e. as if called DTP_StructureLetter): 
 	
 	return [classes_reps, classes_size, rec( pos := 1, left := left, right := right, l := left.l + right.l + 1), classes_elms]; 

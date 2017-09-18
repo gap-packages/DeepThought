@@ -166,7 +166,7 @@ function(coll)
 	if DTP_CheckPwrRels(coll) then 
 		Print("+   power relations\n"); 
 	else
-		Print("-   power relations - you may get wrong results when using \"DTP_NormalForm\" and \"DTP_Order\" may not terminate. \n"); 
+		Print("-   power relations - you may get wrong results when using \"DTP_NormalForm\", and \"DTP_Order\" may not terminate. \n"); 
 	fi; 
 	
 	# Check consistency of the collector.
@@ -176,14 +176,14 @@ function(coll)
 	if IsConfluent(coll) then 
 		Print("+   consistent\n"); 
 	else
-		Print("-   consistent: you may get wrong results when using \"DTP_NormalForm\" and \"DTP_Order\" may not terminate. \n"); 
+		Print("-   consistent: you may get wrong results when using \"DTP_NormalForm\", and \"DTP_Order\" may not terminate. \n"); 
 	fi; 
 	
 	# Recommend which polynomials one should use for this collector 
 	if DTP_DecisionCriterion(coll) then 
-		Print("Suggestion: Use polynomials f_rs\n"); 
+		Print("Suggestion: Call DTP_DTObjFromColl with rs_flag = true.\n"); 
 	else 
-		Print("Suggestion: Use polynomials f_r\n"); 
+		Print("Suggestion: Call DTP_DTObjFromColl with rs_flag = false.\n"); 
 	fi; 
 	
 	return true; 
