@@ -4,6 +4,7 @@
 # Declarations
 #
 
+#! @Author Max Horn, Nina Wagner
 
 # QUICK HACK: declare some functions to resolve circular dependencies
 # on the long run, clean this up
@@ -53,6 +54,22 @@ DeclareGlobalFunction( "DTP_DTapplicability" );
 #! @Description Computes a DTObj for the collector coll, either with polynomials of type $f_{rs}$ (if <C>rs_flag = true</C>) or with polynomials of type $f_r$, otherwise. If the optional argument <C>rs_flag</C> is not provided, polynomials of type $f_{rs}$ are computed. The function checks whether the collector <C>coll</C> is confluent. If not, a warning is displayed. Note that the functions assumes the collector <C>coll</C> to be suitable for Deep Thought, see function <C>DTP_DTapplicability</C>.
 DeclareGlobalFunction( "DTP_DTObjFromCollector" ); 
 
+#! @BeginExample
+G := UnitriangularPcpGroup(10, 0);; 
+coll := Collector(G);; 
+DTP_DTapplicability(coll); 
+#! Checking collector for DT-applicability. "+" means the following property
+#! is fulfilled.
+#! +   conjugacy relations
+#! +   power relations
+#! +   consistent
+#! Suggestion: Call DTP_DTObjFromColl with rs_flag = true.
+#! true
+#! # calling DTP_DTObjFromCollector without rs_flag implies rs_flag = true: 
+DTObj := DTP_DTObjFromCollector(coll);
+#! <DTObj>
+#! @EndExample 
+
 #! @Section Computations with Deep Thought polynomials
 
 #! @Arguments expvec, int, DTObj
@@ -93,9 +110,34 @@ DeclareGlobalFunction( "DTP_Order" );
 #! describes a normal form.  
 DeclareGlobalFunction( "DTP_SolveEquation" ); 
 
+#! @BeginExample
+G := PcGroupToPcpGroup(SmallGroup(23^5, 2)); 
+#! Pcp-group with orders [ 23, 23, 23, 23, 23 ]
+coll := Collector(G); 
+#! <<from the left collector with 5 generators>>
+DTObj := DTP_DTObjFromCollector(coll); 
+#! <DTObj>
+g := [100, 134, -31, 52, 5235]; 
+#! [ 100, 134, -31, 52, 5235 ]
+DTP_IsInNormalForm(g, DTObj); 
+#! 1
+g := DTP_NormalForm(g, DTObj);
+#! [ 8, 19, 15, 10, 19 ]
+DTP_IsInNormalForm(g, DTObj);         
+#! true
+DTP_Inverse(g, DTObj); 
+#! [ 15, 4, 22, 12, 3 ]
+DTP_Order(g, DTObj);
+#! 529
+h := [142, 2, -41, 23, 1]; 
+#! [ 142, 2, -41, 23, 1 ]
+DTP_Multiply(g, h, DTObj); 
+#! [ 12, 21, 4, 16, 20 ]
+#! @EndExample 
+
 #! @Section Computations with pcp-elements
 #! When Deep Thought polynomials are available, certain computations allow different approaches which may be faster than the methods used by default.
-#! In this sections, computations for which such extra functions taking pcp-elements as input are available are listed. All of these functions need the collector belonging to the pcp-elements to be a <C>DTObj</C>. 
+#! In this sections, computations for which such extra functions taking pcp-elements as input are available are listed. All of these functions expect the collector belonging to the pcp-elements to be a <C>DTObj</C>. 
 
 #! @Arguments pcp-element, int
 #! @Returns pcp-element
@@ -124,23 +166,22 @@ DeclareGlobalFunction( "DTP_PCP_Order" );
 DeclareGlobalFunction( "DTP_PCP_SolveEquation" ); 
 
 #! @BeginExample
-
-
+G := HeisenbergPcpGroup(7);;
+coll := Collector(G);;
+DTObj := DTP_DTObjFromCollector(coll);;
+H := PcpGroupByCollector(DTObj);;
+g := Random(H);; h := Random(H);; 
+DTP_PCP_SolveEquation(g, h); 
+#! g1^-3*g2^-1*g3^-7*g4*g5^-6*g6*g7*g8^2*g9^3*g11^-4*g12^5*g14^-2*g15^7
+g^-1 * h; 
+#! g1^-3*g2^-1*g3^-7*g4*g5^-6*g6*g7*g8^2*g9^3*g11^-4*g12^5*g14^-2*g15^7
+Order(g); 
+#! infinity
+g^-1; 
+#! g1^-2*g3^-3*g4^-1*g5^-4*g6^2*g7*g8^-3*g10^-3*g11^-1*g12^4*g14^-2*g15^-3
+DTP_PCP_Inverse(h); 
+#! g1*g2*g3^4*g4^-2*g5^2*g6*g8^-5*g9^-3*g10^-3*g11^3*g12^-1*g15^-33
 #! @EndExample 
-
-# Example: 
-# dt := DTP_DTObjFromCollector(heisenberg_7);
-# G := PcpGroupByCollector(dt);;
-# g^-100000; time;
-# g1^100000*g3^200000*g5^-100000*g6^200000*g7^200000*g8^-200000*g9^-200000*g10^-200000*g11^100000*g12^
-# 100000*g14^200000*g15^-14999950000
-# 36
-# DTP_PCP_Exp(g, -100000);
-# Here
-# g1^100000*g3^200000*g5^-100000*g6^200000*g7^200000*g8^-200000*g9^-200000*g10^-200000*g11^100000*g12^
-# 100000*g14^200000*g15^-14999950000
-# gap> time;
-# 4
 
 #! @Section Accessing Deep Thought polynomials 
 #! 	In this sections, functions which can be used to display the content of a <C>DTObj</C> are documented. Furthermore, Deep Thought polynomials stored in a <C>DTObj</C> can be converted to &GAP; polynomials.
@@ -154,3 +195,46 @@ DeclareGlobalFunction( "DTP_Display_DTObj" );
 #! @Returns list
 #! @Description Converts the Deep Thought polynomials stored in <C>DTObj[PC_DTPPolynomials]</C> to &GAP; polynomials and returns them in a list together with their polynomial ring.
 DeclareGlobalFunction( "DTP_pols2GAPpols" ); 
+
+#! @BeginExample
+coll := FromTheLeftCollector(4);;
+SetConjugate(coll, 2, 1, [2, 1, 3, 2]);      
+SetConjugate(coll, 3, 1, [3, 1, 4, 1]);      
+SetConjugate(coll, 3, 2, [3, 1, 4, 5]);      
+UpdatePolycyclicCollector(coll);      
+DTObj := DTP_DTObjFromCollector(coll); 
+#! <DTObj>
+Display(DTObj); 
+#! Polynomials f_rs for s = 1:
+#! f_1,s = X_1 + Y_1 
+#! f_2,s = X_2 
+#! f_3,s = X_3 + 2 * X_2 Y_1 
+#! f_4,s = X_4 + X_3 Y_1 + 2 * X_2 Binomial(Y_1, 2) + 10 * Binomial(X_2, 2) Y_1 
+#! Polynomials f_rs for s = 2:
+#! f_1,s = X_1 
+#! f_2,s = X_2 + Y_2 
+#! f_3,s = X_3 
+#! f_4,s = X_4 + 5 * X_3 Y_2 
+#! Polynomials f_rs for s = 3:
+#! f_1,s = X_1 
+#! f_2,s = X_2 
+#! f_3,s = X_3 + Y_3 
+#! f_4,s = X_4 
+#! Polynomials f_rs for s = 4:
+#! f_1,s = X_1 
+#! f_2,s = X_2 
+#! f_3,s = X_3 
+#! f_4,s = X_4 + Y_4 
+DTObj := DTP_DTObjFromCollector(coll, false);
+#! <DTObj>
+Display(DTObj);                              
+#! f_1 = X_1 + Y_1 
+#! f_2 = X_2 + Y_2 
+#! f_3 = X_3 + Y_3 + 2 * X_2 Y_1 
+#! f_4 = X_4 + Y_4 + X_3 Y_1 + 2 * X_2 Binomial(Y_1, 2) + 
+#! 10 * Binomial(X_2, 2) Y_1 + 5 * X_3 Y_2 + 10 * X_2 Y_1 Y_2 
+DTP_pols2GAPpols(DTObj);
+#!  [ [ x1+y1, x2+y2, 2*x2*y1+x3+y3, 
+#! 5*x2^2*y1+x2*y1^2+10*x2*y1*y2-6*x2*y1+x3*y1+5*x3*y2+x4+y4 ], 
+#! Rationals[x1,x2,x3,x4,y1,y2,y3,y4] ]
+#! @EndExample
