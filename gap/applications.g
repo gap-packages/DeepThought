@@ -214,14 +214,15 @@ end) ;
 # Output:	pcp^q
 InstallGlobalFunction( DTP_PCP_Exp, 
 function(pcp, q)
-	local dtobj; 
+	local dtobj, exp; 
 	
 	dtobj := Collector(pcp);
 	
 	if not IsDTObj(dtobj) then 
 		Error("Collector(pcp) must be a DTObj");
 	else
-		return PcpElementByExponents(dtobj, DTP_Exp(Exponents(pcp), q, dtobj)); 
+		exp := ShallowCopy(Exponents(pcp));
+		return PcpElementByExponents(dtobj, DTP_Exp(exp, q, dtobj)); 
 	fi; 
 	
 end );
