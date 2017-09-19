@@ -1,8 +1,6 @@
 # test DTP functions 
 Test_DTP_functions := function(coll, rs_flag, r, lim)
-	local G_c, dt, i, g_c, h_c, g_expvec, h_expvec, g, h, z, res_c, res_pcp, res_expvec, ord, time, t, t1; 
-	
-	time := [0, 0, 0]; 
+	local G_c, dt, i, g_c, h_c, g_expvec, h_expvec, g, h, z, res_c, res_pcp, res_expvec, ord;
 	
 	G_c := PcpGroupByCollector(coll);
 	dt := DTP_DTObjFromCollector(coll, rs_flag); 
@@ -17,53 +15,26 @@ Test_DTP_functions := function(coll, rs_flag, r, lim)
 		
 		# test Exp
 		z := Random([-lim .. lim]); 
-		t := Runtime(); 
 		res_c := g_c^z; 
-		t1 := Runtime(); 
-		time[1] := time[1] + t1 - t; 
-		t := Runtime(); 
 		res_pcp := DTP_PCP_Exp(g, z); 
-		t1 := Runtime(); 
-		time[2] := time[2] + t1 - t;
-		t := Runtime();
 		res_expvec := DTP_Exp(g_expvec, z, dt); 
-		t1 := Runtime(); 
-		time[3] := time[3] + t1 - t;
 		if not (Exponents(res_c) = Exponents(res_pcp) 
 		and Exponents(res_c) = res_expvec) then 
 			Error("in Exp"); 
 		fi; 
 			
 		# test Inverse 
-		t := Runtime(); 
 		res_c := g_c^-1;
-		t1 := Runtime(); 
-		time[1] := time[1] + t1 - t;
-		t := Runtime(); 
 		res_pcp := DTP_PCP_Inverse(g);
-		t1 := Runtime(); 
-		time[2] := time[2] + t1 - t;
-		t := Runtime(); 
 		res_expvec := DTP_Inverse(g_expvec, dt); 
-		t1 := Runtime(); 
-		time[3] := time[3] + t1 - t;
 		if not (Exponents(res_c) = Exponents(res_pcp) 
 		and Exponents(res_c) = res_expvec) then 
 			Error("in Inv"); 
 		fi; 
 
-		t := Runtime(); 
 		res_c := h_c^-1;
-		t1 := Runtime(); 
-		time[1] := time[1] + t1 - t;
-		t := Runtime(); 
 		res_pcp := DTP_PCP_Inverse(h);
-		t1 := Runtime(); 
-		time[2] := time[2] + t1 - t;
-		t := Runtime(); 
 		res_expvec := DTP_Inverse(h_expvec, dt);
-		t1 := Runtime(); 
-		time[3] := time[3] + t1 - t;
 		if not (Exponents(res_c) = Exponents(res_pcp) 
 		and Exponents(res_c) = res_expvec) then 
 			Error("in Inv"); 
@@ -83,60 +54,32 @@ Test_DTP_functions := function(coll, rs_flag, r, lim)
 		fi; 
 		
 		# test SolveEquation
-		t := Runtime();
 		res_c := g^-1 * h;
-		t1 := Runtime(); 
-		time[1] := time[1] + t1 - t;
-		t := Runtime(); 
 		res_pcp := DTP_PCP_SolveEquation(g, h);
-		t1 := Runtime(); 
-		time[2] := time[2] + t1 - t;
-		t := Runtime();
 		res_expvec := DTP_SolveEquation(g_expvec, h_expvec, dt); 
-		t1 := Runtime(); 
-		time[3] := time[3] + t1 - t;
 		if not (Exponents(res_c) = Exponents(res_pcp) 
 		and Exponents(res_c) = res_expvec) then 
 			Error("in SolveEquation"); 
 		fi; 
 		
-		t := Runtime(); 
 		res_c := h^-1 * g;
-		t1 := Runtime(); 
-		time[1] := time[1] + t1 - t;
-		t := Runtime(); 
 		res_pcp := DTP_PCP_SolveEquation(h, g);
-		t1 := Runtime(); 
-		time[2] := time[2] + t1 - t;
-		t := Runtime();
 		res_expvec := DTP_SolveEquation(h_expvec, g_expvec, dt);
-		t1 := Runtime(); 
-		time[3] := time[3] + t1 - t;
 		if not (Exponents(res_c) = Exponents(res_pcp) 
 		and Exponents(res_c) = res_expvec) then 
 			Error("in SolveEquation"); 
 		fi; 
 		
 		# test Multiply
-		t := Runtime(); 
 		res_c := g_c * h_c;
-		t1 := Runtime(); 
-		time[1] := time[1] + t1 - t;
-		t := Runtime(); 
 		res_pcp := g * h;
-		t1 := Runtime(); 
-		time[2] := time[2] + t1 - t;
-		t := Runtime(); 
 		res_expvec := DTP_Multiply(g_expvec, h_expvec, dt); 
-		t1 := Runtime(); 
-		time[3] := time[3] + t1 - t;
 		if not (Exponents(res_c) = Exponents(res_pcp) 
 		and Exponents(res_c) = res_expvec) then 
 			Error("in Multiply"); 
 		fi; 
 	od; 
 	
-	Print("Times: [collector, pcp, expvec]: ", time, "\n"); 
 	return true; 
 end;
 
