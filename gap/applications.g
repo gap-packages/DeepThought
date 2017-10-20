@@ -1,20 +1,20 @@
-# This files contains the functions:
-#	DTP_SolveEquation
-#	DTP_Inverse
-#	DTP_Exp
-#	DTP_NormalForm
-#	DTP_Order
-#
-# 	DTP_DetermineMultiplicationFunction
-#	DTP_IsInNormalForm
-#	_DTP_DetermineNormalForm
-#	_DTP_DetermineOrder
-#
-#	DTP_PCP_SolveEquation
-#	DTP_PCP_Inverse
-#	DTP_PCP_Exp
-#	DTP_PCP_NormalForm
-#	DTP_PCP_Order
+# This files contains the functions: 
+#   DTP_SolveEquation 
+#   DTP_Inverse 
+#	DTP_Exp 
+#   DTP_NormalForm 
+#   DTP_Order 
+# 
+#	DTP_DetermineMultiplicationFunction 
+#   DTP_IsInNormalForm 
+#	_DTP_DetermineNormalForm 
+#   _DTP_DetermineOrder 
+# 
+#   DTP_PCP_SolveEquation 
+#	DTP_PCP_Inverse 
+#   DTP_PCP_Exp 
+#   DTP_PCP_NormalForm 
+#   DTP_PCP_Order
 ##############################################################################
 
 # Each application (DTP_SolveEquation, DTP_NormalForm, DTP_Order, ...) may 
