@@ -10,3 +10,5 @@ TestDirectory(DirectoriesPackageLibrary( "DeepThought", "tst" ),
   rec(exitGAP := true));
 
 FORCE_QUIT_GAP(1); # if we ever get here, there was an error
+
+# TODO: Write test functions which compare results with hard coded result

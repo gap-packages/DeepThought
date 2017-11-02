@@ -1,0 +1,19 @@
+gap> Read("tst/testpackage.g");;
+
+# example group 14: 
+gap> coll := Collector(ExamplesOfSomePcpGroups(14));; 
+gap> Test_DTP_functions(ex14, true, 10, 10); 
+
+# heisenberg 50
+gap> coll := Collector(HeisenbergPcpGroup(50));;
+gap> Test_DTP_functions(coll, true, 10, 10);
+true
+gap> Test_DTP_functions(coll, false, 10, 10);
+true
+
+# unitriangular 10
+gap> coll :=  Collector(UnitriangularPcpGroup(10, 0));;
+gap> Test_DTP_functions(coll, true, 10, 10);
+true
+gap> Test_DTP_functions(coll, false, 10, 10); 
+true

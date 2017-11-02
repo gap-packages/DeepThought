@@ -1,0 +1,29 @@
+Pakete zum Orientieren für Tests:
+
+cvec
+orb
+
+Einlesen mit Testbefehl:
+LoadPackage()
+Test(pfad.tst)
+
+Test + QuickTest mit Auswahl von Collectors 
+
+SmallGroups in Extra-Datei 
+Regel: Bei "Prints" neue Testdatei als logische Unterteilung der Tests 
+
+Bei Random Collector: Random Engine nicht zurücksetzen 
+
+Dateiendung .tstlong, damit nicht in Testall inkludiert wird 
+
+Test Parameter optrec -> rewriteToFile: 
+
+
+mini.tst
+gap> Befehle
+...
+
+
+Test("mini.tst", re( rewriteToFile := "tst/mini.tst"); # überschreibt 
+
+Auch Tests, die Error erwarten

@@ -195,9 +195,5 @@ TestDTPPackage := function()
 		Test_DTP_functions(DTP_rand_coll(), false, 100, 1000);
 	od; 
 	
-	# test example 14 -- takes long
-	#Print("Test collector ex14... \n"); 
-	#Test_DTP_functions(ex14, true, 10, 10); 
-	
 	return true; 
 end;
