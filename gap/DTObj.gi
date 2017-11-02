@@ -106,13 +106,3 @@ function( DTObj )
 	DTObj![PC_DTPOrders] := res![PC_DTPOrders]; 
 	DTObj![PC_DTPConfluent] := res![PC_DTPConfluent]; 
 end );
-
-coll_paper := FromTheLeftCollector(4);
-SetConjugate(coll_paper, 2, 1, [2, 1, 3, 2]);
-SetConjugate(coll_paper, 3, 1, [3, 1, 4, 1]);
-SetConjugate(coll_paper, 3, 2, [3, 1, 4, 5]);
-UpdatePolycyclicCollector(coll_paper);
-IsConfluent(coll_paper); 
-
-Read("examples/ex_colls.g");
-Read("examples/test.g"); 
