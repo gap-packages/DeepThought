@@ -153,10 +153,10 @@ TestDTPPackage := function()
 	coll_cyclic := FromTheLeftCollector(1);
 	SetRelativeOrder(coll_cyclic, 1, 3628800);
 	UpdatePolycyclicCollector(coll_cyclic);
-
+	
 	coll_list := [ 	[ coll_paper, 100, 500],  
 					[ coll_finite, 100, 500], 
-					[ coll_cyclic, 100, 1000], 
+					[ coll_cyclic, 100, 1000],
 					[ Collector(UnitriangularPcpGroup(3, 0)), 500, 500],
 					[ Collector(UnitriangularPcpGroup(5, 0)), 100, 100], 
 					[ Collector(HeisenbergPcpGroup(3)), 1000, 100],
@@ -170,7 +170,7 @@ TestDTPPackage := function()
 					[ Collector(ExamplesOfSomePcpGroups(16)), 10, 10] ];
 	
 	for coll in coll_list do 
-	Print("Test collector ", coll, "... \n"); 
+		Print("Test collector ", coll, "... \n"); 
 		Test_DTP_functions(coll[1], true, coll[2], coll[3]);
 		Test_DTP_functions(coll[1], false, coll[2], coll[3]); 
 	od;
