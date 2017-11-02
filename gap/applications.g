@@ -106,7 +106,7 @@ function(pcp1, pcp2)
 	elif not Collector(pcp2) = dtobj then 
 		Error("pcp1 and pcp2 must belong to the same DTObj"); 
 	else
-		return PcpElementByExponents(dtobj, DTP_SolveEquation(Exponents(pcp1), Exponents(pcp2), dtobj));
+		return PcpElementByExponentsNC(dtobj, DTP_SolveEquation(Exponents(pcp1), Exponents(pcp2), dtobj));
 	fi; 
 	
 end );
@@ -133,7 +133,7 @@ function(pcp)
 	if not IsDTObj(dtobj) then 
 		Error("Collector(pcp) must be a DTObj");
 	else
-		return PcpElementByExponents(dtobj, DTP_Inverse(Exponents(pcp), dtobj)); 
+		return PcpElementByExponentsNC(dtobj, DTP_Inverse(Exponents(pcp), dtobj)); 
 	fi; 
 	
 end );
@@ -222,7 +222,7 @@ function(pcp, q)
 		Error("Collector(pcp) must be a DTObj");
 	else
 		exp := ShallowCopy(Exponents(pcp));
-		return PcpElementByExponents(dtobj, DTP_Exp(exp, q, dtobj)); 
+		return PcpElementByExponentsNC(dtobj, DTP_Exp(exp, q, dtobj)); 
 	fi; 
 	
 end );
@@ -327,7 +327,7 @@ function(pcp)
 	elif not dtobj![PC_DTPConfluent] = true then 
 		Error("collector must be confluent"); 
 	else
-		return PcpElementByExponents(dtobj, DTP_NormalForm(Exponents(pcp), dtobj)); 
+		return PcpElementByExponentsNC(dtobj, DTP_NormalForm(Exponents(pcp), dtobj)); 
 	fi; 
 	
 end );
