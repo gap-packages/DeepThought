@@ -1,0 +1,25 @@
+  
+  
+  [1XIndex[101X
+  
+  [2XDTP_Display_DTObj[102X  2.4-1
+  [2XDTP_DTapplicability[102X  2.1-1
+  [2XDTP_DTObjFromCollector[102X  2.1-2
+  [2XDTP_Exp[102X  2.2-1
+  [2XDTP_Inverse[102X  2.2-2
+  [2XDTP_IsInNormalForm[102X  2.2-3
+  [2XDTP_Multiply[102X  2.2-4
+  [2XDTP_Multiply_r[102X  2.2-5
+  [2XDTP_Multiply_rs[102X  2.2-6
+  [2XDTP_NormalForm[102X  2.2-7
+  [2XDTP_Order[102X  2.2-8
+  [2XDTP_PCP_Exp[102X  2.3-1
+  [2XDTP_PCP_Inverse[102X  2.3-2
+  [2XDTP_PCP_NormalForm[102X  2.3-3
+  [2XDTP_PCP_Order[102X  2.3-4
+  [2XDTP_PCP_SolveEquation[102X  2.3-5
+  [2XDTP_pols2GAPpols[102X  2.4-2
+  [2XDTP_SolveEquation[102X  2.2-9
+  
+  
+  -------------------------------------------------------

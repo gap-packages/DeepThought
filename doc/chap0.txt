@@ -1,1 +1,53 @@
-Placeholder
+  
+  
+                                 [1X DeepThought [101X
+  
+  
+    [1X This package provides functions for computations in finitely generated
+             nilpotent groups based on the Deep Thought algorithm. [101X
+  
+  
+                                      1.0
+  
+  
+                               19 September 2017
+  
+  
+                             Max Horn, Nina Wagner
+  
+  
+  
+  
+  -------------------------------------------------------
+  
+  
+  [1XContents (DeepThought)[101X
+  
+  1 [33X[0;0YThe Deep Thought algorithm[133X
+    1.1 [33X[0;0YCategory DTObj[133X
+  2 [33X[0;0YUsing Deep Thought functions[133X
+    2.1 [33X[0;0YComputing Deep Though polynomials[133X
+      2.1-1 DTP_DTapplicability
+      2.1-2 DTP_DTObjFromCollector
+    2.2 [33X[0;0YComputations with Deep Thought polynomials[133X
+      2.2-1 DTP_Exp
+      2.2-2 DTP_Inverse
+      2.2-3 DTP_IsInNormalForm
+      2.2-4 DTP_Multiply
+      2.2-5 DTP_Multiply_r
+      2.2-6 DTP_Multiply_rs
+      2.2-7 DTP_NormalForm
+      2.2-8 DTP_Order
+      2.2-9 DTP_SolveEquation
+    2.3 [33X[0;0YComputations with pcp-elements[133X
+      2.3-1 DTP_PCP_Exp
+      2.3-2 DTP_PCP_Inverse
+      2.3-3 DTP_PCP_NormalForm
+      2.3-4 DTP_PCP_Order
+      2.3-5 DTP_PCP_SolveEquation
+    2.4 [33X[0;0YAccessing Deep Thought polynomials[133X
+      2.4-1 DTP_Display_DTObj
+      2.4-2 DTP_pols2GAPpols
+  
+  
+  [32X

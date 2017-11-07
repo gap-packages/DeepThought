@@ -1,0 +1,94 @@
+  
+  [1X1 [33X[0;0YThe Deep Thought algorithm[133X[101X
+  
+  [33X[0;0YPolycyclic  and,  especially,  finitely generated nilpotent groups exhibit a
+  rich  structure  allowing  a  special  approach towards multiplication using
+  polynomials.  The  so-called  Deep  Thought  algorithm  introduced  by C. R.
+  Leedham-Green  and L. H. Soicher in "Symoblic Collection Using Deep Thought"
+  (1998) computes these polynomials in practice for a suitable presentation of
+  a  finitely  generated  nilpotent  group.  Such  a  presentation  is  of the
+  following form[133X
+  
+  
+        [33X[1;6Y[24X[33X[0;0Y\langle a_1, \ldots, a_n \mid a_i^{s_i} = a_{i+1}^{c_{i, i, i+1}}
+        \cdots a_n^{c_{i, i, n}}, 1 \leq i \leq n, a_j a_i = a_i a_j
+        a_{j+1}^{c_{i, j, j+1}} \cdots a_n^{c_{i, j, n}}, 1 \leq i < j \leq n
+        \rangle[133X [124X[133X
+  
+  
+  [33X[0;0Ywith [23Xs_i \in \mathbb{N} \cup \{ \infty \}[123X and [23Xc_{i, j, k} \in \mathbb{Z}[123X. If
+  [23Xs_i   =   \infty[123X,  then  the  power  relation  [23Xa_i^{s_i}[123X  is  skipped.  This
+  presentation  may  or may not be consistent. However, if the presentation is
+  not  consistent,  not all functions provided in this package are applicable,
+  see function [10XDTP_DTapplicability[110X.[133X
+  
+  [33X[0;0YLet  [23XG[123X  denote  the  group  presented  by the above presentation. Then every
+  element in [23XG[123X can be written uniquely in a so-called normal form. That is, if
+  [23XG_i := \langle a_i, \ldots, a_n \rangle[123X and [23Xr_i := | G_i : G_{i+1}|[123X, [23X1, \leq
+  i  \leq n[123X, are the relative orders, then for certain [23Xe_i \in \mathbb{Z}[123X each
+  element can be written as[133X
+  
+  
+        [33X[1;6Y[24X[33X[0;0Ya_1^{e_1} \cdots a_n^{e_n}[133X [124X[133X
+  
+  
+  [33X[0;0Ywith [23X0 \leq e_i < r_i[123X if [23Xr_i < \infty[123X.[133X
+  
+  [33X[0;0YThe Deep Thought algorithm computes rational polynomials [23Xf_1, \ldots, f_n[123X in
+  [23X2n[123X  indeterminates  such  that if [23X x := a_1^{x_1} \cdots a_n^{x_n} [123X and [23Xy :=
+  a_1^{y_1}  \cdots  a_n^{y_n} [123X are two elements (in normal form or not), then
+  their product [23Xxy[123X is given by[133X
+  
+  
+        [33X[1;6Y[24X[33X[0;0Ya_1^{f_1(x_1, \ldots, x_n, y_1, \ldots, y_n)} \cdots a_n^{f_n(x_1,
+        \ldots, x_n, y_1, \ldots, y_n)}.[133X [124X[133X
+  
+  
+  [33X[0;0YIf  the  collector  is confluent, also the normal form of the product can be
+  computed.  Otherwise  this  is not possible. Moreover, there exists a second
+  version  of  the  Deep  Thought  algorithms  which  computes [23Xn^2[123X polynomials
+  [23Xf_{rs}[123X, [23X1 \leq r, s \leq n[123X, suitable for multiplications of the form[133X
+  
+  
+        [33X[1;6Y[24X[33X[0;0Y(a_1^{x_1} \cdots a_n^{x_n}) \cdot a_s^{y_s} = a_1^{f_{1s}(x_1,
+        \ldots, x_n, y_s)} \cdots a_n^{f_{ns}(x_1, \ldots, x_n, y_s)}[133X [124X[133X
+  
+  
+  [33X[0;0Yfor  [23X1  \leq  s  \leq  n[123X. Each general multiplication can be expressed using
+  these special multiplications. Depending on the presentation, polynomials of
+  one  version  may be more efficient for computations than the polynomials of
+  the  other version. For a suggestion on which polynomials to use for a given
+  presentation,  see  the function [10XDTP_DTapplicability[110X. In the following, Deep
+  Thought  type  [23Xf_r[123X  refers  to  the  Deep  Though  algorithm  which  uses  [23Xn[123X
+  polynomials  and  type [23Xf_{rs}[123X refers to the Deep Thought algorithm using [23Xn^2[123X
+  polynomials.[133X
+  
+  [33X[0;0YIn  order to work with the Deep Thought functions, the group presentation is
+  expected  to  be  given  as  a collector [10Xcoll[110X, as defined in the [5XGAP[105X package
+  [5XPolycyclic[105X.  Moreover,  the  [5XPolycyclic[105X  package introduces the structure of
+  exponent  vectors  [10Xexpvec[110X,  which  will  be  used  also  in  this package to
+  represent  group  elements. In the following text, a group element [23Xa_1^{x_1}
+  \cdots  a_n^{x_n}[123X is identified with its exponent vector in form of the list
+  [10X[x_1,  ...,  x_n][110X.  For example, if [10Xexpvec1, expvec2[110X are exponent vectors of
+  elements   in   the  same  group,  than  [10Xexpvec1  *  expvec2[110X  describes  the
+  multiplication  of  the  corresponding  group elements, and so on. Note that
+  generally exponent vectors are not assumed to represent normal forms.[133X
+  
+  
+  [1X1.1 [33X[0;0YCategory DTObj[133X[101X
+  
+  [33X[0;0YThis package uses the category [10XDTObj[110X. A [10XDTObj[110X is a [10XIsFromTheLeftCollectorRep[110X
+  with certain further list entries to store the Deep Thought polynomials of a
+  collector  together with some additional information. That is, the functions
+  [10XDTP_DTpols_r[110X  and  [10XDTP_DTpols_rs[110X  return  a  ([10XDTObj[110X)  which  has  entries as
+  [10XIsFromTheLeftCollectorRep[110X and additionally:[133X
+  
+  [30X    [33X[0;6Y[10XDTObj![PC_DTPPolynomials][110X:   Deep   Thought  polynomials  in  form  of
+        (nested) lists[133X
+  
+  [30X    [33X[0;6Y[10XDTObj![PC_DTPOrders][110X:  list  containing  orders of group generators if
+        the collector is consistent[133X
+  
+  [30X    [33X[0;6Y[10XDTObj![PC_DTPConfluent][110X:   boolean   value   indicating   whether  the
+        collector is consistent or not[133X
+  
