@@ -19,6 +19,11 @@
 /doc/*.toc
 /doc/manual.pdf
 
+# ignore generate XML files
+/doc/DeepThought.xml
+/doc/title.xml
+/doc/_*.xml
+
 .deps/
 .dirstamp
 .libs/
