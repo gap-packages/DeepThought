@@ -4,7 +4,8 @@
 #	DTP_EvalPol_rs
 #
 #	DTP_Multiply_r 
-#	DTP_Multiply_rsEvalPol_r
+#	DTP_Multiply_rs
+#	DTP_EvalPol_r
 #
 #	DTP_Multiply 
 #############################################################################
@@ -121,7 +122,7 @@ end);
 #############################################################################
 
 # evaluate polynomial f_r on input x, y
-DTP_Multiply_rsEvalPol_r := function(pol, x, y)
+DTP_EvalPol_r := function(pol, x, y)
 	local res, summand, i, j, n; 
 	
 	n := Length(x); 
@@ -167,9 +168,9 @@ function(x, y, DTObj)
 	for r in [1 .. n] do 
 		# evaluate polynomial f_r
 		if orders[r] < infinity then 
-			Add(z, DTP_Multiply_rsEvalPol_r(DTObj![PC_DTPPolynomials][r], x, y) mod orders[r]);
+			Add(z, DTP_EvalPol_r(DTObj![PC_DTPPolynomials][r], x, y) mod orders[r]);
 		else
-			Add(z, DTP_Multiply_rsEvalPol_r(DTObj![PC_DTPPolynomials][r], x, y));
+			Add(z, DTP_EvalPol_r(DTObj![PC_DTPPolynomials][r], x, y));
 		fi; 
 	od;
 	

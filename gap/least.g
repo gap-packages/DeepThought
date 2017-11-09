@@ -1,43 +1,10 @@
 # This file contains the functions:
-#	DTP_IsLeastLetter
 #	DTP_CreateSimLetter
-#	DTP_NumberHSS(1)
+#	DTP_NumberHSS
+#	DTP_FindCoefficient
 #	DTP_SimilarLetters
 #	DTP_Least
 #############################################################################
-
-# check whether a letter is least in its ~-class
-# Input: 	letter alpha
-# Output:	true, if alpha is least in its class; false, otherwise
-# REMARK This function is currently not used, but may be useful for debbuging
-DTP_IsLeastLetter := function(alpha)
-	local classes_reps, lists_prop235, j, i, subletter; 
-	
-	classes_reps := alpha[1]; 
-	# lists_prop235 contains one list for each almost-equality-class of
-	# Sub(alpha). In each such list l, l[i] = 1 if there exists a 
-	# subletter in this class with position = i. Otherwise this entry
-	# is unbound. 
-	lists_prop235 := [];
-	for j in [1 .. Length(classes_reps)] do 
-		Add(lists_prop235, []); 
-	od; 
-	
-	for i in [1 .. alpha[3].l] do # length of letter alpha
-		subletter := DTP_Seq_i(alpha[3], i); # go through all subletters
-		for j in [1 .. Length(classes_reps)] do  
-			# search for representative of subletters' class. 
-			if DTP_AreAlmostEqual(classes_reps[j], subletter) then 
-				lists_prop235[j][subletter.pos] := 1; 
-				# found a subletter with position value
-				# subletter.pos of the class of representative nr. j, 
-				# i.e. mark in the j-th list this position
-			fi;
-		od; 
-	od; 
-	
-	return ForAll(lists_prop235, i -> IsDenseList(i)); 
-end; 
 
 # Input: 	- a least letter alpha
 #			- tuple of tuples "tuples" (suitable for alpha) as computed in 
@@ -59,56 +26,6 @@ DTP_CreateSimLetter := function(alpha, tuples)
 	
 end; 
 
-# REMARK These functions are currently not used. 
-# DTP_CreateSimLetter1 may repclace DTP_CreateSimLetter, but is slower. 
-DTP_CreateSimSubletters := function(letter, tuples, i, classes)
-	local j; 
-	
-	if IsBound(letter.left) then 
-		i := DTP_CreateSimSubletters(letter.left, tuples, i, classes);
-	fi; 
-	if IsBound(letter.right) then 
-		i := DTP_CreateSimSubletters(letter.right, tuples, i, classes); 
-	fi; 
-	
-	i := i + 1; 
-	# Now we have the i-th subletter of letter.
-	# In order to change its position, we need to find the class in which 
-	# the subletter is contained. 
-	for j in [1 .. Length(classes)] do 
-		if i in classes[j] then 
-			# the subletter is in class nr. j
-			letter.pos := tuples[j][letter.pos]; 
-			break; 
-		fi; 
-	od; 
-	
-	return i; 
-end;
-DTP_CreateSimLetter1 := function(alpha, tuples, i)
-	local j; 
-	
-	if IsBound(alpha[3].left) then 
-		i := DTP_CreateSimSubletters(alpha[3].left, tuples, i, alpha[4]);
-	fi; 
-	if IsBound(alpha[3].right) then 
-		i := DTP_CreateSimSubletters(alpha[3].right, tuples, i, alpha[4]); 
-	fi; 
-	
-	i := i + 1; 
-	# Now we have the i-th = last subletter of alpha.
-	# In order to change its position, we need to find the class in which 
-	# the subletter is contained. 
-	for j in [1 .. Length(alpha[4])] do 
-		if i in alpha[4][j] then 
-			# the subletter is in class nr. j
-			alpha[3].pos := tuples[j][alpha[3].pos]; 
-			break; 
-		fi; 
-	od; 
-	
-end;
-
 # Determines the number of subletters of "letter" which have the same 
 # structure as the letter rep.
 DTP_NumberHSS := function(rep, letter)
@@ -123,22 +40,6 @@ DTP_NumberHSS := function(rep, letter)
 				Add(class, subletter); 
 				num := num + 1;
 			fi; 
-		fi;
-	od; 
-	
-	return num; 
-end; 
-
-# DTP_NumberHSS seems to be a bit faster 
-# REMARK This function is currently not used. It may replace DTP_NumberHSS.
-DTP_NumberHSS1 := function(rep, reps, sizes)
-	local num, i, subletter;  
-	
-	num := 0; 
-	for i in [1 .. Length(reps)] do 
-		subletter := reps[i]; 
-		if DTP_HaveSameStructure(subletter, rep) then 
-			num := num + sizes[i];
 		fi;
 	od; 
 	

@@ -36,40 +36,6 @@ DTP_DecisionCriterion := function(coll)
 	return false; 
 end;
 
-# Similar to DTP_DecisionCriterion, but counts how many times "DTP_DecisionCriterion"
-# is satisfied. 
-DTP_DecisionCriterionAll := function(coll)
-	local n, i, j, k, l, m, a, b, cnj_ijk, cnj_lkm, count; 
-	
-	n := NumberOfGenerators(coll); 
-	count := 0; 
-	for i in [1 .. n] do 
-		for j in [(i + 1) .. n] do 
-			cnj_ijk := GetConjugate(coll, j, i); 
-			for a in [3, 5 .. (Length(cnj_ijk) - 1)] do 
-				k := cnj_ijk[a]; # Generator with index k introduced when a_j
-				# and a_i are interchanged. 
-				if cnj_ijk[a + 1] <> 0 then 
-				# Introduce a_k^exp with exp <> 0?
-					for l in [1 .. (k - 1)] do 
-						if i <> l then 
-							cnj_lkm := GetConjugate(coll, k, l); 
-							for b in [3, 5 .. (Length(cnj_lkm) - 1)] do
-#								m := cnj_lkm[b]; 
-								if cnj_lkm[b + 1] <> 0 then # superfluent? 
-									count := count + 1; 
-								fi;
-							od;
-						fi;
-					od;
-				fi;
-			od;
-		od;
-	od;
-	
-	return count; 
-end;
-
 # checks conjugacy relations of coll, must be of the form 
 # 	a_i^{-1} a_j a_i = a_j a_{j + 1}^{c_{i, j, j + 1}} ... a_n^{c_{i, j, n}} 
 # 	(<=> a_j a_i = a_i a_j a_{j + 1}^{c_{i, j, j + 1}} ... a_n^{c_{i, j, n}})

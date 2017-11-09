@@ -114,7 +114,7 @@ end);
 
 ##############################################################################
 
-BinomialPol := function(ind, k)
+DTP_BinomialPol := function(ind, k)
 	local bin, i; 
 	bin := ind^0; 
 	for i in [1 .. k] do 
@@ -123,14 +123,14 @@ BinomialPol := function(ind, k)
 	return bin; 
 end;
 
-g_alphaGAP := function(g_alpha, indets)
+DTP_g_alphaGAP := function(g_alpha, indets)
 	local bincoeff, l, g_alpha_GAP, ind; 
 	
 	l := Length(g_alpha); 
 	g_alpha_GAP := g_alpha[1] * indets[1]^0; # constant factor polynomial
 	for bincoeff in [2 .. l] do 
 		ind := indets[g_alpha[bincoeff][1]]; 
-		g_alpha_GAP := g_alpha_GAP * BinomialPol(ind, g_alpha[bincoeff][2]); 
+		g_alpha_GAP := g_alpha_GAP * DTP_BinomialPol(ind, g_alpha[bincoeff][2]); 
 	od; 
 	
 	return g_alpha_GAP;
@@ -166,7 +166,7 @@ function(DTObj)
 			f_DT := DTpols[r]; # polynomial f_r, consists of several g_alpha
 			f_GAP := 0 * indets[1]^0; # zero polynomial 
 			for g_alpha in f_DT do
-				f_GAP := f_GAP + g_alphaGAP(g_alpha, indets); 
+				f_GAP := f_GAP + DTP_g_alphaGAP(g_alpha, indets); 
 			od;
 			Add(GAPpols, f_GAP); 
 		od;
@@ -178,7 +178,7 @@ function(DTObj)
 				f_DT := DTpols[s][r]; # polynomial f_rs
 				f_GAP := 0 * indets[1]; 
 				for g_alpha in f_DT do 
-					f_GAP := f_GAP + g_alphaGAP(g_alpha, indets); 
+					f_GAP := f_GAP + DTP_g_alphaGAP(g_alpha, indets); 
 				od; 
 				Add(GAPpols[s], f_GAP); 
 			od; 

@@ -7,6 +7,8 @@
 #	DTP_Polynomial_g_alpha
 #	DTP_ReducePolynomialsModOrder
 #	DTP_OrdersGenerators
+#
+# 	DTP_DTObjFromCollector
 #############################################################################
 
 # Input: 	- letter alpha 
