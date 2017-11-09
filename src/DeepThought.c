@@ -16,6 +16,9 @@
 #define IS_EVEN(obj)            (!IS_ODD(obj))
 
 
+static UInt RNleft, RNright;
+
+
 Obj DTP_Binomial(Obj self, Obj N, Obj K)
 {
     // handle some special cases
@@ -72,6 +75,28 @@ Obj DTP_Binomial(Obj self, Obj N, Obj K)
     return res;
 }
 
+Obj DTP_SequenceLetter_C(Obj self, Obj letter, Obj seq)
+{
+    if (!IS_PREC_REP(letter))
+        ErrorMayQuit("DTP_SequenceLetter_C: <letter> must be a plain record (not a %s)",
+                 (Int)TNAM_OBJ(letter), 0L);
+
+    if (!IS_PLIST(seq))
+        ErrorMayQuit("DTP_SequenceLetter_C: <seq> must be a plain list (not a %s)",
+                 (Int)TNAM_OBJ(seq), 0L);
+
+    if (IsbPRec(letter, RNleft))
+        DTP_SequenceLetter_C(self, ElmPRec(letter, RNleft), seq);
+
+    if (IsbPRec(letter, RNright))
+        DTP_SequenceLetter_C(self, ElmPRec(letter, RNright), seq);
+
+    UInt len = LEN_PLIST(seq);
+    AssPlist(seq, len+1, letter);
+
+    return 0;
+}
+
 
 typedef Obj (* GVarFunc)(/*arguments*/);
 
@@ -84,6 +109,7 @@ typedef Obj (* GVarFunc)(/*arguments*/);
 // Table of functions to export
 static StructGVarFunc GVarFuncs [] = {
     GVAR_FUNC_TABLE_ENTRY("DeepThought.c", DTP_Binomial, 2, "n, k"),
+    GVAR_FUNC_TABLE_ENTRY("DeepThought.c", DTP_SequenceLetter_C, 2, "letter, seq"),
 
 	{ 0 } /* Finish with an empty entry */
 
@@ -96,6 +122,9 @@ static Int InitKernel( StructInitInfo *module )
 {
     /* init filters and functions                                          */
     InitHdlrFuncsFromTable( GVarFuncs );
+
+    RNleft = RNamName("left");
+    RNright = RNamName("right");
 
     /* return success                                                      */
     return 0;
