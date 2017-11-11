@@ -17,23 +17,23 @@
 # evaluate polynomial pol = f_rs on input z = [z_1, ..., z_n] and y_s:
 # (a_1^z_1 * ... * a_n^z_n ) * a_s^y_s = a_1^res[1] * ... a_n^res[n] 
 DTP_EvalPol_rs := function(pol, z, y_s)
-	local res, summand, i, j; 
+	local res, summand, g_alpha, j; 
 	
 	res := 0; 
 	
-	for i in [1 .. Length(pol)] do
-		summand := pol[i][1]; 
-		for j in [2 .. Length(pol[i])] do
+	for g_alpha in pol do
+		summand := g_alpha[1]; 
+		for j in [2 .. Length(g_alpha)] do
 		
-			Assert(1, pol[i][j][2] >= 0); # pol[i][j][2] = |A| for an 
+			Assert(1, g_alpha[j][2] >= 0); # pol[i][j][2] = |A| for an 
 			# equivalence class of Sub(alpha) for a letter alpha
 			
-			if pol[i][j][1] <= Length(z) then # Length(z) = n
-				summand := summand * Binomial(z[pol[i][j][1]], pol[i][j][2]); 
+			if g_alpha[j][1] <= Length(z) then # Length(z) = n
+				summand := summand * Binomial(z[g_alpha[j][1]], g_alpha[j][2]); 
 			else # If the number of the indeterminate is greater than n, it 
 			# must be Y_s, since it is the only indeterminate corresponding 
 			# to an indeterminate Y_{} in f_rs 
-				summand := summand * Binomial(y_s, pol[i][j][2]);
+				summand := summand * Binomial(y_s, g_alpha[j][2]);
 			fi;
 			
 		od; 
@@ -121,23 +121,23 @@ end);
 ####					Multiplication with f_r							 ####
 #############################################################################
 
-# evaluate polynomial f_r on input x, y
+# evaluate polynomial pol = f_r on exponent vectors x, y
 DTP_EvalPol_r := function(pol, x, y)
-	local res, summand, i, j, n; 
+	local res, summand, g_alpha, j, n; 
 	
 	n := Length(x); 
 	res := 0; 
 	
-	for i in [1 .. Length(pol)] do # pol[i] <-> g_alpha
-		summand := pol[i][1]; # constant coefficient
-		for j in [2 .. Length(pol[i])] do
-			Assert(1, pol[i][j][2] >= 0); # pol[i][j][2] = |A| for an 
+	for g_alpha in pol do # pol[i] <-> g_alpha
+		summand := g_alpha[1]; # constant coefficient
+		for j in [2 .. Length(g_alpha)] do
+			Assert(1, g_alpha[j][2] >= 0); # g_alpha[j][2] = |A| for an 
 			# equivalence class of Sub(alpha) for a letter alpha
-			if pol[i][j][1] <= n then 
-				summand := summand * Binomial(x[pol[i][j][1]], pol[i][j][2]); 
+			if g_alpha[j][1] <= n then 
+				summand := summand * Binomial(x[g_alpha[j][1]], g_alpha[j][2]); 
 			else # If the number of the indeterminate is greater than n, it 
 			# is a Y_s = Y_{n + r} 1 <= r <= n
-				summand := summand * Binomial(y[pol[i][j][1] - n], pol[i][j][2]);
+				summand := summand * Binomial(y[g_alpha[j][1] - n], g_alpha[j][2]);
 			fi;
 			
 		od; 
