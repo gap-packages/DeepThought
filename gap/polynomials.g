@@ -132,6 +132,52 @@ DTP_OrdersGenerators := function(DTObj)
 	
 end;
 
+# Creates a DTObj = [] for a collector coll with polynomials pols
+# and flag isConfl. 
+DTP_FinalizeDTObj := function(DTObj, coll, pols, isConfl)
+	local r, n;
+
+	n := coll![PC_NUMBER_OF_GENERATORS];
+	# Compute the orders of the generators and reduce the polynomials modulo
+	# the generator orders. This is not possible if the collector is not 
+	# consistent and thus isConfl = false. 
+	for r in [1..30] do
+		if IsBound(coll![r]) then
+			DTObj[r] := StructuralCopy(coll![r]);
+		fi;
+	od;
+	
+	DTObj[PC_DTPPolynomials] := pols; 
+	DTObj[PC_DTPOrders] := [1 .. n] * infinity; # for computing the generator
+	# orders we also need to provide "orders", since we use the same 
+	# functions for multiplication. Hence, first assume them to be infinite. 
+	
+	DTObj[33] := isConfl; 
+	Objectify(DTObjType, DTObj); 
+	
+	if isConfl then 
+		# called by DTP_DTpols_r
+		if IsInt(pols[1][1][1]) then 
+			DTP_OrdersGenerators(DTObj); 
+			DTP_ReducePolynomialsModOrder(DTObj![31], DTObj![32]); 
+		else # called by DTP_DTpols_rs
+			DTP_OrdersGenerators(DTObj); 
+			for r in [1 .. n] do 
+				DTP_ReducePolynomialsModOrder(DTObj![31][r], DTObj![32]); 
+			od; 
+		fi;
+	else 
+		# We will use the same function for multiplication as 
+		# in the case, when the generator orders are provided. The generator 
+		# orders are, if finite, used for reduction modulo the orders during 
+		# computations. Hence, if we set each generator order to be infinity, 
+		# this yields the same result as doing no reduction, since in 
+		# Muliply_s we always execute the "else" statement.  
+	fi; 
+	
+	return DTObj; 
+end;
+
 #############################################################################
 ####					Polynomials f_rs								 ####
 #############################################################################
@@ -203,7 +249,7 @@ end;
 #			all_pols such that DTP_DTpols_rs[s] is the output of 
 #			DTP_DTpols_r_S(coll, s)
 DTP_DTpols_rs := function(coll, isConfl)
-	local n, s, all_pols, orders, gen, DTObj;
+	local n, s, all_pols, orders, gen;
 	
 	n := coll![PC_NUMBER_OF_GENERATORS];
 	
@@ -213,39 +259,8 @@ DTP_DTpols_rs := function(coll, isConfl)
 		Add(all_pols, DTP_DTpols_r_S(coll, s));
 	od; 
 	
-	# Compute the orders of the generators and reduce the polynomials modulo
-	# the generator orders. This is not possible if the collector is not 
-	# consistent and thus isConfl = false. 
-	DTObj := []; 
-	for s in [1..30] do
-		if IsBound(coll![s]) then
-			DTObj[s] := StructuralCopy(coll![s]);
-		fi;
-	od;
-	DTObj[PC_DTPPolynomials] := all_pols; 
-	DTObj[PC_DTPOrders] := [1 .. n] * infinity; # for computing the generator 
-	# orders we also need to provide "orders", since we use the same 
-	# functions for multiplication. Hence, first assume them to be infinite. 
-	# Then during multiplication we do not reduce any results. 
-	
-	DTObj[33] := isConfl; 
-	Objectify(DTObjType, DTObj); 
-	
-	if isConfl then 
-		DTP_OrdersGenerators(DTObj); 
-		for s in [1 .. n] do 
-			DTP_ReducePolynomialsModOrder(DTObj![31][s], DTObj![32]); 
-		od; 
-	else 
-		# We will use the same function for multiplication (DTP_Multiply_s) 
-		# as in the case, when the generator orders are provided. The 
-		# generator orders are, if finite, used for reduction modulo the 
-		# orders during computations. Hence, if we set each generator order 
-		# to be infinity, this yields the same result as doing no reduction, 
-		# since in Muliply_s we always execute the "else" statement. 
-	fi; 
-	
-	return Objectify(DTObjType, DTObj); 
+	# create DTObj:
+	return DTP_FinalizeDTObj([], coll, all_pols, isConfl); 
 end; 
 
 #############################################################################
@@ -265,12 +280,14 @@ end;
 # 			An entry pols_f_r[r] contains lists as described in g_alpha
 #			which represent the summands of f_r.
 DTP_DTpols_r := function(coll, isConfl)
-	local n, pols_f_r, reps, r, f_r, reps_r, alpha, g_alpha, term, added, DTObj; 
+	local n, pols_f_r, reps, r, f_r, reps_r, alpha, g_alpha, term, added; 
 	
 	n := coll![PC_NUMBER_OF_GENERATORS];
 	pols_f_r := []; 
 	# compute reps_r for 1 <= r <= n
 	reps := DTP_ComputeSetReps(coll, 0); 
+
+	# compute the polynomials
 	for r in [1 .. n] do
 		# compute polynomial f_r: f_r is list of summands
 		# g_alpha as described in DTP_Polynomial_g_alpha
@@ -308,39 +325,9 @@ DTP_DTpols_r := function(coll, isConfl)
 		Add(pols_f_r, f_r); 
 	od;
 	
-	# Compute the orders of the generators and reduce the polynomials modulo
-	# the generator orders. This is not possible if the collector is not 
-	# consistent and thus isConfl = false. 
-	DTObj := []; 
-	for r in [1..30] do
-		if IsBound(coll![r]) then
-			DTObj[r] := StructuralCopy(coll![r]);
-		fi;
-	od;
-	
-	DTObj[PC_DTPPolynomials] := pols_f_r; 
-	DTObj[PC_DTPOrders] := [1 .. n] * infinity; # for computing the generator
-	# orders we also need to provide "orders", since we use the same 
-	# functions for multiplication. Hence, first assume them to be infinite. 
-	
-	DTObj[33] := isConfl; 
-	Objectify(DTObjType, DTObj); 
-	
-	if isConfl then 
-		DTP_OrdersGenerators(DTObj); 
-		DTP_ReducePolynomialsModOrder(DTObj![31], DTObj![32]); 
-	else 
-		# We will use the same function for multiplication as 
-		# in the case, when the generator orders are provided. The generator 
-		# orders are, if finite, used for reduction modulo the orders during 
-		# computations. Hence, if we set each generator order to be infinity, 
-		# this yields the same result as doing no reduction, since in 
-		# Muliply_s we always execute the "else" statement.  
-	fi; 
-	
-	return DTObj; 
+	# create DTObj:
+	return DTP_FinalizeDTObj([], coll, pols_f_r, isConfl);
 end; 
-
 
 #############################################################################
 ####					Computing a DTObj								 ####
