@@ -7,6 +7,7 @@
 #	DTP_Polynomial_g_alpha
 #	DTP_ReducePolynomialsModOrder
 #	DTP_OrdersGenerators
+#	DTP_FinalizeDTObj
 #
 # 	DTP_DTObjFromCollector
 #############################################################################
