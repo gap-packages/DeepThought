@@ -25,7 +25,7 @@ DTP_EvalPol_rs := function(pol, z, y_s)
 		summand := g_alpha[1]; 
 		for j in [2 .. Length(g_alpha)] do
 		
-			Assert(1, g_alpha[j][2] >= 0); # pol[i][j][2] = |A| for an 
+			Assert(1, g_alpha[j][2] >= 0); # g_alpha[j][2] = |A| for an 
 			# equivalence class of Sub(alpha) for a letter alpha
 			
 			if g_alpha[j][1] <= Length(z) then # Length(z) = n
@@ -81,7 +81,7 @@ DTP_Multiply_s := function(z, elm_s, DTObj)
 		fi; 
 	od; 
 	
-	# Notice that "res" may NOT be in normal form, since it is more efficient
+	# Note that "res" may NOT be in normal form, since it is more efficient
 	# to compute the normal form only once in multiply_rs. 
 	return res; 
 end; 
