@@ -102,7 +102,17 @@ DTP_ComputeSetReps := function(coll, s)
 											# has the same content as when 
 											# calling DTP_StructureLetter with 
 											# input letter as below: 
-											Assert(1, reps[cnj[l]][ Length( reps[cnj[l]] )] = DTP_StructureLetter(rec( left := epsilon[3].left, right := epsilon[3].right, num := cnj[l], pos := 1, l := epsilon[3].left.l + epsilon[3].right.l + 1))); 
+											# !! This assertion only holds if 
+											# letter1left = true in 
+											# DTP_StructureLetterFromExisting !!
+											Assert(	2, 
+													reps[cnj[l]][ Length( reps[cnj[l]] )] = 
+													DTP_StructureLetter(rec( 	left := epsilon[3].left, 
+																			right := epsilon[3].right, 
+																			num := cnj[l], 
+																			pos := 1, 
+																			l := epsilon[3].left.l + epsilon[3].right.l + 1)),
+													Error("This assertion only holds if letter1left = true in DTP_StructureLetterFromExisting. Change 'if left.l < right.l then' to 'if true then' to test this assertion,") ); 
 											
 											# TODO Try to compute the
 											# polynomials simultaneously and 
