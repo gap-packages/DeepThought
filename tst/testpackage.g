@@ -40,7 +40,6 @@ Test_DTP_functions := function(coll, rs_flag, r, lim)
 			Error("in Inv"); 
 		fi; 
 		
-		# test Order (not included in time)
 		ord := Order(g_c); 
 		if not (ord = DTP_PCP_Order(g)
 		and ord = DTP_Order(g_expvec, dt)) then
@@ -134,66 +133,3 @@ DTP_rand_coll := function()
 	
 	return collector; 
 end; 
-
-TestDTPPackage := function()
-	local coll_list, coll, pk, p, k, num, j, nr, H, coll_paper, coll_cyclic, coll_finite; 
-	
-	coll_paper := FromTheLeftCollector(4);
-	SetConjugate(coll_paper, 2, 1, [2, 1, 3, 2]);
-	SetConjugate(coll_paper, 3, 1, [3, 1, 4, 1]);
-	SetConjugate(coll_paper, 3, 2, [3, 1, 4, 5]);
-	UpdatePolycyclicCollector(coll_paper);
-
-	coll_finite := FromTheLeftCollector(3);
-	SetRelativeOrder(coll_finite, 1, 15);
-	SetRelativeOrder(coll_finite, 2, 10);
-	SetRelativeOrder(coll_finite, 3, 3); 
-	UpdatePolycyclicCollector(coll_finite);
-
-	coll_cyclic := FromTheLeftCollector(1);
-	SetRelativeOrder(coll_cyclic, 1, 3628800);
-	UpdatePolycyclicCollector(coll_cyclic);
-	
-	coll_list := [ 	[ coll_paper, 100, 500],  
-					[ coll_finite, 100, 500], 
-					[ coll_cyclic, 100, 1000],
-					[ Collector(UnitriangularPcpGroup(3, 0)), 500, 500],
-					[ Collector(UnitriangularPcpGroup(5, 0)), 100, 100], 
-					[ Collector(HeisenbergPcpGroup(3)), 1000, 100],
-					[ Collector(HeisenbergPcpGroup(7)), 300, 100],
-					[ Collector(HeisenbergPcpGroup(30)), 10, 10],
-					[ Collector(BurdeGrunewaldPcpGroup(0, 1)), 10, 10],
-					[ Collector(BurdeGrunewaldPcpGroup(9, 7)), 10, 10],
-					[ Collector(ExamplesOfSomePcpGroups(11)), 100, 500],
-					[ Collector(ExamplesOfSomePcpGroups(12)), 100, 500],
-					[ Collector(ExamplesOfSomePcpGroups(15)), 10, 10],
-					[ Collector(ExamplesOfSomePcpGroups(16)), 10, 10] ];
-	
-	for coll in coll_list do 
-		Print("Test collector ", coll, "... \n"); 
-		Test_DTP_functions(coll[1], true, coll[2], coll[3]);
-		Test_DTP_functions(coll[1], false, coll[2], coll[3]); 
-	od;
-	
-	Print("Test some finite groups... \n"); 
-	for pk in [[2, 5], [2, 8], [5, 2], [5, 4], [7, 3], [23, 4]] do 
-		p := pk[1];
-		k := pk[2]; 
-		num := NrSmallGroups(p^k);
-		for j in [1 .. 3] do 
-			nr := Random([1 .. num]);
-			H := PcGroupToPcpGroup(SmallGroup(p^k, nr));
-			coll := Collector(H); 
-			Test_DTP_functions(coll, true, 1000, 1000); 
-			Test_DTP_functions(coll, false, 1000, 1000);
-		od;
-	od;
-	
-	Print("Test some random collectors... \n"); 
-	for j in [1 .. 10] do 
-		Test_DTP_functions(DTP_rand_coll(), true, 100, 1000); 
-		Test_DTP_functions(DTP_rand_coll(), false, 100, 1000);
-	od; 
-	
-	return true; 
-end;
