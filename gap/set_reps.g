@@ -105,7 +105,7 @@ DTP_ComputeSetReps := function(coll, s)
 											# !! This assertion only holds if 
 											# letter1left = true in 
 											# DTP_StructureLetterFromExisting !!
-											Assert(	2, 
+											Assert(	5, 
 													reps[cnj[l]][ Length( reps[cnj[l]] )] = 
 													DTP_StructureLetter(rec( 	left := epsilon[3].left, 
 																			right := epsilon[3].right, 
