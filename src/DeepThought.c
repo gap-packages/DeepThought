@@ -16,7 +16,7 @@
 #define IS_EVEN(obj)            (!IS_ODD(obj))
 
 
-static UInt RNleft, RNright;
+static UInt RNleft, RNright, RNlength;
 
 
 Obj DTP_Binomial(Obj self, Obj N, Obj K)
@@ -97,6 +97,34 @@ Obj DTP_SequenceLetter_C(Obj self, Obj letter, Obj seq)
     return 0;
 }
 
+Obj DTP_Seq_i_C(Obj self, Obj letter, Obj i)
+{
+    if (!IS_PREC_REP(letter))
+    ErrorMayQuit("DTP_Seq_I: <letter> must be a plain record (not a %s)",
+             (Int)TNAM_OBJ(letter), 0L);
+    
+    if (!IS_INT(i))
+    ErrorMayQuit("DTP_Seq_i: <i> must be an integer (not a %s)",
+         (Int)TNAM_OBJ(letter), 0L);
+
+    while( ElmPRec(letter, RNlength) > i){
+        Obj left = ElmPRec(letter, RNleft);
+        if( ElmPRec(left, RNlength) >= i )
+        {
+            letter = left;
+        } else {
+            i = DiffInt(i, ElmPRec(left, RNlength));
+            letter = ElmPRec(letter, RNright);
+        }
+    }
+
+    if(ElmPRec(letter, RNlength) != i){
+        ErrorMayQuit("DTP_Seq_i_C: Assertion failure, letter.l <> i", 0, 0);
+    }
+
+    return letter;
+}
+
 
 typedef Obj (* GVarFunc)(/*arguments*/);
 
@@ -110,8 +138,8 @@ typedef Obj (* GVarFunc)(/*arguments*/);
 static StructGVarFunc GVarFuncs [] = {
     GVAR_FUNC_TABLE_ENTRY("DeepThought.c", DTP_Binomial, 2, "n, k"),
     GVAR_FUNC_TABLE_ENTRY("DeepThought.c", DTP_SequenceLetter_C, 2, "letter, seq"),
-
-	{ 0 } /* Finish with an empty entry */
+    GVAR_FUNC_TABLE_ENTRY("DeepThought.c", DTP_Seq_i_C, 2, "letter, i"),
+    { 0 } /* Finish with an empty entry */
 
 };
 
@@ -125,6 +153,7 @@ static Int InitKernel( StructInitInfo *module )
 
     RNleft = RNamName("left");
     RNright = RNamName("right");
+    RNlength = RNamName("l");
 
     /* return success                                                      */
     return 0;
