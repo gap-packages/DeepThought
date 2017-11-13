@@ -16,7 +16,7 @@
 #define IS_EVEN(obj)            (!IS_ODD(obj))
 
 
-static UInt RNleft, RNright, RNlength;
+static UInt RNleft, RNright, RNlength, RNnum, RNside;
 
 
 Obj DTP_Binomial(Obj self, Obj N, Obj K)
@@ -107,13 +107,18 @@ Obj DTP_Seq_i_C(Obj self, Obj letter, Obj i)
     ErrorMayQuit("DTP_Seq_i: <i> must be an integer (not a %s)",
          (Int)TNAM_OBJ(letter), 0L);
 
-    while( ElmPRec(letter, RNlength) > i){
+    // We only support immediate integers for i. Anything else at this point
+    // would lead to output that's far too big for storage anyway.
+    if (!IS_INTOBJ(i))
+        return Fail;
+
+    while( ElmPRec(letter, RNlength) > i ){
         Obj left = ElmPRec(letter, RNleft);
         if( ElmPRec(left, RNlength) >= i )
         {
             letter = left;
         } else {
-            i = DiffInt(i, ElmPRec(left, RNlength));
+            i = DiffInt( i, ElmPRec(left, RNlength) );
             letter = ElmPRec(letter, RNright);
         }
     }
@@ -123,6 +128,48 @@ Obj DTP_Seq_i_C(Obj self, Obj letter, Obj i)
     }
 
     return letter;
+}
+
+Obj DTP_AreAlmostEqual_C(Obj self, Obj letter1, Obj letter2)
+{
+    if (!IS_PREC_REP(letter1))
+    ErrorMayQuit("DTP_AreAlmostEqual_C: <letter1> must be a plain record (not a %s)",
+             (Int)TNAM_OBJ(letter1), 0L);
+  
+    if (!IS_PREC_REP(letter2))
+    ErrorMayQuit("DTP_AreAlmostEqual_C: <letter2> must be a plain record (not a %s)",
+             (Int)TNAM_OBJ(letter2), 0L);
+
+    // We must have letter1.num = letter2.num
+    // and both must have the same length
+    if( !EQ( ElmPRec(letter1, RNnum), ElmPRec(letter2, RNnum) ) || 
+    !EQ( ElmPRec(letter1, RNlength), ElmPRec(letter2, RNlength) ) )
+    {
+        return False;
+    }
+
+    // check whether both are atoms / non-atoms:
+    UInt is_atom = IsbPRec(letter1, RNside); // 1 <=> letter1 is atom 
+    if( is_atom == IsbPRec(letter2, RNside) ){
+        if( is_atom == 1) // both are atoms
+        {   
+            if( EQ( ElmPRec(letter1, RNside), ElmPRec(letter2, RNside) ) ){
+                return True;
+            } else {
+                return False;                
+            } 
+
+        } else { // both are non-atoms
+            if( EQ( ElmPRec(letter1, RNleft), ElmPRec(letter2, RNleft) ) &&
+                EQ( ElmPRec(letter1, RNright), ElmPRec(letter2, RNright) ) ){
+                return True;                
+            } else {
+                return False;
+            }
+        }
+    } else { // one is an atom, the other one a non-atom
+        return False;
+    } 
 }
 
 
@@ -139,6 +186,7 @@ static StructGVarFunc GVarFuncs [] = {
     GVAR_FUNC_TABLE_ENTRY("DeepThought.c", DTP_Binomial, 2, "n, k"),
     GVAR_FUNC_TABLE_ENTRY("DeepThought.c", DTP_SequenceLetter_C, 2, "letter, seq"),
     GVAR_FUNC_TABLE_ENTRY("DeepThought.c", DTP_Seq_i_C, 2, "letter, i"),
+    GVAR_FUNC_TABLE_ENTRY("DeepThought.c", DTP_AreAlmostEqual_C, 2, "letter1, letter2"),
     { 0 } /* Finish with an empty entry */
 
 };
@@ -154,6 +202,8 @@ static Int InitKernel( StructInitInfo *module )
     RNleft = RNamName("left");
     RNright = RNamName("right");
     RNlength = RNamName("l");
+    RNnum = RNamName("num");
+    RNside = RNamName("side"); 
 
     /* return success                                                      */
     return 0;
