@@ -15,15 +15,38 @@ Date := "19/09/2017", # dd/mm/yyyy format
 
 Persons := [
   rec(
-    IsAuthor := true,
-    IsMaintainer := true,
-    FirstNames := "Nina",
-    LastName := "Wagner",
-    WWWHome := "",
-    Email := "nina.wagner@math.uni-giessen.de",
-    PostalAddress := "Arndtstraße 2, 35392 Gießen",
-    Place := "Gießen",
-    Institution := "JLU Gießen",
+    IsAuthor		:= true,
+    IsMaintainer 	:= true,
+    FirstNames 		:= "Nina",
+    LastName 		:= "Wagner",
+    WWWHome 		:= "",
+    Email 			:= "nina.wagner@math.uni-giessen.de",
+	PostalAddress 	:= Concatenation(
+						"AG Algebra\n",
+						"Mathematisches Institut\n",
+						"Justus-Liebig-Universität Gießen\n",
+						"Arndtstraße 2\n",
+						"35392 Gießen\n",
+						"Germany" ),
+    Place         	:= "Gießen",
+    Institution   	:= "Justus-Liebig-Universität Gießen"
+  ),
+  rec(
+    LastName      := "Horn",
+    FirstNames    := "Max",
+    IsAuthor      := true,
+    IsMaintainer  := true,
+    Email         := "max.horn@math.uni-giessen.de",
+    WWWHome       := "http://www.quendi.de/math",
+    PostalAddress := Concatenation(
+                       "AG Algebra\n",
+                       "Mathematisches Institut\n",
+                       "Justus-Liebig-Universität Gießen\n",
+                       "Arndtstraße 2\n",
+                       "35392 Gießen\n",
+                       "Germany" ),
+    Place         := "Gießen",
+    Institution   := "Justus-Liebig-Universität Gießen"
   ),
 ],
 

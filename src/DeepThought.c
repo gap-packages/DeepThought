@@ -4,16 +4,125 @@
 
 #include "src/compiled.h"          /* GAP headers */
 
+#define IS_INTPOS(obj)          (TNUM_OBJ(obj) == T_INTPOS)
+#define IS_INTNEG(obj)          (TNUM_OBJ(obj) == T_INTNEG)
+#define IS_LARGEINT(obj)        (IS_INTPOS(obj) || IS_INTNEG(obj))
 
-Obj TestCommand(Obj self)
+#define IS_INT(obj)             (IS_INTOBJ(obj) || IS_LARGEINT(obj))
+
+#define IS_NEGATIVE(obj)        (IS_INTOBJ(obj) ? ((Int)obj < 0) : IS_INTNEG(obj))
+#define IS_POSITIVE(obj)        (IS_INTOBJ(obj) ? ((Int)obj > 1) : IS_INTPOS(obj))
+#define IS_ODD(obj)             (IS_INTOBJ(obj) ? ((Int)obj & 4) : (VAL_LIMB0(obj) & 1))
+#define IS_EVEN(obj)            (!IS_ODD(obj))
+
+
+static UInt RNleft, RNright, RNlength;
+
+
+Obj DTP_Binomial(Obj self, Obj N, Obj K)
 {
-    return INTOBJ_INT(42);
+    // handle some special cases
+    if (K == INTOBJ_INT(1)) // K=1 is the most frequent case for us, so check it first
+        return N;
+
+    // restrict input
+    if (!IS_INT(N) || !IS_INT(K))
+        return Fail;
+
+    if (K == INTOBJ_INT(0))
+        return INTOBJ_INT(1);
+    if (IS_NEGATIVE(K))
+        return INTOBJ_INT(0);
+
+    // from now on, k >= 2
+
+    if (K == N)
+        return INTOBJ_INT(1);
+
+    if (IS_NEGATIVE(N))
+        return Fail;    // TODO: implement this (does it happen?)
+
+    if (LtInt(N, K))
+        return INTOBJ_INT(0);
+
+    // We only support immediate integers for k. Anything else at this point
+    // would lead to output that's far too big for storage anyway.
+    if (!IS_INTOBJ(K))
+        return Fail;
+
+    Int k = INT_INTOBJ(K);
+    Int i;
+    Obj res = N;
+    Int quot = 1;
+
+    // "unroll" the first few operations, to avoid repeated divisions, while
+    // hopefully keeping res small enough to be represented as an immediate
+    // (if N wasn't too big)
+    for (i = 2; i <= k && i <= 6; ++i) {
+        N = DiffInt(N, INTOBJ_INT(1));
+        res = ProdInt(res, N);
+        quot *= i;
+    }
+    res = QuoInt(res, INTOBJ_INT(quot));
+
+    // now the general case
+    for (; i <= k; ++i) {
+        N = DiffInt(N, INTOBJ_INT(1));
+        res = ProdInt(res, N);
+        res = QuoInt(res, INTOBJ_INT(i));
+    }
+
+    return res;
 }
 
-Obj TestCommandWithParams(Obj self, Obj param, Obj param2)
+Obj DTP_SequenceLetter_C(Obj self, Obj letter, Obj seq)
 {
-    /* simply return the first parameter */
-    return param;
+    if (!IS_PREC_REP(letter))
+        ErrorMayQuit("DTP_SequenceLetter_C: <letter> must be a plain record (not a %s)",
+                 (Int)TNAM_OBJ(letter), 0L);
+
+    if (!IS_PLIST(seq))
+        ErrorMayQuit("DTP_SequenceLetter_C: <seq> must be a plain list (not a %s)",
+                 (Int)TNAM_OBJ(seq), 0L);
+
+    if (IsbPRec(letter, RNleft))
+        DTP_SequenceLetter_C(self, ElmPRec(letter, RNleft), seq);
+
+    if (IsbPRec(letter, RNright))
+        DTP_SequenceLetter_C(self, ElmPRec(letter, RNright), seq);
+
+    UInt len = LEN_PLIST(seq);
+    AssPlist(seq, len+1, letter);
+
+    return 0;
+}
+
+Obj DTP_Seq_i_C(Obj self, Obj letter, Obj i)
+{
+    if (!IS_PREC_REP(letter))
+    ErrorMayQuit("DTP_Seq_I: <letter> must be a plain record (not a %s)",
+             (Int)TNAM_OBJ(letter), 0L);
+    
+    if (!IS_INT(i))
+    ErrorMayQuit("DTP_Seq_i: <i> must be an integer (not a %s)",
+         (Int)TNAM_OBJ(letter), 0L);
+
+    while( ElmPRec(letter, RNlength) > i){
+        Obj left = ElmPRec(letter, RNleft);
+        if( ElmPRec(left, RNlength) >= i )
+        {
+            letter = left;
+        } else {
+            i = DiffInt(i, ElmPRec(left, RNlength));
+            letter = ElmPRec(letter, RNright);
+        }
+    }
+
+    if(ElmPRec(letter, RNlength) != i){
+        ErrorMayQuit("DTP_Seq_i_C: Assertion failure, letter.l <> i", 0, 0);
+    }
+
+    return letter;
 }
 
 
@@ -27,10 +136,10 @@ typedef Obj (* GVarFunc)(/*arguments*/);
 
 // Table of functions to export
 static StructGVarFunc GVarFuncs [] = {
-    GVAR_FUNC_TABLE_ENTRY("DeepThought.c", TestCommand, 0, ""),
-    GVAR_FUNC_TABLE_ENTRY("DeepThought.c", TestCommandWithParams, 2, "param, param2"),
-
-	{ 0 } /* Finish with an empty entry */
+    GVAR_FUNC_TABLE_ENTRY("DeepThought.c", DTP_Binomial, 2, "n, k"),
+    GVAR_FUNC_TABLE_ENTRY("DeepThought.c", DTP_SequenceLetter_C, 2, "letter, seq"),
+    GVAR_FUNC_TABLE_ENTRY("DeepThought.c", DTP_Seq_i_C, 2, "letter, i"),
+    { 0 } /* Finish with an empty entry */
 
 };
 
@@ -41,6 +150,10 @@ static Int InitKernel( StructInitInfo *module )
 {
     /* init filters and functions                                          */
     InitHdlrFuncsFromTable( GVarFuncs );
+
+    RNleft = RNamName("left");
+    RNright = RNamName("right");
+    RNlength = RNamName("l");
 
     /* return success                                                      */
     return 0;
