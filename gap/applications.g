@@ -376,7 +376,8 @@ function(x, DTObj)
 	multiply := DTP_DetermineMultiplicationFunction(DTObj); 
 
 	# check whether x is in normal form, if not call _DTP_DetermineNormalForm
-	if not DTP_IsInNormalForm(x, DTObj) then 
+	# DTP_IsInNormalForm returns true or an intger, if not in normal form
+	if DTP_IsInNormalForm(x, DTObj) <> true then  
 		x := _DTP_DetermineNormalForm(x, DTObj, [], multiply); 
 	fi; 
 	
