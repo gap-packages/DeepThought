@@ -7,10 +7,14 @@ description: |
 authors:
     - name: Nina Wagner
       url: 
+    - name: Max Horn
+      url: http://www.quendi.de/math
 
 maintainers:
     - name: Nina Wagner
       url: 
+    - name: Max Horn
+      url: http://www.quendi.de/math
 
 GAP: ">= 4.8"
 
