@@ -1,4 +1,0 @@
- DTP_SequenceLetter := DTP_SequenceLetter_C;;
- DTP_Seq_i := DTP_Seq_i_C;;
- MakeReadWriteGlobal("DTP_AreAlmostEqual");;
- DTP_AreAlmostEqual := DTP_AreAlmostEqual_C;;    
