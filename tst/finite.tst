@@ -12,6 +12,8 @@ gap> Test_DTP_functions(coll, true, 1000, 1000);
 true
 gap> Test_DTP_functions(coll, false, 1000, 1000);
 true
+gap> Test_DTP_pkg_consistency(coll, 100);
+true
 
 # finite group 
 gap> p := 2;;
@@ -24,6 +26,8 @@ gap> coll := Collector(H);;
 gap> Test_DTP_functions(coll, true, 1000, 1000); 
 true
 gap> Test_DTP_functions(coll, false, 1000, 1000);
+true
+gap> Test_DTP_pkg_consistency(coll, 100);
 true
 
 # finite group 
@@ -38,6 +42,8 @@ gap> Test_DTP_functions(coll, true, 1000, 1000);
 true
 gap> Test_DTP_functions(coll, false, 1000, 1000);
 true
+gap> Test_DTP_pkg_consistency(coll, 100);
+true
 
 # finite group 
 gap> p := 5;;
@@ -50,6 +56,8 @@ gap> coll := Collector(H);;
 gap> Test_DTP_functions(coll, true, 1000, 1000); 
 true
 gap> Test_DTP_functions(coll, false, 1000, 1000);
+true
+gap> Test_DTP_pkg_consistency(coll, 100);
 true
 
 # finite group 
@@ -64,6 +72,8 @@ gap> Test_DTP_functions(coll, true, 1000, 1000);
 true
 gap> Test_DTP_functions(coll, false, 1000, 1000);
 true
+gap> Test_DTP_pkg_consistency(coll, 100);
+true
 
 # finite group 
 gap> p := 23;;
@@ -76,4 +86,6 @@ gap> coll := Collector(H);;
 gap> Test_DTP_functions(coll, true, 1000, 1000); 
 true
 gap> Test_DTP_functions(coll, false, 1000, 1000);
+true
+gap> Test_DTP_pkg_consistency(coll, 100);
 true

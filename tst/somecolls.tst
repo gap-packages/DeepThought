@@ -10,6 +10,8 @@ gap> Test_DTP_functions(coll, true, 100, 500);
 true
 gap> Test_DTP_functions(coll, false, 100, 500); 
 true
+gap> Test_DTP_pkg_consistency(DTP_rand_coll(), 100);
+true
 
 # test finite group
 gap> coll := FromTheLeftCollector(3);;
@@ -21,6 +23,8 @@ gap> Test_DTP_functions(coll, true, 100, 500);
 true
 gap> Test_DTP_functions(coll, false, 100, 500); 
 true
+gap> Test_DTP_pkg_consistency(DTP_rand_coll(), 100);
+true
 
 # test cyclic group 
 gap> coll := FromTheLeftCollector(1);;
@@ -29,4 +33,6 @@ gap> UpdatePolycyclicCollector(coll);;
 gap> Test_DTP_functions(coll, true, 100, 1000);
 true
 gap> Test_DTP_functions(coll, false, 100, 1000); 
+true
+gap> Test_DTP_pkg_consistency(DTP_rand_coll(), 100);
 true

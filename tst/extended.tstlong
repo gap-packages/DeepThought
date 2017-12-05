@@ -2,7 +2,18 @@ gap> Read("tst/testpackage.g");;
 
 # example group 14: 
 gap> coll := Collector(ExamplesOfSomePcpGroups(14));; 
-gap> Test_DTP_functions(ex14, true, 10, 10); 
+gap> Test_DTP_functions(coll, true, 10, 10); 
+true
+
+# example group 15
+gap> coll :=  Collector(ExamplesOfSomePcpGroups(15));;
+gap> Test_DTP_pkg_consistency(coll, 50);
+true
+
+# example group 16
+gap> coll :=  Collector(ExamplesOfSomePcpGroups(16));;
+gap> Test_DTP_pkg_consistency(coll, 2);
+true
 
 # heisenberg 50
 gap> coll := Collector(HeisenbergPcpGroup(50));;
@@ -18,9 +29,11 @@ true
 gap> Test_DTP_functions(coll, false, 10, 10); 
 true
 
-# another Burde-Grunewald group
+# Burde-Grunewald group
 gap> coll := Collector(BurdeGrunewaldPcpGroup(9, 7));;
 gap> Test_DTP_functions(coll, true, 10, 10);
 true
 gap> Test_DTP_functions(coll, false, 10, 10);
+true
+gap> Test_DTP_pkg_consistency(coll, 50); 
 true

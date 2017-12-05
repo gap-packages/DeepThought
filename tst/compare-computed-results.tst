@@ -521,17 +521,17 @@ gap> h_inv := DTP_Inverse(h, dto_r);
 
 # test Order
 gap> DTP_Order(g, dto_rs);
-Error, <expr> must be 'true' or 'false' (not a integer)
+infinity
 gap> DTP_Order(g, dto_r);
-Error, <expr> must be 'true' or 'false' (not a integer)
+infinity
 gap> DTP_Order(g_inv, dto_rs);
 infinity
 gap> DTP_Order(g_inv, dto_r);
 infinity
 gap> DTP_Order(h, dto_rs);
-Error, <expr> must be 'true' or 'false' (not a integer)
+infinity
 gap> DTP_Order(h, dto_r);
-Error, <expr> must be 'true' or 'false' (not a integer)
+infinity
 gap> DTP_Order(h_inv, dto_rs);
 infinity
 gap> DTP_Order(h_inv, dto_r);

@@ -82,6 +82,82 @@ Test_DTP_functions := function(coll, rs_flag, r, lim)
 	return true; 
 end;
 
+# for a given collector, compute DTObj for polynomials
+# f_r and f_rs, do some computations and compare results. 
+# Check conditions such as g^ord_g = 1 and g * g^-1 = 1. 
+Test_DTP_pkg_consistency := function(coll, r)
+	local dt_r, dt_rs, n, i, g, h, j, z, res_r, res_rs, ord_r, ord_rs; 
+	
+	dt_r := DTP_DTObjFromCollector(coll, false); 
+	dt_rs := DTP_DTObjFromCollector(coll, true); 
+	n := NumberOfGenerators(coll);
+	
+	for i in [1 .. r] do
+		g := []; 
+		h := [];
+		for j in [1 .. n] do
+			Add(g, Random([-10000, 10000]));
+			Add(h, Random([-10000, 10000]));
+		od;  
+		
+		# test Exp
+		z := Random([-1000 .. 1000]); 
+		res_r := DTP_Exp(g, z, dt_r);
+		res_rs := DTP_Exp(g, z, dt_rs);
+		if not res_r = res_rs then 
+			Error("in Exp"); 
+		fi; 
+			
+		# test Inverse 
+		res_r := DTP_Inverse(g, dt_r);
+		res_rs := DTP_Inverse(g, dt_rs); 
+		# check that g * g^-1 = 1
+		if not ( res_r = res_rs or 
+			DTP_Multiply(res_r, g) = 0 * [1 ..n ] ) then 
+			Error("in Inv"); 
+		fi; 
+
+		# test order of g 
+		ord_r := DTP_Order(g, dt_r);
+		ord_rs := DTP_Order(g, dt_rs);
+
+		# check g^ord(g) = 1
+		if not (ord_r = ord_rs or not
+			DTP_Exp(g, ord_r, dt_rs) = 0 * [1 .. n] ) then
+			Error("in Order"); 
+		fi; 
+
+		# check that for no divisor j of ord(g) g^(ord(g)/j) = 1   
+		if ord_r < 10000 then 
+			for j in DivisorsInt(ord_r) do 
+				if j <> 1 and DTP_Exp(g, ord_r/j, dt_rs) = 0 * [1 .. n] then 
+					Print(g, "\n");
+					Print(ord_r, "\n");
+					Print(ord_r/j, "\n");
+					Error("order is less than computed");
+				fi; 
+			od; 
+		fi; 		
+
+		# test SolveEquation
+		res_r := DTP_SolveEquation(g, h, dt_r); 
+		res_rs := DTP_SolveEquation(g, h, dt_rs); 
+		if not res_r = res_rs then 
+			Error("in SolveEquation"); 
+		fi; 
+		
+		# test Multiply
+		res_r := DTP_Multiply(g, h, dt_r);
+		res_rs := DTP_Multiply(g, h, dt_rs);  
+		if not res_r = res_rs then 
+			Error("in Multiply"); 
+		fi; 
+	od; 
+	
+	return true; 
+end;
+
+
 # Use Lemma 2 in Eick/Engel paper 
 # 	"Hall polynomials for the torsion free nilpotent groups of Hirsch length
 #	at most 5"
