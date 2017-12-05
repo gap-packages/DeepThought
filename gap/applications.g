@@ -170,43 +170,22 @@ end) ;
 #			the result is in normal form. 
 InstallGlobalFunction( DTP_Exp, 
 function(x, q, DTObj)
-	local q_list, l, k, res, multiply; 
-	
-	multiply := DTP_DetermineMultiplicationFunction(DTObj); 
-	
-	if q < 0 then
-    	q_list := -CoefficientsQadic(-q, 2);
-    elif q = 0 then 
-		return [1 .. NumberOfGenerators(DTObj)] * 0; 
-	else
-    	q_list := CoefficientsQadic(q, 2);
-	fi;
-	l := Length(q_list) - 1; # q = \sum_{k = 0}^l q_list[k + 1] 2^k
-	
-	# Compute x^q = \prod_{i = 0}^l x^(q_list[i + 1] * 2^i):
-	
-	# First compute x^q_list[1], where q_list[1] \in {-1, 0, 1}.
-	if q < 0 then
-		# If q is negative, we compute (x^{-1})^|q|.
-		x := DTP_Inverse(x, DTObj); # x = x^-1
-	fi; 
-	
-	# First step of the computation: 
-	if q_list[1] = 0 then # res = 1_G = [0, ..., 0]
-		res := [1 .. NumberOfGenerators(DTObj)] * 0; 
-	else # res = z
-		res := x;
-	fi;
+	local multiply, y;  
 
-	# Compute x^|q| = \prod_{k = 0}^l z^(q_list[k + 1] * 2^k)
-	for k in [1 .. l] do
-		x := multiply(x, x, DTObj);
-		if q_list[k + 1] <> 0 then
-			res := multiply(res, x, DTObj); 
+	multiply := DTP_DetermineMultiplicationFunction(DTObj); 
+	y := [1 .. NumberOfGenerators(DTObj)] *0; # y = 1
+	if q < 0 then 
+		x := DTP_Inverse(x, DTObj);
+		q := -q; 
+	fi; 
+	while q > 0 do 
+		if q mod 2 = 1 then 
+			y := multiply(y, x, DTObj);
 		fi; 
+		q := QuoInt(q, 2);
+		x := multiply(x, x, DTObj);
 	od;
-	
-	return res; 
+	return y;  
 end) ; 
 
 # Input: 	- pcp element pcp
