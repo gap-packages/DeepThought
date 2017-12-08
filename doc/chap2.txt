@@ -35,9 +35,9 @@
   [10XDTP_DTapplicability[110X.[133X
   
   [4X[32X  Example  [32X[104X
-    [4X[25Xgap>[125X [27XG := UnitriangularPcpGroup(10, 0);; [127X[104X
-    [4X[25Xgap>[125X [27Xcoll := Collector(G);; [127X[104X
-    [4X[25Xgap>[125X [27XDTP_DTapplicability(coll); [127X[104X
+    [4X[25Xgap>[125X [27X# G := UnitriangularPcpGroup(10, 0);; [127X[104X
+    [4X[25Xgap>[125X [27X# coll := Collector(G);; [127X[104X
+    [4X[25Xgap>[125X [27X# DTP_DTapplicability(coll); [127X[104X
     [4X[28XChecking collector for DT-applicability. "+" means the following property[128X[104X
     [4X[28Xis fulfilled.[128X[104X
     [4X[28X+   conjugacy relations[128X[104X
@@ -46,7 +46,7 @@
     [4X[28XSuggestion: Call DTP_DTObjFromColl with rs_flag = true.[128X[104X
     [4X[28Xtrue[128X[104X
     [4X[28X# calling DTP_DTObjFromCollector without rs_flag implies rs_flag = true: [128X[104X
-    [4X[25Xgap>[125X [27XDTObj := DTP_DTObjFromCollector(coll);[127X[104X
+    [4X[25Xgap>[125X [27X# DTObj := DTP_DTObjFromCollector(coll);[127X[104X
     [4X[28X<DTObj>[128X[104X
   [4X[32X[104X
   
@@ -124,27 +124,27 @@
   [10XDTObj![PC_DTPConfluent] = true[110X, then the result describes a normal form.[133X
   
   [4X[32X  Example  [32X[104X
-    [4X[25Xgap>[125X [27XG := PcGroupToPcpGroup(SmallGroup(23^5, 2)); [127X[104X
+    [4X[25Xgap>[125X [27X# G := PcGroupToPcpGroup(SmallGroup(23^5, 2)); [127X[104X
     [4X[28XPcp-group with orders [ 23, 23, 23, 23, 23 ][128X[104X
-    [4X[25Xgap>[125X [27Xcoll := Collector(G); [127X[104X
+    [4X[25Xgap>[125X [27X# coll := Collector(G); [127X[104X
     [4X[28X<<from the left collector with 5 generators>>[128X[104X
-    [4X[25Xgap>[125X [27XDTObj := DTP_DTObjFromCollector(coll); [127X[104X
+    [4X[25Xgap>[125X [27X# DTObj := DTP_DTObjFromCollector(coll); [127X[104X
     [4X[28X<DTObj>[128X[104X
-    [4X[25Xgap>[125X [27Xg := [100, 134, -31, 52, 5235]; [127X[104X
+    [4X[25Xgap>[125X [27X# g := [100, 134, -31, 52, 5235]; [127X[104X
     [4X[28X[ 100, 134, -31, 52, 5235 ][128X[104X
-    [4X[25Xgap>[125X [27XDTP_IsInNormalForm(g, DTObj); [127X[104X
+    [4X[25Xgap>[125X [27X# DTP_IsInNormalForm(g, DTObj); [127X[104X
     [4X[28X1[128X[104X
-    [4X[25Xgap>[125X [27Xg := DTP_NormalForm(g, DTObj);[127X[104X
+    [4X[25Xgap>[125X [27X# g := DTP_NormalForm(g, DTObj);[127X[104X
     [4X[28X[ 8, 19, 15, 10, 19 ][128X[104X
-    [4X[25Xgap>[125X [27XDTP_IsInNormalForm(g, DTObj);         [127X[104X
+    [4X[25Xgap>[125X [27X# DTP_IsInNormalForm(g, DTObj);         [127X[104X
     [4X[28Xtrue[128X[104X
-    [4X[25Xgap>[125X [27XDTP_Inverse(g, DTObj); [127X[104X
+    [4X[25Xgap>[125X [27X# DTP_Inverse(g, DTObj); [127X[104X
     [4X[28X[ 15, 4, 22, 12, 3 ][128X[104X
-    [4X[25Xgap>[125X [27XDTP_Order(g, DTObj);[127X[104X
+    [4X[25Xgap>[125X [27X# DTP_Order(g, DTObj);[127X[104X
     [4X[28X529[128X[104X
-    [4X[25Xgap>[125X [27Xh := [142, 2, -41, 23, 1]; [127X[104X
+    [4X[25Xgap>[125X [27X# h := [142, 2, -41, 23, 1]; [127X[104X
     [4X[28X[ 142, 2, -41, 23, 1 ][128X[104X
-    [4X[25Xgap>[125X [27XDTP_Multiply(g, h, DTObj); [127X[104X
+    [4X[25Xgap>[125X [27X# DTP_Multiply(g, h, DTObj); [127X[104X
     [4X[28X[ 12, 21, 4, 16, 20 ][128X[104X
   [4X[32X[104X
   
@@ -199,20 +199,20 @@
   [10XDTObj![PC_DTPConfluent] = true[110X, then the result describes a normal form.[133X
   
   [4X[32X  Example  [32X[104X
-    [4X[25Xgap>[125X [27XG := HeisenbergPcpGroup(7);;[127X[104X
-    [4X[25Xgap>[125X [27Xcoll := Collector(G);;[127X[104X
-    [4X[25Xgap>[125X [27XDTObj := DTP_DTObjFromCollector(coll);;[127X[104X
-    [4X[25Xgap>[125X [27XH := PcpGroupByCollector(DTObj);;[127X[104X
-    [4X[25Xgap>[125X [27Xg := Random(H);; h := Random(H);; [127X[104X
-    [4X[25Xgap>[125X [27XDTP_PCP_SolveEquation(g, h); [127X[104X
+    [4X[25Xgap>[125X [27X# G := HeisenbergPcpGroup(7);;[127X[104X
+    [4X[25Xgap>[125X [27X# coll := Collector(G);;[127X[104X
+    [4X[25Xgap>[125X [27X# DTObj := DTP_DTObjFromCollector(coll);;[127X[104X
+    [4X[25Xgap>[125X [27X# H := PcpGroupByCollector(DTObj);;[127X[104X
+    [4X[25Xgap>[125X [27X# g := Random(H);; h := Random(H);; [127X[104X
+    [4X[25Xgap>[125X [27X# DTP_PCP_SolveEquation(g, h); [127X[104X
     [4X[28Xg1^-3*g2^-1*g3^-7*g4*g5^-6*g6*g7*g8^2*g9^3*g11^-4*g12^5*g14^-2*g15^7[128X[104X
-    [4X[25Xgap>[125X [27Xg^-1 * h; [127X[104X
+    [4X[25Xgap>[125X [27X# g^-1 * h; [127X[104X
     [4X[28Xg1^-3*g2^-1*g3^-7*g4*g5^-6*g6*g7*g8^2*g9^3*g11^-4*g12^5*g14^-2*g15^7[128X[104X
-    [4X[25Xgap>[125X [27XOrder(g); [127X[104X
+    [4X[25Xgap>[125X [27X# Order(g); [127X[104X
     [4X[28Xinfinity[128X[104X
-    [4X[25Xgap>[125X [27Xg^-1; [127X[104X
+    [4X[25Xgap>[125X [27X# g^-1; [127X[104X
     [4X[28Xg1^-2*g3^-3*g4^-1*g5^-4*g6^2*g7*g8^-3*g10^-3*g11^-1*g12^4*g14^-2*g15^-3[128X[104X
-    [4X[25Xgap>[125X [27XDTP_PCP_Inverse(h); [127X[104X
+    [4X[25Xgap>[125X [27X# DTP_PCP_Inverse(h); [127X[104X
     [4X[28Xg1*g2*g3^4*g4^-2*g5^2*g6*g8^-5*g9^-3*g10^-3*g11^3*g12^-1*g15^-33[128X[104X
   [4X[32X[104X
   
@@ -242,14 +242,14 @@
   ring.[133X
   
   [4X[32X  Example  [32X[104X
-    [4X[25Xgap>[125X [27Xcoll := FromTheLeftCollector(4);;[127X[104X
-    [4X[25Xgap>[125X [27XSetConjugate(coll, 2, 1, [2, 1, 3, 2]);      [127X[104X
-    [4X[25Xgap>[125X [27XSetConjugate(coll, 3, 1, [3, 1, 4, 1]);      [127X[104X
-    [4X[25Xgap>[125X [27XSetConjugate(coll, 3, 2, [3, 1, 4, 5]);      [127X[104X
-    [4X[25Xgap>[125X [27XUpdatePolycyclicCollector(coll);      [127X[104X
-    [4X[25Xgap>[125X [27XDTObj := DTP_DTObjFromCollector(coll); [127X[104X
+    [4X[25Xgap>[125X [27X# coll := FromTheLeftCollector(4);;[127X[104X
+    [4X[25Xgap>[125X [27X# SetConjugate(coll, 2, 1, [2, 1, 3, 2]);      [127X[104X
+    [4X[25Xgap>[125X [27X# SetConjugate(coll, 3, 1, [3, 1, 4, 1]);      [127X[104X
+    [4X[25Xgap>[125X [27X# SetConjugate(coll, 3, 2, [3, 1, 4, 5]);      [127X[104X
+    [4X[25Xgap>[125X [27X# UpdatePolycyclicCollector(coll);      [127X[104X
+    [4X[25Xgap>[125X [27X# DTObj := DTP_DTObjFromCollector(coll); [127X[104X
     [4X[28X<DTObj>[128X[104X
-    [4X[25Xgap>[125X [27XDisplay(DTObj); [127X[104X
+    [4X[25Xgap>[125X [27X# Display(DTObj); [127X[104X
     [4X[28XPolynomials f_rs for s = 1:[128X[104X
     [4X[28Xf_1,s = X_1 + Y_1 [128X[104X
     [4X[28Xf_2,s = X_2 [128X[104X
@@ -270,15 +270,15 @@
     [4X[28Xf_2,s = X_2 [128X[104X
     [4X[28Xf_3,s = X_3 [128X[104X
     [4X[28Xf_4,s = X_4 + Y_4 [128X[104X
-    [4X[25Xgap>[125X [27XDTObj := DTP_DTObjFromCollector(coll, false);[127X[104X
+    [4X[25Xgap>[125X [27X# DTObj := DTP_DTObjFromCollector(coll, false);[127X[104X
     [4X[28X<DTObj>[128X[104X
-    [4X[25Xgap>[125X [27XDisplay(DTObj);                              [127X[104X
+    [4X[25Xgap>[125X [27X# Display(DTObj);                              [127X[104X
     [4X[28Xf_1 = X_1 + Y_1 [128X[104X
     [4X[28Xf_2 = X_2 + Y_2 [128X[104X
     [4X[28Xf_3 = X_3 + Y_3 + 2 * X_2 Y_1 [128X[104X
     [4X[28Xf_4 = X_4 + Y_4 + X_3 Y_1 + 2 * X_2 Binomial(Y_1, 2) + [128X[104X
     [4X[28X10 * Binomial(X_2, 2) Y_1 + 5 * X_3 Y_2 + 10 * X_2 Y_1 Y_2 [128X[104X
-    [4X[25Xgap>[125X [27XDTP_pols2GAPpols(DTObj);[127X[104X
+    [4X[25Xgap>[125X [27X# DTP_pols2GAPpols(DTObj);[127X[104X
     [4X[28X [ [ x1+y1, x2+y2, 2*x2*y1+x3+y3, [128X[104X
     [4X[28X5*x2^2*y1+x2*y1^2+10*x2*y1*y2-6*x2*y1+x3*y1+5*x3*y2+x4+y4 ], [128X[104X
     [4X[28XRationals[x1,x2,x3,x4,y1,y2,y3,y4] ][128X[104X

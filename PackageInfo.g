@@ -10,8 +10,8 @@ SetPackageInfo( rec(
 
 PackageName := "DeepThought",
 Subtitle := "This package provides functions for computations in finitely generated nilpotent groups based on the Deep Thought algorithm.",
-Version := "1.0",
-Date := "19/09/2017", # dd/mm/yyyy format
+Version := "1.0.0",
+Date := "05/12/2017", # dd/mm/yyyy format
 
 Persons := [
   rec(
@@ -19,7 +19,6 @@ Persons := [
     IsMaintainer 	:= true,
     FirstNames 		:= "Nina",
     LastName 		:= "Wagner",
-    WWWHome 		:= "",
     Email 			:= "nina.wagner@math.uni-giessen.de",
 	PostalAddress 	:= Concatenation(
 						"AG Algebra\n",
@@ -52,7 +51,7 @@ Persons := [
 
 SourceRepository := rec(
     Type := "git",
-    URL := Concatenation( "https://github.com/duskydolphin/", ~.PackageName ),
+    URL := "https://github.com/duskydolphin/DeepThoughtPackage",
 ),
 IssueTrackerURL := Concatenation( ~.SourceRepository.URL, "/issues" ),
 #SupportEmail   := "TODO",
