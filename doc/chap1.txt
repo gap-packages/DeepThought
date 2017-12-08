@@ -3,11 +3,10 @@
   
   [33X[0;0YPolycyclic  and,  especially,  finitely generated nilpotent groups exhibit a
   rich  structure  allowing  a  special  approach towards multiplication using
-  polynomials.  The  so-called  Deep  Thought  algorithm  introduced  by C. R.
-  Leedham-Green  and L. H. Soicher in "Symoblic Collection Using Deep Thought"
-  (1998) computes these polynomials in practice for a suitable presentation of
-  a  finitely  generated  nilpotent  group.  Such  a  presentation  is  of the
-  following form[133X
+  polynomials.  The  so-called  Deep  Thought  algorithm introduced in [LGS98]
+  computes  these  polynomials  in  practice  for a suitable presentation of a
+  finitely  generated nilpotent group. Such a presentation is of the following
+  form[133X
   
   
   [24X[33X[0;6Y\langle  a_1,  \ldots,  a_n  \mid a_i^{s_i} = a_{i+1}^{c_{i, i, i+1}} \cdots
@@ -17,14 +16,11 @@
   [124X
   
   [33X[0;0Ywith [23Xs_i \in \mathbb{N} \cup \{ \infty \}[123X and [23Xc_{i, j, k} \in \mathbb{Z}[123X. If
-  [23Xs_i   =   \infty[123X,  then  the  power  relation  [23Xa_i^{s_i}[123X  is  skipped.  This
-  presentation  may  or may not be consistent. However, if the presentation is
-  not  consistent,  not all functions provided in this package are applicable,
-  see function [10XDTP_DTapplicability[110X.[133X
+  [23Xs_i = \infty[123X, then the power relation [23Xa_i^{s_i}[123X is skipped.[133X
   
   [33X[0;0YLet  [23XG[123X  denote  the  group  presented  by the above presentation. Then every
   element in [23XG[123X can be written uniquely in a so-called normal form. That is, if
-  [23XG_i := \langle a_i, \ldots, a_n \rangle[123X and [23Xr_i := | G_i : G_{i+1}|[123X, [23X1, \leq
+  [23XG_i  := \langle a_i, \ldots, a_n \rangle[123X and [23Xr_i := | G_i : G_{i+1}|[123X, [23X1 \leq
   i  \leq n[123X, are the relative orders, then for certain [23Xe_i \in \mathbb{Z}[123X each
   element can be written as[133X
   
@@ -33,12 +29,17 @@
   
   [124X
   
-  [33X[0;0Ywith [23X0 \leq e_i < r_i[123X if [23Xr_i < \infty[123X.[133X
+  [33X[0;0Ywith [23X0 \leq e_i < r_i[123X if [23Xr_i < \infty[123X. A presentation is called confluent if
+  and  only  if  [23Xs_i  =  r_i[123X for all [23X1 \leq i \leq n[123X. If a presentation is not
+  confluent,  not  all  functions provided in this package are applicable, see
+  function  [10XDTP_DTapplicability[110X.  For  more  theoretical  background  see  for
+  example the documentation of the [5XGAP[105X package [5XPolycyclic[105X.[133X
   
   [33X[0;0YThe Deep Thought algorithm computes rational polynomials [23Xf_1, \ldots, f_n[123X in
   [23X2n[123X  indeterminates  such  that if [23X x := a_1^{x_1} \cdots a_n^{x_n} [123X and [23Xy :=
-  a_1^{y_1}  \cdots  a_n^{y_n} [123X are two elements (in normal form or not), then
-  their product [23Xxy[123X is given by[133X
+  a_1^{y_1}  \cdots  a_n^{y_n}  [123X  are two elements (in normal form or not with
+  [23Xx_1, \ldots, x_n, y_1, \ldots, y_n \in \mathbb{Z}[123X), then their product [23Xxy[123X is
+  given by[133X
   
   
   [24X[33X[0;6Ya_1^{f_1(x_1,  \ldots,  x_n, y_1, \ldots, y_n)} \cdots a_n^{f_n(x_1, \ldots,
@@ -90,8 +91,8 @@
         (nested) lists[133X
   
   [30X    [33X[0;6Y[10XDTObj![PC_DTPOrders][110X:  list  containing  orders of group generators if
-        the collector is consistent[133X
+        the collector is confluent[133X
   
   [30X    [33X[0;6Y[10XDTObj![PC_DTPConfluent][110X:   boolean   value   indicating   whether  the
-        collector is consistent or not[133X
+        collector is confluent or not[133X
   

@@ -18,9 +18,9 @@
 <body class="chap2"  onload="jscontent()">
 
 
-<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chapInd_mj.html">Ind</a>  </div>
+<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chapBib_mj.html">Bib</a>  <a href="chapInd_mj.html">Ind</a>  </div>
 
-<div class="chlinkprevnexttop">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap1_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chapInd_mj.html">[Next Chapter]</a>&nbsp;  </div>
+<div class="chlinkprevnexttop">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap1_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chapBib_mj.html">[Next Chapter]</a>&nbsp;  </div>
 
 <p id="mathjaxlink" class="pcenter"><a href="chap2.html">[MathJax off]</a></p>
 <p><a id="X82DA17B77A8A5B61" name="X82DA17B77A8A5B61"></a></p>
@@ -76,7 +76,7 @@
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DTP_DTapplicability</code>( <var class="Arg">coll</var> )</td><td class="tdright">( function )</td></tr></table></div>
 <p>Returns: boolean</p>
 
-<p>Checks the collector <code class="code">coll</code> for applicability of Deep Thought functions. Note that depending on consistency some functions may be applicable, while others are not. Information on the applicability and which type of Deep Thought polynomials are suggested is printed to the terminal. Here, "+" means that the following property is fulfilled, otherwise there is a "-". The function returns <code class="code">false</code> if Deep Thought is not applicable to the collector <code class="code">coll</code> and <code class="code">true</code> otherwise. Anyway, even if <code class="code">true</code> is returned, <em>not all functions need to be applicable</em> (in case of inconsistenies).</p>
+<p>Checks the collector <code class="code">coll</code> for applicability of Deep Thought functions. Note that depending on confluency some functions may be applicable, while others are not. Information on the applicability and which type of Deep Thought polynomials are suggested is printed to the terminal. Here, "+" means that the following property is fulfilled, otherwise there is a "-". The function returns <code class="code">false</code> if Deep Thought is not applicable to the collector <code class="code">coll</code> and <code class="code">true</code> otherwise. Anyway, even if <code class="code">true</code> is returned, <em>not all functions need to be applicable</em> (in case of inconfluencies).</p>
 
 <p><a id="X86F89471783A781E" name="X86F89471783A781E"></a></p>
 
@@ -89,18 +89,18 @@
 
 
 <div class="example"><pre>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># G := UnitriangularPcpGroup(10, 0);; </span>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># coll := Collector(G);; </span>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># DTP_DTapplicability(coll); </span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">G := UnitriangularPcpGroup(10, 0);; </span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">coll := Collector(G);; </span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DTP_DTapplicability(coll); </span>
 Checking collector for DT-applicability. "+" means the following property
 is fulfilled.
 +   conjugacy relations
 +   power relations
-+   consistent
++   confluent
 Suggestion: Call DTP_DTObjFromColl with rs_flag = true.
 true
 # calling DTP_DTObjFromCollector without rs_flag implies rs_flag = true: 
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># DTObj := DTP_DTObjFromCollector(coll);</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DTObj := DTP_DTObjFromCollector(coll);</span>
 &lt;DTObj&gt;
 </pre></div>
 
@@ -115,7 +115,7 @@ true
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DTP_Exp</code>( <var class="Arg">expvec</var>, <var class="Arg">int</var>, <var class="Arg">DTObj</var> )</td><td class="tdright">( function )</td></tr></table></div>
 <p>Returns: an exponent vector</p>
 
-<p>Computes the exponent vector of <code class="code">expvec</code><span class="SimpleMath">\(^{int}\)</span>. If <code class="code">DTObj![PC_DTPConfluent] = true</code>, then the result is in normal form.</p>
+<p>Computes the exponent vector of <code class="code">expvec</code><span class="SimpleMath">\(^{int}\)</span>. If <code class="code">IsConfluent(DTObj) = true</code>, then the result is in normal form.</p>
 
 <p><a id="X7E6A77648287C534" name="X7E6A77648287C534"></a></p>
 
@@ -124,7 +124,7 @@ true
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DTP_Inverse</code>( <var class="Arg">expvec</var>, <var class="Arg">DTObj</var> )</td><td class="tdright">( function )</td></tr></table></div>
 <p>Returns: an exponent vector</p>
 
-<p>Computes the exponent vector of the inverse of the element corresponding to <code class="code">expvec</code>. If <code class="code">DTObj![PC_DTPConfluent] = true</code>, then the result describes a normal form.</p>
+<p>Computes the exponent vector of the inverse of the element corresponding to <code class="code">expvec</code>. If <code class="code">IsConfluent(DTObj) = true</code>, then the result describes a normal form.</p>
 
 <p><a id="X832D51A385C2B55E" name="X832D51A385C2B55E"></a></p>
 
@@ -142,7 +142,7 @@ true
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DTP_Multiply</code>( <var class="Arg">expvec1</var>, <var class="Arg">expvec2</var>, <var class="Arg">DTObj</var> )</td><td class="tdright">( function )</td></tr></table></div>
 <p>Returns: an exponent vector</p>
 
-<p>Computes the exponent vector of the product <code class="code">expvec1 * expvec2</code> using the Deep Thought polynomials. If <code class="code">DTObj![PC_DTPConfluent] = true</code>, then the result is returned in normal form.</p>
+<p>Computes the exponent vector of the product <code class="code">expvec1 * expvec2</code> using the Deep Thought polynomials. If <code class="code">IsConfluent(DTObj) = true</code>, then the result is returned in normal form.</p>
 
 <p><a id="X7CF4337B7C9E1559" name="X7CF4337B7C9E1559"></a></p>
 
@@ -161,7 +161,7 @@ true
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DTP_NormalForm</code>( <var class="Arg">expvec</var>, <var class="Arg">DTObj</var> )</td><td class="tdright">( function )</td></tr></table></div>
 <p>Returns: an exponent vector</p>
 
-<p>Computes the exponent vector of the normal form of <code class="code">expvec</code>. For this function to be applicable, we need <code class="code">DTObj![PC_DTPConfluent] = true</code>.</p>
+<p>Computes the exponent vector of the normal form of <code class="code">expvec</code>. For this function to be applicable, we need <code class="code">IsConfluent(DTObj) = true</code>.</p>
 
 <p><a id="X7C12EF818683CB66" name="X7C12EF818683CB66"></a></p>
 
@@ -170,7 +170,7 @@ true
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DTP_Order</code>( <var class="Arg">expvec</var>, <var class="Arg">DTObj</var> )</td><td class="tdright">( function )</td></tr></table></div>
 <p>Returns: positive integer or infinity</p>
 
-<p>Computes the order of the element described by <code class="code">expvec</code>. For this function to be applicable, we need <code class="code">DTObj![PC_DTPConfluent] = true</code>.</p>
+<p>Computes the order of the element described by <code class="code">expvec</code>. For this function to be applicable, we need <code class="code">IsConfluent(DTObj) = true</code>.</p>
 
 <p><a id="X7881AABE84C7EB33" name="X7881AABE84C7EB33"></a></p>
 
@@ -179,31 +179,31 @@ true
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DTP_SolveEquation</code>( <var class="Arg">expvec1</var>, <var class="Arg">expvec2</var>, <var class="Arg">DTObj</var> )</td><td class="tdright">( function )</td></tr></table></div>
 <p>Returns: an exponent vector</p>
 
-<p>Computes the exponent vector of the element corresponding to <code class="code">expvec1</code><span class="SimpleMath">\(^{-1}\)</span> <code class="code">* expvec2</code>, i.e. the result solves the equation <code class="code">expvec1 * result = expvec2</code>. If <code class="code">DTObj![PC_DTPConfluent] = true</code>, then the result describes a normal form.</p>
+<p>Computes the exponent vector of the element corresponding to <code class="code">expvec1</code><span class="SimpleMath">\(^{-1}\)</span> <code class="code">* expvec2</code>, i.e. the result solves the equation <code class="code">expvec1 * result = expvec2</code>. If <code class="code">IsConfluent(DTObj) = true</code>, then the result describes a normal form.</p>
 
 
 <div class="example"><pre>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># G := PcGroupToPcpGroup(SmallGroup(23^5, 2)); </span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">G := PcGroupToPcpGroup(SmallGroup(23^5, 2)); </span>
 Pcp-group with orders [ 23, 23, 23, 23, 23 ]
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># coll := Collector(G); </span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">coll := Collector(G); </span>
 &lt;&lt;from the left collector with 5 generators&gt;&gt;
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># DTObj := DTP_DTObjFromCollector(coll); </span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DTObj := DTP_DTObjFromCollector(coll); </span>
 &lt;DTObj&gt;
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># g := [100, 134, -31, 52, 5235]; </span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">g := [100, 134, -31, 52, 5235]; </span>
 [ 100, 134, -31, 52, 5235 ]
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># DTP_IsInNormalForm(g, DTObj); </span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DTP_IsInNormalForm(g, DTObj); </span>
 1
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># g := DTP_NormalForm(g, DTObj);</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">g := DTP_NormalForm(g, DTObj);</span>
 [ 8, 19, 15, 10, 19 ]
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># DTP_IsInNormalForm(g, DTObj);         </span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DTP_IsInNormalForm(g, DTObj);         </span>
 true
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># DTP_Inverse(g, DTObj); </span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DTP_Inverse(g, DTObj); </span>
 [ 15, 4, 22, 12, 3 ]
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># DTP_Order(g, DTObj);</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DTP_Order(g, DTObj);</span>
 529
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># h := [142, 2, -41, 23, 1]; </span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">h := [142, 2, -41, 23, 1]; </span>
 [ 142, 2, -41, 23, 1 ]
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># DTP_Multiply(g, h, DTObj); </span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DTP_Multiply(g, h, DTObj); </span>
 [ 12, 21, 4, 16, 20 ]
 </pre></div>
 
@@ -220,7 +220,7 @@ true
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DTP_PCP_Exp</code>( <var class="Arg">pcp-element</var>, <var class="Arg">int</var> )</td><td class="tdright">( function )</td></tr></table></div>
 <p>Returns: pcp-element</p>
 
-<p>Returns the pcp-element <code class="code">pcp-element</code><span class="SimpleMath">\(^{\text{int}}\)</span>. If <code class="code">DTObj![PC_DTPConfluent] = true</code>, then the result is in normal form.</p>
+<p>Returns the pcp-element <code class="code">pcp-element</code><span class="SimpleMath">\(^{int}\)</span>. If <code class="code">IsConfluent(DTObj) = true</code>, then the result is in normal form.</p>
 
 <p><a id="X87E377E5844A7841" name="X87E377E5844A7841"></a></p>
 
@@ -229,7 +229,7 @@ true
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DTP_PCP_Inverse</code>( <var class="Arg">pcp-element</var> )</td><td class="tdright">( function )</td></tr></table></div>
 <p>Returns: pcp-element</p>
 
-<p>Returns the pcp-elment <code class="code">pcp-element^-1</code>. If <code class="code">DTObj![PC_DTPConfluent] = true</code>, then the result describes a normal form.</p>
+<p>Returns the pcp-elment <code class="code">pcp-element^-1</code>. If <code class="code">IsConfluent(DTObj) = true</code>, then the result describes a normal form.</p>
 
 <p><a id="X836633C77892C287" name="X836633C77892C287"></a></p>
 
@@ -238,7 +238,7 @@ true
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DTP_PCP_NormalForm</code>( <var class="Arg">pcp-element</var> )</td><td class="tdright">( function )</td></tr></table></div>
 <p>Returns: pcp-element</p>
 
-<p>Returns a pcp-element which is the normal form of the input pcp-element. For this function to be applicable, we need <code class="code">DTObj![PC_DTPConfluent] = true</code>.</p>
+<p>Returns a pcp-element which is the normal form of the input pcp-element. For this function to be applicable, we need <code class="code">IsConfluent(DTObj) = true</code>.</p>
 
 <p><a id="X85B1ED637A2A4D79" name="X85B1ED637A2A4D79"></a></p>
 
@@ -247,7 +247,7 @@ true
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DTP_PCP_Order</code>( <var class="Arg">pcp-element</var> )</td><td class="tdright">( function )</td></tr></table></div>
 <p>Returns: positive integer or infinity</p>
 
-<p>Computes the order of the pcp-element. For this function to be applicable, we need <code class="code">DTObj![PC_DTPConfluent] = true</code>.</p>
+<p>Computes the order of the pcp-element. For this function to be applicable, we need <code class="code">IsConfluent(DTObj) = true</code>.</p>
 
 <p><a id="X86E6DA84863440B5" name="X86E6DA84863440B5"></a></p>
 
@@ -256,24 +256,22 @@ true
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DTP_PCP_SolveEquation</code>( <var class="Arg">pcp-element1</var>, <var class="Arg">pcp-element2</var> )</td><td class="tdright">( function )</td></tr></table></div>
 <p>Returns: pcp-element</p>
 
-<p>Returns the pcp-element <code class="code">pcp-element1</code><span class="SimpleMath">\(^{-1}\)</span> <code class="code">* pcp-element2</code>, i.e. the result solves the equation <code class="code">pcp-element1 * pcp-element = pcp-element2</code>. If <code class="code">DTObj![PC_DTPConfluent] = true</code>, then the result describes a normal form.</p>
+<p>Returns the pcp-element <code class="code">pcp-element1</code><span class="SimpleMath">\(^{-1}\)</span> <code class="code">* pcp-element2</code>, i.e. the result solves the equation <code class="code">pcp-element1 * pcp-element = pcp-element2</code>. If <code class="code">IsConfluent(DTObj) = true</code>, then the result describes a normal form.</p>
 
 
 <div class="example"><pre>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># G := HeisenbergPcpGroup(7);;</span>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># coll := Collector(G);;</span>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># DTObj := DTP_DTObjFromCollector(coll);;</span>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># H := PcpGroupByCollector(DTObj);;</span>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># g := Random(H);; h := Random(H);; </span>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># DTP_PCP_SolveEquation(g, h); </span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">G := HeisenbergPcpGroup(7);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">coll := Collector(G);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DTObj := DTP_DTObjFromCollector(coll);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">H := PcpGroupByCollector(DTObj);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">g := Random(H);; h := Random(H);; </span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DTP_PCP_SolveEquation(g, h); </span>
 g1^-3*g2^-1*g3^-7*g4*g5^-6*g6*g7*g8^2*g9^3*g11^-4*g12^5*g14^-2*g15^7
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># g^-1 * h; </span>
 g1^-3*g2^-1*g3^-7*g4*g5^-6*g6*g7*g8^2*g9^3*g11^-4*g12^5*g14^-2*g15^7
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># Order(g); </span>
 infinity
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># g^-1; </span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">g^-1; </span>
 g1^-2*g3^-3*g4^-1*g5^-4*g6^2*g7*g8^-3*g10^-3*g11^-1*g12^4*g14^-2*g15^-3
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># DTP_PCP_Inverse(h); </span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DTP_PCP_Inverse(h); </span>
 g1*g2*g3^4*g4^-2*g5^2*g6*g8^-5*g9^-3*g10^-3*g11^3*g12^-1*g15^-33
 </pre></div>
 
@@ -303,14 +301,14 @@ g1*g2*g3^4*g4^-2*g5^2*g6*g8^-5*g9^-3*g10^-3*g11^3*g12^-1*g15^-33
 
 
 <div class="example"><pre>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># coll := FromTheLeftCollector(4);;</span>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># SetConjugate(coll, 2, 1, [2, 1, 3, 2]);      </span>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># SetConjugate(coll, 3, 1, [3, 1, 4, 1]);      </span>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># SetConjugate(coll, 3, 2, [3, 1, 4, 5]);      </span>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># UpdatePolycyclicCollector(coll);      </span>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># DTObj := DTP_DTObjFromCollector(coll); </span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">coll := FromTheLeftCollector(4);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">SetConjugate(coll, 2, 1, [2, 1, 3, 2]);      </span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">SetConjugate(coll, 3, 1, [3, 1, 4, 1]);      </span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">SetConjugate(coll, 3, 2, [3, 1, 4, 5]);      </span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">UpdatePolycyclicCollector(coll);      </span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DTObj := DTP_DTObjFromCollector(coll); </span>
 &lt;DTObj&gt;
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># Display(DTObj); </span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display(DTObj); </span>
 Polynomials f_rs for s = 1:
 f_1,s = X_1 + Y_1 
 f_2,s = X_2 
@@ -331,25 +329,25 @@ f_1,s = X_1
 f_2,s = X_2 
 f_3,s = X_3 
 f_4,s = X_4 + Y_4 
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># DTObj := DTP_DTObjFromCollector(coll, false);</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DTObj := DTP_DTObjFromCollector(coll, false);</span>
 &lt;DTObj&gt;
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># Display(DTObj);                              </span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display(DTObj);                              </span>
 f_1 = X_1 + Y_1 
 f_2 = X_2 + Y_2 
 f_3 = X_3 + Y_3 + 2 * X_2 Y_1 
 f_4 = X_4 + Y_4 + X_3 Y_1 + 2 * X_2 Binomial(Y_1, 2) + 
 10 * Binomial(X_2, 2) Y_1 + 5 * X_3 Y_2 + 10 * X_2 Y_1 Y_2 
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"># DTP_pols2GAPpols(DTObj);</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DTP_pols2GAPpols(DTObj);</span>
  [ [ x1+y1, x2+y2, 2*x2*y1+x3+y3, 
 5*x2^2*y1+x2*y1^2+10*x2*y1*y2-6*x2*y1+x3*y1+5*x3*y2+x4+y4 ], 
 Rationals[x1,x2,x3,x4,y1,y2,y3,y4] ]
 </pre></div>
 
 
-<div class="chlinkprevnextbot">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap1_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chapInd_mj.html">[Next Chapter]</a>&nbsp;  </div>
+<div class="chlinkprevnextbot">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap1_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chapBib_mj.html">[Next Chapter]</a>&nbsp;  </div>
 
 
-<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chapInd_mj.html">Ind</a>  </div>
+<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chapBib_mj.html">Bib</a>  <a href="chapInd_mj.html">Ind</a>  </div>
 
 <hr />
 <p class="foot">generated by <a href="http://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>

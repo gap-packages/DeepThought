@@ -1,6 +1,6 @@
 name: DeepThought
 version: 1.0.0
-date: 05/12/2017
+date: 08/12/2017
 description: |
     This package provides functions for computations in finitely generated nilpotent groups based on the Deep Thought algorithm.
 
