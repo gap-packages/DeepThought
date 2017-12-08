@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE file SYSTEM "bibxmlext.dtd">
+<file>
+<entry id="LGS"><article>
+  <author>
+    <name><first>C.R.</first><last>Leedham-Green</last></name>
+    <name><first>L.H.</first><last>Soicher</last></name>
+  </author>  
+  <title>Symbolic Collection Using Deep Thought</title>
+  <journal>LMS J. Comp. Math. 1</journal>
+  <year>1998</year>
+  <pages>9--24</pages>
+</article></entry>
+</file>

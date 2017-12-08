@@ -23,6 +23,7 @@
 /doc/DeepThought.xml
 /doc/title.xml
 /doc/_*.xml
+/doc/*.bib
 
 .deps/
 .dirstamp
