@@ -10,14 +10,14 @@ DeclareGlobalFunction( "DTP_AreAlmostEqual" );
 DeclareGlobalFunction( "DTP_DetermineMultiplicationFunction" ); 
 
 #! @Chapter The Deep Thought algorithm
-#! Polycyclic and, especially, finitely generated nilpotent groups exhibit a rich structure allowing a special approach towards multiplication using polynomials. The so-called Deep Thought algorithm introduced by C. R. Leedham-Green and L. H. Soicher in "Symbolic Collection Using Deep Thought" (1998) computes these polynomials in practice for a suitable presentation of a finitely generated nilpotent group. Such a presentation is of the following form
+#! Polycyclic and, especially, finitely generated nilpotent groups exhibit a rich structure allowing a special approach towards multiplication using polynomials. The so-called Deep Thought algorithm introduced in <Cite Key="LGS"/> computes these polynomials in practice for a suitable presentation of a finitely generated nilpotent group. Such a presentation is of the following form
 #! 
 #! $$ \langle a_1, \ldots, a_n \mid a_i^{s_i} = a_{i+1}^{c_{i, i, i+1}} \cdots a_n^{c_{i, i, n}}, 1 \leq i \leq n, a_j a_i = a_i a_j a_{j+1}^{c_{i, j, j+1}} \cdots a_n^{c_{i, j, n}}, 1 \leq i &lt; j \leq n \rangle $$
 #! with $s_i \in \mathbb{N} \cup \{ \infty \}$ and $c_{i, j, k} \in \mathbb{Z}$. If $s_i = \infty$, then the power relation $a_i^{s_i}$ is skipped. 
 #!<P/>
 #! Let $G$ denote the group presented by the above presentation. Then every element in $G$ can be written uniquely in a so-called normal form. That is, if $G_i := \langle a_i, \ldots, a_n \rangle$ and  $r_i := | G_i : G_{i+1}|$, $1 \leq i \leq n$, are the relative orders, then for certain $e_i \in \mathbb{Z}$ each element can be written as 
 #! $$ a_1^{e_1} \cdots a_n^{e_n} $$
-#! with $0 \leq e_i &lt; r_i$ if $r_i &lt; \infty$. A presentation is called confluent if and only if $s_i = r_i$ for all $1 \leq i \leq n$. If a presentation is not confluent, not all functions provided in this package are applicable, see function <C>DTP_DTapplicability</C>. 
+#! with $0 \leq e_i &lt; r_i$ if $r_i &lt; \infty$. A presentation is called confluent if and only if $s_i = r_i$ for all $1 \leq i \leq n$. If a presentation is not confluent, not all functions provided in this package are applicable, see function <C>DTP_DTapplicability</C>. For more theoretical background see for example the documentation of the &GAP; package &Polycyclic;. 
 #!<P/>
 #! The Deep Thought algorithm computes rational polynomials $f_1, \ldots, f_n$ in $2n$ indeterminates such that if $ x := a_1^{x_1} \cdots a_n^{x_n} $ and $y := a_1^{y_1} \cdots a_n^{y_n} $ are two elements (in normal form or not with $x_1, \ldots, x_n, y_1, \ldots, y_n \in \mathbb{Z}$), then their product $xy$ is given by 
 #! $$a_1^{f_1(x_1, \ldots, x_n, y_1, \ldots, y_n)} \cdots a_n^{f_n(x_1, \ldots, x_n, y_1, \ldots, y_n)}.$$ 
@@ -52,10 +52,10 @@ DeclareGlobalFunction( "DTP_DTapplicability" );
 #! @Description Computes a DTObj for the collector coll, either with polynomials of type $f_{rs}$ (if <C>rs_flag = true</C>) or with polynomials of type $f_r$, otherwise. If the optional argument <C>rs_flag</C> is not provided, polynomials of type $f_{rs}$ are computed. The function checks whether the collector <C>coll</C> is confluent. If not, a warning is displayed. Note that the functions assumes the collector <C>coll</C> to be suitable for Deep Thought, see function <C>DTP_DTapplicability</C>.
 DeclareGlobalFunction( "DTP_DTObjFromCollector" ); 
 
-#! @BeginExample
-# G := UnitriangularPcpGroup(10, 0);; 
-# coll := Collector(G);; 
-# DTP_DTapplicability(coll); 
+#! @BeginExampleSession
+#! gap> G := UnitriangularPcpGroup(10, 0);; 
+#! gap> coll := Collector(G);; 
+#! gap> DTP_DTapplicability(coll); 
 #! Checking collector for DT-applicability. "+" means the following property
 #! is fulfilled.
 #! +   conjugacy relations
@@ -64,9 +64,9 @@ DeclareGlobalFunction( "DTP_DTObjFromCollector" );
 #! Suggestion: Call DTP_DTObjFromColl with rs_flag = true.
 #! true
 #! # calling DTP_DTObjFromCollector without rs_flag implies rs_flag = true: 
-# DTObj := DTP_DTObjFromCollector(coll);
+#! gap> DTObj := DTP_DTObjFromCollector(coll);
 #! <DTObj>
-#! @EndExample 
+#! @EndExampleSession
 
 #! @Section Computations with Deep Thought polynomials
 
@@ -108,30 +108,30 @@ DeclareGlobalFunction( "DTP_Order" );
 #! describes a normal form.  
 DeclareGlobalFunction( "DTP_SolveEquation" ); 
 
-#! @BeginExample
-# G := PcGroupToPcpGroup(SmallGroup(23^5, 2)); 
+#! @BeginExampleSession
+#! gap> G := PcGroupToPcpGroup(SmallGroup(23^5, 2)); 
 #! Pcp-group with orders [ 23, 23, 23, 23, 23 ]
-# coll := Collector(G); 
+#! gap> coll := Collector(G); 
 #! <<from the left collector with 5 generators>>
-# DTObj := DTP_DTObjFromCollector(coll); 
+#! gap> DTObj := DTP_DTObjFromCollector(coll); 
 #! <DTObj>
-# g := [100, 134, -31, 52, 5235]; 
+#! gap> g := [100, 134, -31, 52, 5235]; 
 #! [ 100, 134, -31, 52, 5235 ]
-# DTP_IsInNormalForm(g, DTObj); 
+#! gap> DTP_IsInNormalForm(g, DTObj); 
 #! 1
-# g := DTP_NormalForm(g, DTObj);
+#! gap> g := DTP_NormalForm(g, DTObj);
 #! [ 8, 19, 15, 10, 19 ]
-# DTP_IsInNormalForm(g, DTObj);         
+#! gap> DTP_IsInNormalForm(g, DTObj);         
 #! true
-# DTP_Inverse(g, DTObj); 
+#! gap> DTP_Inverse(g, DTObj); 
 #! [ 15, 4, 22, 12, 3 ]
-# DTP_Order(g, DTObj);
+#! gap> DTP_Order(g, DTObj);
 #! 529
-# h := [142, 2, -41, 23, 1]; 
+#! gap> h := [142, 2, -41, 23, 1]; 
 #! [ 142, 2, -41, 23, 1 ]
-# DTP_Multiply(g, h, DTObj); 
+#! gap> DTP_Multiply(g, h, DTObj); 
 #! [ 12, 21, 4, 16, 20 ]
-#! @EndExample 
+#! @EndExampleSession
 
 #! @Section Computations with pcp-elements
 #! When Deep Thought polynomials are available, certain computations allow different approaches which may be faster than the methods used by default.
@@ -163,23 +163,23 @@ DeclareGlobalFunction( "DTP_PCP_Order" );
 #! describes a normal form. 
 DeclareGlobalFunction( "DTP_PCP_SolveEquation" ); 
 
-#! @BeginExample
-# G := HeisenbergPcpGroup(7);;
-# coll := Collector(G);;
-# DTObj := DTP_DTObjFromCollector(coll);;
-# H := PcpGroupByCollector(DTObj);;
-# g := Random(H);; h := Random(H);; 
-# DTP_PCP_SolveEquation(g, h); 
+#! @BeginExampleSession
+#! gap> G := HeisenbergPcpGroup(7);;
+#! gap> coll := Collector(G);;
+#! gap> DTObj := DTP_DTObjFromCollector(coll);;
+#! gap> H := PcpGroupByCollector(DTObj);;
+#! gap> g := Random(H);; h := Random(H);; 
+#! gap> DTP_PCP_SolveEquation(g, h); 
 #! g1^-3*g2^-1*g3^-7*g4*g5^-6*g6*g7*g8^2*g9^3*g11^-4*g12^5*g14^-2*g15^7
 # g^-1 * h; 
 #! g1^-3*g2^-1*g3^-7*g4*g5^-6*g6*g7*g8^2*g9^3*g11^-4*g12^5*g14^-2*g15^7
 # Order(g); 
 #! infinity
-# g^-1; 
+#! gap> g^-1; 
 #! g1^-2*g3^-3*g4^-1*g5^-4*g6^2*g7*g8^-3*g10^-3*g11^-1*g12^4*g14^-2*g15^-3
-# DTP_PCP_Inverse(h); 
+#! gap> DTP_PCP_Inverse(h); 
 #! g1*g2*g3^4*g4^-2*g5^2*g6*g8^-5*g9^-3*g10^-3*g11^3*g12^-1*g15^-33
-#! @EndExample 
+#! @EndExampleSession 
 
 #! @Section Accessing Deep Thought polynomials 
 #! 	In this sections, functions which can be used to display the content of a <C>DTObj</C> are documented. Furthermore, Deep Thought polynomials stored in a <C>DTObj</C> can be converted to &GAP; polynomials.
@@ -194,15 +194,15 @@ DeclareGlobalFunction( "DTP_Display_DTObj" );
 #! @Description Converts the Deep Thought polynomials stored in <C>DTObj[PC_DTPPolynomials]</C> to &GAP; polynomials and returns them in a list together with their polynomial ring.
 DeclareGlobalFunction( "DTP_pols2GAPpols" ); 
 
-#! @BeginExample
-# coll := FromTheLeftCollector(4);;
-# SetConjugate(coll, 2, 1, [2, 1, 3, 2]);      
-# SetConjugate(coll, 3, 1, [3, 1, 4, 1]);      
-# SetConjugate(coll, 3, 2, [3, 1, 4, 5]);      
-# UpdatePolycyclicCollector(coll);      
-# DTObj := DTP_DTObjFromCollector(coll); 
+#! @BeginExampleSession
+#! gap> coll := FromTheLeftCollector(4);;
+#! gap> SetConjugate(coll, 2, 1, [2, 1, 3, 2]);      
+#! gap> SetConjugate(coll, 3, 1, [3, 1, 4, 1]);      
+#! gap> SetConjugate(coll, 3, 2, [3, 1, 4, 5]);      
+#! gap> UpdatePolycyclicCollector(coll);      
+#! gap> DTObj := DTP_DTObjFromCollector(coll); 
 #! <DTObj>
-# Display(DTObj); 
+#! gap> Display(DTObj); 
 #! Polynomials f_rs for s = 1:
 #! f_1,s = X_1 + Y_1 
 #! f_2,s = X_2 
@@ -223,16 +223,16 @@ DeclareGlobalFunction( "DTP_pols2GAPpols" );
 #! f_2,s = X_2 
 #! f_3,s = X_3 
 #! f_4,s = X_4 + Y_4 
-# DTObj := DTP_DTObjFromCollector(coll, false);
+#! gap> DTObj := DTP_DTObjFromCollector(coll, false);
 #! <DTObj>
-# Display(DTObj);                              
+#! gap> Display(DTObj);                              
 #! f_1 = X_1 + Y_1 
 #! f_2 = X_2 + Y_2 
 #! f_3 = X_3 + Y_3 + 2 * X_2 Y_1 
 #! f_4 = X_4 + Y_4 + X_3 Y_1 + 2 * X_2 Binomial(Y_1, 2) + 
 #! 10 * Binomial(X_2, 2) Y_1 + 5 * X_3 Y_2 + 10 * X_2 Y_1 Y_2 
-# DTP_pols2GAPpols(DTObj);
+#! gap> DTP_pols2GAPpols(DTObj);
 #!  [ [ x1+y1, x2+y2, 2*x2*y1+x3+y3, 
 #! 5*x2^2*y1+x2*y1^2+10*x2*y1*y2-6*x2*y1+x3*y1+5*x3*y2+x4+y4 ], 
 #! Rationals[x1,x2,x3,x4,y1,y2,y3,y4] ]
-#! @EndExample
+#! @EndExampleSession

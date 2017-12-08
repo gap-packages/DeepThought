@@ -7,7 +7,7 @@ if fail = LoadPackage("AutoDoc", "2016.02.16") then
     Error("AutoDoc version 2016.02.16 or newer is required.");
 fi;
 
-AutoDoc( rec( scaffold := rec( entities := rec( Polycyclic := "<Package>Polycyclic</Package>" ) ), autodoc := true ) );
+AutoDoc( rec( scaffold := rec( bib := "dtbib.xml", entities := rec( Polycyclic := "<Package>Polycyclic</Package>" ) ), autodoc := true ) );
 
 PrintTo("VERSION", PackageInfo("DeepThought")[1].Version);
 
