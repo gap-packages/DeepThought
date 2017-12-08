@@ -140,9 +140,9 @@ function(coll)
 	#	- order
 	#	- normal form 
 	if IsConfluent(coll) then 
-		Print("+   consistent\n"); 
+		Print("+   confluent\n"); 
 	else
-		Print("-   consistent: you may get wrong results when using \"DTP_NormalForm\", and \"DTP_Order\" may not terminate. \n"); 
+		Print("-   confluent: you may get wrong results when using \"DTP_NormalForm\", and \"DTP_Order\" may not terminate. \n"); 
 	fi; 
 	
 	# Recommend which polynomials one should use for this collector 
