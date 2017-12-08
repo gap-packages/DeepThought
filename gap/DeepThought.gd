@@ -10,16 +10,16 @@ DeclareGlobalFunction( "DTP_AreAlmostEqual" );
 DeclareGlobalFunction( "DTP_DetermineMultiplicationFunction" ); 
 
 #! @Chapter The Deep Thought algorithm
-#! Polycyclic and, especially, finitely generated nilpotent groups exhibit a rich structure allowing a special approach towards multiplication using polynomials. The so-called Deep Thought algorithm introduced by C. R. Leedham-Green and L. H. Soicher in "Symoblic Collection Using Deep Thought" (1998) computes these polynomials in practice for a suitable presentation of a finitely generated nilpotent group. Such a presentation is of the following form
+#! Polycyclic and, especially, finitely generated nilpotent groups exhibit a rich structure allowing a special approach towards multiplication using polynomials. The so-called Deep Thought algorithm introduced by C. R. Leedham-Green and L. H. Soicher in "Symbolic Collection Using Deep Thought" (1998) computes these polynomials in practice for a suitable presentation of a finitely generated nilpotent group. Such a presentation is of the following form
 #! 
 #! $$ \langle a_1, \ldots, a_n \mid a_i^{s_i} = a_{i+1}^{c_{i, i, i+1}} \cdots a_n^{c_{i, i, n}}, 1 \leq i \leq n, a_j a_i = a_i a_j a_{j+1}^{c_{i, j, j+1}} \cdots a_n^{c_{i, j, n}}, 1 \leq i &lt; j \leq n \rangle $$
-#! with $s_i \in \mathbb{N} \cup \{ \infty \}$ and $c_{i, j, k} \in \mathbb{Z}$. If $s_i = \infty$, then the power relation $a_i^{s_i}$ is skipped. This presentation may or may not be consistent. However, if the presentation is not consistent, not all functions provided in this package are applicable, see function <C>DTP_DTapplicability</C>. 
+#! with $s_i \in \mathbb{N} \cup \{ \infty \}$ and $c_{i, j, k} \in \mathbb{Z}$. If $s_i = \infty$, then the power relation $a_i^{s_i}$ is skipped. 
 #!<P/>
-#! Let $G$ denote the group presented by the above presentation. Then every element in $G$ can be written uniquely in a so-called normal form. That is, if $G_i := \langle a_i, \ldots, a_n \rangle$ and  $r_i := | G_i : G_{i+1}|$, $1, \leq i \leq n$, are the relative orders, then for certain $e_i \in \mathbb{Z}$ each element can be written as 
+#! Let $G$ denote the group presented by the above presentation. Then every element in $G$ can be written uniquely in a so-called normal form. That is, if $G_i := \langle a_i, \ldots, a_n \rangle$ and  $r_i := | G_i : G_{i+1}|$, $1 \leq i \leq n$, are the relative orders, then for certain $e_i \in \mathbb{Z}$ each element can be written as 
 #! $$ a_1^{e_1} \cdots a_n^{e_n} $$
-#! with $0 \leq e_i &lt; r_i$ if $r_i &lt; \infty$. 
+#! with $0 \leq e_i &lt; r_i$ if $r_i &lt; \infty$. A presentation is called confluent if and only if $s_i = r_i$ for all $1 \leq i \leq n$. If a presentation is not confluent, not all functions provided in this package are applicable, see function <C>DTP_DTapplicability</C>. 
 #!<P/>
-#! The Deep Thought algorithm computes rational polynomials $f_1, \ldots, f_n$ in $2n$ indeterminates such that if $ x := a_1^{x_1} \cdots a_n^{x_n} $ and $y := a_1^{y_1} \cdots a_n^{y_n} $ are two elements (in normal form or not), then their product $xy$ is given by 
+#! The Deep Thought algorithm computes rational polynomials $f_1, \ldots, f_n$ in $2n$ indeterminates such that if $ x := a_1^{x_1} \cdots a_n^{x_n} $ and $y := a_1^{y_1} \cdots a_n^{y_n} $ are two elements (in normal form or not with $x_1, \ldots, x_n, y_1, \ldots, y_n \in \mathbb{Z}$), then their product $xy$ is given by 
 #! $$a_1^{f_1(x_1, \ldots, x_n, y_1, \ldots, y_n)} \cdots a_n^{f_n(x_1, \ldots, x_n, y_1, \ldots, y_n)}.$$ 
 #! If the collector is confluent, also the normal form of the product can be computed. Otherwise this is not possible. 
 #! Moreover, there exists a second version of the Deep Thought algorithms which computes $n^2$ polynomials $f_{rs}$, $1 \leq r, s \leq n$, suitable for multiplications of the form 
@@ -34,8 +34,8 @@ DeclareGlobalFunction( "DTP_DetermineMultiplicationFunction" );
 #! This package uses the category <C>DTObj</C>. A <C>DTObj</C> is a <C>IsFromTheLeftCollectorRep</C> with certain further list entries to store the Deep Thought polynomials of a collector together with some additional information. That is, the functions <C>DTP_DTpols_r</C> and <C>DTP_DTpols_rs</C> return a (<C>DTObj</C>) which has entries as <C>IsFromTheLeftCollectorRep</C> and additionally: 
 #! <List>
 #! <Item> <C>DTObj![PC_DTPPolynomials]</C>: Deep Thought polynomials in form of (nested) lists</Item>
-#! <Item> <C>DTObj![PC_DTPOrders]</C>: list containing orders of group generators if the collector is consistent</Item>
-#! <Item> <C>DTObj![PC_DTPConfluent]</C>: boolean value indicating whether the collector is consistent or not</Item>
+#! <Item> <C>DTObj![PC_DTPOrders]</C>: list containing orders of group generators if the collector is confluent</Item>
+#! <Item> <C>DTObj![PC_DTPConfluent]</C>: boolean value indicating whether the collector is confluent or not</Item>
 #! </List>
 
 #! @Chapter Using Deep Thought functions
@@ -44,7 +44,7 @@ DeclareGlobalFunction( "DTP_DetermineMultiplicationFunction" );
 	
 #! @Arguments coll
 #! @Returns boolean 
-#! @Description Checks the collector <C>coll</C> for applicability of Deep Thought functions. Note that depending on consistency some functions may be applicable, while others are not. Information on the applicability and which type of Deep Thought polynomials are suggested is printed to the terminal. Here, "+" means that the following property is fulfilled, otherwise there is a "-". The function returns <C>false</C> if Deep Thought is not applicable to the collector <C>coll</C> and <C>true</C> otherwise. Anyway, even if <C>true</C> is returned, **not all functions need to be applicable** (in case of inconsistenies).  
+#! @Description Checks the collector <C>coll</C> for applicability of Deep Thought functions. Note that depending on confluency some functions may be applicable, while others are not. Information on the applicability and which type of Deep Thought polynomials are suggested is printed to the terminal. Here, "+" means that the following property is fulfilled, otherwise there is a "-". The function returns <C>false</C> if Deep Thought is not applicable to the collector <C>coll</C> and <C>true</C> otherwise. Anyway, even if <C>true</C> is returned, **not all functions need to be applicable** (in case of inconfluencies).  
 DeclareGlobalFunction( "DTP_DTapplicability" ); 
 
 #! @Arguments coll, [, rs_flag]
@@ -60,7 +60,7 @@ DeclareGlobalFunction( "DTP_DTObjFromCollector" );
 #! is fulfilled.
 #! +   conjugacy relations
 #! +   power relations
-#! +   consistent
+#! +   confluent
 #! Suggestion: Call DTP_DTObjFromColl with rs_flag = true.
 #! true
 #! # calling DTP_DTObjFromCollector without rs_flag implies rs_flag = true: 
@@ -72,12 +72,12 @@ DeclareGlobalFunction( "DTP_DTObjFromCollector" );
 
 #! @Arguments expvec, int, DTObj
 #! @Returns an exponent vector
-#! @Description Computes the exponent vector of <C>expvec</C>$^{int}$. If <C>DTObj![PC_DTPConfluent] = true</C>, then the result is in normal form. 
+#! @Description Computes the exponent vector of <C>expvec</C>$^{int}$. If <C>IsConfluent(DTObj) = true</C>, then the result is in normal form. 
 DeclareGlobalFunction( "DTP_Exp" ); 
 
 #! @Arguments expvec, DTObj 
 #! @Returns an exponent vector 
-#! @Description Computes the exponent vector of the inverse of the element corresponding to <C>expvec</C>. If <C>DTObj![PC_DTPConfluent] = true</C>, then the result describes a normal form.   
+#! @Description Computes the exponent vector of the inverse of the element corresponding to <C>expvec</C>. If <C>IsConfluent(DTObj) = true</C>, then the result describes a normal form.   
 DeclareGlobalFunction( "DTP_Inverse" ); 
 
 #! @Arguments expvec, coll
@@ -87,24 +87,24 @@ DeclareGlobalFunction( "DTP_IsInNormalForm" );
 
 #! @Arguments expvec1, expvec2, DTObj
 #! @Returns an exponent vector
-#! @Description Computes the exponent vector of the product <C>expvec1 * expvec2</C> using the Deep Thought polynomials. If <C>DTObj![PC_DTPConfluent] = true</C>, then the result is returned in normal form. 
+#! @Description Computes the exponent vector of the product <C>expvec1 * expvec2</C> using the Deep Thought polynomials. If <C>IsConfluent(DTObj) = true</C>, then the result is returned in normal form. 
 DeclareGlobalFunction( "DTP_Multiply" );
 DeclareGlobalFunction( "DTP_Multiply_r" );
 DeclareGlobalFunction( "DTP_Multiply_rs" ); 
 
 #! @Arguments expvec, DTObj 
 #! @Returns an exponent vector
-#! @Description Computes the exponent vector of the normal form of <C>expvec</C>. For this function to be applicable, we need <C>DTObj![PC_DTPConfluent] = true</C>.  
+#! @Description Computes the exponent vector of the normal form of <C>expvec</C>. For this function to be applicable, we need <C>IsConfluent(DTObj) = true</C>.  
 DeclareGlobalFunction( "DTP_NormalForm" );
 
 #! @Arguments expvec, DTObj 
 #! @Returns positive integer or infinity 
-#! @Description Computes the order of the element described by <C>expvec</C>. For this function to be applicable, we need <C>DTObj![PC_DTPConfluent] = true</C>.  
+#! @Description Computes the order of the element described by <C>expvec</C>. For this function to be applicable, we need <C>IsConfluent(DTObj) = true</C>.  
 DeclareGlobalFunction( "DTP_Order" );
 
 #! @Arguments expvec1, expvec2, DTObj
 #! @Returns an exponent vector 
-#! @Description Computes the exponent vector of the element corresponding to <C>expvec1</C>$^{-1}$ <C>* expvec2</C>, i.e. the result solves the equation <C>expvec1 * result = expvec2</C>. If <C>DTObj![PC_DTPConfluent] = true</C>, then the result 
+#! @Description Computes the exponent vector of the element corresponding to <C>expvec1</C>$^{-1}$ <C>* expvec2</C>, i.e. the result solves the equation <C>expvec1 * result = expvec2</C>. If <C>IsConfluent(DTObj) = true</C>, then the result 
 #! describes a normal form.  
 DeclareGlobalFunction( "DTP_SolveEquation" ); 
 
@@ -139,27 +139,27 @@ DeclareGlobalFunction( "DTP_SolveEquation" );
 
 #! @Arguments pcp-element, int
 #! @Returns pcp-element
-#! @Description Returns the pcp-element <C>pcp-element</C>$^{\text{int}}$. If <C>DTObj![PC_DTPConfluent] = true</C>, then the result is in normal form.  
+#! @Description Returns the pcp-element <C>pcp-element</C>$^{int}$. If <C>IsConfluent(DTObj) = true</C>, then the result is in normal form.  
 DeclareGlobalFunction( "DTP_PCP_Exp" ); 
 
 #! @Arguments pcp-element 
 #! @Returns pcp-element 
-#! @Description Returns the pcp-elment <C>pcp-element^-1</C>. If <C>DTObj![PC_DTPConfluent] = true</C>, then the result describes a normal form.   
+#! @Description Returns the pcp-elment <C>pcp-element^-1</C>. If <C>IsConfluent(DTObj) = true</C>, then the result describes a normal form.   
 DeclareGlobalFunction( "DTP_PCP_Inverse" ); 
 
 #! @Arguments pcp-element
 #! @Returns pcp-element
-#! @Description Returns a pcp-element which is the normal form of the input pcp-element. For this function to be applicable, we need <C>DTObj![PC_DTPConfluent] = true</C>. 
+#! @Description Returns a pcp-element which is the normal form of the input pcp-element. For this function to be applicable, we need <C>IsConfluent(DTObj) = true</C>. 
 DeclareGlobalFunction( "DTP_PCP_NormalForm" ); 
 
 #! @Arguments pcp-element
 #! @Returns positive integer or infinity 
-#! @Description Computes the order of the pcp-element. For this function to be applicable, we need <C>DTObj![PC_DTPConfluent] = true</C>.  
+#! @Description Computes the order of the pcp-element. For this function to be applicable, we need <C>IsConfluent(DTObj) = true</C>.  
 DeclareGlobalFunction( "DTP_PCP_Order" );
 
 #! @Arguments pcp-element1, pcp-element2
 #! @Returns pcp-element
-#! @Description Returns the pcp-element <C>pcp-element1</C>$^{-1}$ <C>* pcp-element2</C>, i.e. the result solves the equation <C>pcp-element1 * pcp-element = pcp-element2</C>. If <C>DTObj![PC_DTPConfluent] = true</C>, then the result 
+#! @Description Returns the pcp-element <C>pcp-element1</C>$^{-1}$ <C>* pcp-element2</C>, i.e. the result solves the equation <C>pcp-element1 * pcp-element = pcp-element2</C>. If <C>IsConfluent(DTObj) = true</C>, then the result 
 #! describes a normal form. 
 DeclareGlobalFunction( "DTP_PCP_SolveEquation" ); 
 
