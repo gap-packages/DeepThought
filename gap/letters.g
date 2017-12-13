@@ -1,5 +1,4 @@
 # This file contains the functions:
-#	DTP_AreAlmostEqual
 #	DTP_HaveSameStructure
 #
 
@@ -20,32 +19,6 @@ DT_right := 1;
 # where "left" and "right" are letters given as records and l denotes the 
 # length of letter1, i.e. l = left.l + right.l + 1. 
 #############################################################################
-
-# Input: letters letter1, letter2
-# Output: 	* true, if letter1 and letter2 are almost equal
-#			* false, otherwise
-InstallGlobalFunction( DTP_AreAlmostEqual,
-function(letter1, letter2)
-	local is_atom; 
-	
-	# In any case we must have letter1.num = letter2.num
-	# and both must have the same length
-	if (letter1.num <> letter2.num) or (letter1.l <> letter2.l) then
-		return false;
-	fi;
-	
-	# check whether both are atoms / non-atoms:
-	is_atom := IsBound(letter1.side); # true <=> letter1 is atom 
-	if is_atom = IsBound(letter2.side) then
-		if is_atom then # both are atoms
-			return (letter1.side = letter2.side);
-		else # both are non-atoms
-			return (letter1.left = letter2.left and letter1.right = letter2.right);
-		fi;
-	else # one is an atom, the other one a non-atom
-		return false;
-	fi;
-end );
 
 # Input: letters letter1, letter2
 # Output: 	* true, if letter1 and letter2 have the same structure

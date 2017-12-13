@@ -75,21 +75,21 @@ Obj DTP_Binomial(Obj self, Obj N, Obj K)
     return res;
 }
 
-Obj DTP_SequenceLetter_C(Obj self, Obj letter, Obj seq)
+Obj DTP_SequenceLetter(Obj self, Obj letter, Obj seq)
 {
     if (!IS_PREC_REP(letter))
-        ErrorMayQuit("DTP_SequenceLetter_C: <letter> must be a plain record (not a %s)",
+        ErrorMayQuit("DTP_SequenceLetter: <letter> must be a plain record (not a %s)",
                  (Int)TNAM_OBJ(letter), 0L);
 
     if (!IS_PLIST(seq))
-        ErrorMayQuit("DTP_SequenceLetter_C: <seq> must be a plain list (not a %s)",
+        ErrorMayQuit("DTP_SequenceLetter: <seq> must be a plain list (not a %s)",
                  (Int)TNAM_OBJ(seq), 0L);
 
     if (IsbPRec(letter, RNleft))
-        DTP_SequenceLetter_C(self, ElmPRec(letter, RNleft), seq);
+        DTP_SequenceLetter(self, ElmPRec(letter, RNleft), seq);
 
     if (IsbPRec(letter, RNright))
-        DTP_SequenceLetter_C(self, ElmPRec(letter, RNright), seq);
+        DTP_SequenceLetter(self, ElmPRec(letter, RNright), seq);
 
     UInt len = LEN_PLIST(seq);
     AssPlist(seq, len+1, letter);
@@ -97,7 +97,7 @@ Obj DTP_SequenceLetter_C(Obj self, Obj letter, Obj seq)
     return 0;
 }
 
-Obj DTP_Seq_i_C(Obj self, Obj letter, Obj i)
+Obj DTP_Seq_i(Obj self, Obj letter, Obj i)
 {
     if (!IS_PREC_REP(letter))
     ErrorMayQuit("DTP_Seq_I: <letter> must be a plain record (not a %s)",
@@ -124,20 +124,20 @@ Obj DTP_Seq_i_C(Obj self, Obj letter, Obj i)
     }
 
     if(ElmPRec(letter, RNlength) != i){
-        ErrorMayQuit("DTP_Seq_i_C: Assertion failure, letter.l <> i", 0, 0);
+        ErrorMayQuit("DTP_Seq_i: Assertion failure, letter.l <> i", 0, 0);
     }
 
     return letter;
 }
 
-Obj DTP_AreAlmostEqual_C(Obj self, Obj letter1, Obj letter2)
+Obj DTP_AreAlmostEqual(Obj self, Obj letter1, Obj letter2)
 {
     if (!IS_PREC_REP(letter1))
-    ErrorMayQuit("DTP_AreAlmostEqual_C: <letter1> must be a plain record (not a %s)",
+    ErrorMayQuit("DTP_AreAlmostEqual: <letter1> must be a plain record (not a %s)",
              (Int)TNAM_OBJ(letter1), 0L);
   
     if (!IS_PREC_REP(letter2))
-    ErrorMayQuit("DTP_AreAlmostEqual_C: <letter2> must be a plain record (not a %s)",
+    ErrorMayQuit("DTP_AreAlmostEqual: <letter2> must be a plain record (not a %s)",
              (Int)TNAM_OBJ(letter2), 0L);
 
     // We must have letter1.num = letter2.num
@@ -184,9 +184,9 @@ typedef Obj (* GVarFunc)(/*arguments*/);
 // Table of functions to export
 static StructGVarFunc GVarFuncs [] = {
     GVAR_FUNC_TABLE_ENTRY("DeepThought.c", DTP_Binomial, 2, "n, k"),
-    GVAR_FUNC_TABLE_ENTRY("DeepThought.c", DTP_SequenceLetter_C, 2, "letter, seq"),
-    GVAR_FUNC_TABLE_ENTRY("DeepThought.c", DTP_Seq_i_C, 2, "letter, i"),
-    GVAR_FUNC_TABLE_ENTRY("DeepThought.c", DTP_AreAlmostEqual_C, 2, "letter1, letter2"),
+    GVAR_FUNC_TABLE_ENTRY("DeepThought.c", DTP_SequenceLetter, 2, "letter, seq"),
+    GVAR_FUNC_TABLE_ENTRY("DeepThought.c", DTP_Seq_i, 2, "letter, i"),
+    GVAR_FUNC_TABLE_ENTRY("DeepThought.c", DTP_AreAlmostEqual, 2, "letter1, letter2"),
     { 0 } /* Finish with an empty entry */
 
 };

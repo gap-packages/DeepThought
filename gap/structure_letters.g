@@ -1,40 +1,7 @@
 # This file contains the functions: 
-#	DTP_Seq_i
-#	DTP_SequenceLetter
 #	DTP_StructureLetter
 #	DTP_StructureLetterFromExisting
 #############################################################################
-
-# Input: 	letter "letter", integer i with 1 <= i <= letter.l
-# Output:	the subletter Seq(letter, i) 
-DTP_Seq_i := function(letter, i) 
-	
-	while letter.l > i do 
-		if letter.left.l >= i then 
-			letter := letter.left; 
-		else
-			i := i - letter.left.l; 
-			letter := letter.right; 
-		fi; 
-	od; 
-	
-	Assert(1, letter.l = i); 
-	return letter; 
-end; 
-
-# Input: 	letter "letter", empty list seq
-# Output:	list corresponding to Seq(letter)
-DTP_SequenceLetter := function(letter, seq) 
-
-	if IsBound(letter.left) then 
-		DTP_SequenceLetter(letter.left, seq); 
-	fi;
-	if IsBound(letter.right) then 
-		DTP_SequenceLetter(letter.right, seq); 
-	fi; 
-	Add(seq, letter); 
-
-end; 
 
 # Input:	letter "letter"
 # Output:	list containing the four components:

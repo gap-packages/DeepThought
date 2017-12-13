@@ -6,7 +6,6 @@
 
 # QUICK HACK: declare some functions to resolve circular dependencies
 # on the long run, clean this up
-DeclareGlobalFunction( "DTP_AreAlmostEqual" );
 DeclareGlobalFunction( "DTP_DetermineMultiplicationFunction" ); 
 
 #! @Chapter The Deep Thought algorithm
