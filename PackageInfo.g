@@ -11,7 +11,7 @@ SetPackageInfo( rec(
 PackageName := "DeepThought",
 Subtitle := "This package provides functions for computations in finitely generated nilpotent groups based on the Deep Thought algorithm.",
 Version := "1.0.0",
-Date := "08/12/2017", # dd/mm/yyyy format
+Date := "13/12/2017", # dd/mm/yyyy format
 
 Persons := [
   rec(
