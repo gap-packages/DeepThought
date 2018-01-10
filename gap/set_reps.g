@@ -7,7 +7,7 @@
 # Output:	A list reps of length n.
 #		   reps[r] describes the set reps_rs for this value of s.
 DTP_ComputeSetReps := function(n, s)
-	local reps, n, r, i, j, cnj, alpha, beta, pair, gamma, delta, l, epsilon;
+	local reps, r, i, j, cnj, alpha, beta, pair, gamma, delta, k, epsilon;
 
   reps := [];
 
@@ -18,15 +18,23 @@ DTP_ComputeSetReps := function(n, s)
 	# of the function DTP_StructureLetter for a letter, in order to compute
 	# structural information only once for each letter.
 	#
-  # initalization for computing the sets reps_rs
-	for r in [1 .. n] do
-		if r = s then
+	# Depending on whether reps_r or reps_rs shall be computed, the
+	# initialization differs:
+	if s = 0 then # initalization for computing the sets reps_r
+		for r in [1 .. n] do
 			reps[r] := [DTP_StructureLetter(rec( num := r, pos := 1, side := DT_left, l := 1)),
 			DTP_StructureLetter(rec( num := r, pos := 1, side := DT_right, l := 1)) ];
-		else
-			reps[r] := [DTP_StructureLetter(rec( num := r, pos := 1, side := DT_left, l := 1))];
-		fi;
-	od;
+		od;
+	else # initalization for computing the sets reps_rs
+		for r in [1 .. n] do
+			if r = s then
+				reps[r] := [DTP_StructureLetter(rec( num := r, pos := 1, side := DT_left, l := 1)),
+				DTP_StructureLetter(rec( num := r, pos := 1, side := DT_right, l := 1)) ];
+			else
+				reps[r] := [DTP_StructureLetter(rec( num := r, pos := 1, side := DT_left, l := 1))];
+			fi;
+		od;
+	fi;
 
 	# find non-atom representatives
 	for r in [3 .. n] do
@@ -36,7 +44,7 @@ DTP_ComputeSetReps := function(n, s)
 				# when a_j a_i is collected
 				for alpha in reps[i] do
 					for beta in reps[j] do
-						for epsilon in DTP_Least(alpha, beta, coll) do
+						for epsilon in DTP_Least(alpha, beta) do
 							if DTP_LeftOf(epsilon[3].left, epsilon[3].right) then
 								for k in [r .. n] do # c_{i,j,k} <> 0 for all i, j, k
 									# Now we add a representative
@@ -70,10 +78,10 @@ DTP_ComputeSetReps := function(n, s)
 									# letter1left = true in
 									# DTP_StructureLetterFromExisting !!
 									Assert(	5,
-											reps[cnj[l]][ Length( reps[cnj[l]] )] =
+											reps[k][ Length( reps[k] )] =
 											DTP_StructureLetter(rec( 	left := epsilon[3].left,
 																	right := epsilon[3].right,
-																	num := cnj[l],
+																	num := k,
 																	pos := 1,
 																	l := epsilon[3].left.l + epsilon[3].right.l + 1)),
 											Error("This assertion only holds if letter1left = true in DTP_StructureLetterFromExisting. Change 'if left.l < right.l then' to 'if true then' to test this assertion,") );

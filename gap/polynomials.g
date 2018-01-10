@@ -12,6 +12,24 @@
 # 	DTP_DTObjFromCollector
 #############################################################################
 
+# returns the position of variable T_{i,j,k} with 1 <= i < j < k <= n
+# in lexicographical order for [i, j, k]
+DTP_VarPos := function(i, j, k, n)
+  local sum1, sum2;
+  sum1 := Sum([1 .. (i - 1)], l -> (n - 1 - l) * (n - l) / 2 );
+  sum2 := Sum([i .. (j - 2)], l -> (n - 1 - i) - (l - i) );
+  return sum1 + sum2 + (k - j);
+end;
+
+DTP_BinomialPol := function(ind, k)
+	local bin, i;
+	bin := ind^0;
+	for i in [1 .. k] do
+		bin := bin * (ind - i + 1) / i;
+	od;
+	return bin;
+end;
+
 # Input: 	- letter alpha
 # Output: 	list g_alpha representing the polynomial g_alpha in the
 #			following form:
@@ -27,10 +45,10 @@
 #			or "var" = [i, j, k] is a list with 1 <= i < j < k <= n
 #			representing the indetermiante T_{i, j, k}
 #	- "size" is "b" in the binomial coefficient
-DTP_Polynomial_g_alpha := function(alpha, n)
-	local g_alpha, classes_reps, classes_size, i, rep;
+DTP_Polynomial_g_alpha := function(alpha, n, indets)
+	local g_alpha, classes_reps, classes_size, i, rep, ind;
 
-	g_alpha := [];
+	g_alpha := indets[1]^0;
 
 	# for computing g_alpha, representatives of the equivalence classes
 	# of Sub(alpha[3]) and the class sizes are needed:
@@ -44,24 +62,24 @@ DTP_Polynomial_g_alpha := function(alpha, n)
 			if rep.side = DT_left then # ..and it comes from the left side,
 				# then add the binomial coefficient for the indeterminate
 				# rep.num <-> X_{rep.num}
-				Add(g_alpha, [rep.num, classes_size[i]]);
+				ind := indets[rep.num];
+				g_alpha := g_alpha * DTP_BinomialPol(ind, classes_size[i]);
 			else # ..and if it comes from the right side,
 				# then add the binomial coefficient for the indeterminate
 				# n + rep.num <-> Y_{rep.num}
-				Add(g_alpha, [n + rep.num, classes_size[i]]);
+				ind := indets[n + rep.num];
+				g_alpha := g_alpha * DTP_BinomialPol(ind, classes_size[i]);
 			fi;
 		else # If rep is a non-atom:
 			# Add the indeterminate [rep.right.num, rep.left.num, rep.num ]
 			# to g_alpha. By definition,
 			# T_A = T_rep = C_{num(rep.right), num(rep.left), num(rep)}
-			Add(g_alpha, [ [rep.right.num, rep.left.num, rep.num], classes_size[i]]);
+			ind := indets[2 * n + DTP_VarPos(rep.right.num, rep.left.num, rep.num, n)];
+			g_alpha := g_alpha * DTP_BinomialPol(ind, classes_size[i]);
 		fi;
 		i := i + 1;
 	od;
 
-	SortBy(g_alpha, function(v) return v[1]; end);
-	# now g_alpha is sorted w.r.t. X_1 < ... < X_n < Y_1 < ... < Y_n
-	# < C_{1, 2, 3} (lexicographically)
 	return g_alpha;
 end;
 
@@ -161,14 +179,14 @@ end;
 #			f_rs = \sum_{\alpha in reps_rs} g_\alpha
 # 			An entry pols_f_rs[r] contains lists as described in g_alpha
 #			which represent the summands of f_rs.
-DTP_DTpols_r_S := function(n, s)
-	local n, pols_f_rs, reps, r, f_rs, reps_rs, alpha;
+DTP_DTpols_r_S := function(n, s, indets)
+	local pols_f_rs, reps, r, f_rs, reps_rs, alpha;
 
 	Assert(1, s <= n);
 
 	pols_f_rs := [];
 	# compute reps_rs for 1 <= r <= n
-	reps := DTP_ComputeSetReps(n, s); #here
+	reps := DTP_ComputeSetReps(n, s);
 	for r in [1 .. n] do
 		# compute polynomial f_rs: f_rs is list of summands
 		# g_alpha as described in DTP_Polynomial_g_alpha
@@ -176,7 +194,7 @@ DTP_DTpols_r_S := function(n, s)
 		reps_rs := reps[r]; # = reps_rs
 		for alpha in reps_rs do # for every representative in reps_rs
 			# add g_alpha to f_rs
-			Add(f_rs, DTP_Polynomial_g_alpha(alpha, n));
+			Add(f_rs, DTP_Polynomial_g_alpha(alpha, n, indets));
 		od;
 		# add polynomial f_rs to list pols_f_rs
 		Add(pols_f_rs, f_rs);
@@ -255,7 +273,7 @@ DTP_DTpols_r := function(coll, isConfl)
 			#	"g_alpha1{[2 .. Length(g_alpha1)]} =
 			#							g_alpha2{[2 .. Length(g_alpha2)]}"
 			# since the entries are sorted by construction of g_alpha.
-			g_alpha := DTP_Polynomial_g_alpha(alpha, coll);
+			g_alpha := DTP_Polynomial_g_alpha(alpha, n);
 			added := false;
 			for term in [1 .. Length(f_r)] do
 				if Length(f_r[term]) = Length(g_alpha) and f_r[term]{[2 .. Length(f_r[term])]} = g_alpha{[2 .. Length(g_alpha)]} then
@@ -313,4 +331,70 @@ function(coll, rs_flag...)
 		Error("Call DTP_DTObjFromCollector with...");
 	fi;
 
+end );
+
+#############################################################################
+####					Computing generic DT Polynomials													 ####
+#############################################################################
+
+DTP_GetIndets := function(n)
+	local i, j, k, indets;
+	indets := [];
+	for i in [1 .. n] do
+		Add(indets, Indeterminate( Rationals, Concatenation("x", String(i)) ) );
+	od;
+	for i in [1 .. n] do
+		Add(indets, Indeterminate( Rationals, Concatenation("y", String(i)) ) );
+	od;
+	for i in [1 .. n] do
+		for j in [i+1 .. n] do
+			for k in [j+1 .. n] do
+				Add(indets, Indeterminate( Rationals,
+				Concatenation("t", String(i), "_", String(j), "_", String(k))));
+			od;
+		od;
+	od;
+	return indets;
+end;
+
+InstallGlobalFunction( DTP_GenericPols_rs,
+function(n)
+  local all_pols, s, indets;
+  # assume for all conjugate coefficients that c_{i,j,k} <> 0 and
+  # consider them as indeterminates
+
+	indets := DTP_GetIndets(n);
+  all_pols := [];
+  # for every 1 <= s <= n compute the polynomials f_rs, 1 <= r <= n
+  for s in [1 .. n] do
+    Add(all_pols, DTP_DTpols_r_S(n, s, indets));
+  od;
+
+  return all_pols;
+end );
+
+InstallGlobalFunction( DTP_GenericPols_r,
+function(n)
+  local pols_f_r, reps, r, f_r, reps_r, alpha, indets, i, j, k;
+
+	indets := DTP_GetIndets(n);
+	pols_f_r := [];
+	# compute reps_r for 1 <= r <= n
+	reps := DTP_ComputeSetReps(n, 0);
+
+	# compute the polynomials
+	for r in [1 .. n] do
+		# compute polynomial f_r: f_r is list of summands
+		# g_alpha as described in DTP_Polynomial_g_alpha
+		f_r := 0 * indets[1]^0;
+		reps_r := reps[r]; # = reps_r
+		for alpha in reps_r do # for every representative in
+		# reps_r compute the polynomial g_alpha
+			f_r := f_r + DTP_Polynomial_g_alpha(alpha, n, indets);
+		od;
+		# add polynomial f_r to list pols_f_r
+		Add(pols_f_r, f_r);
+	od;
+
+	return pols_f_r;
 end );
