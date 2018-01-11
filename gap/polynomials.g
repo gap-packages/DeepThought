@@ -186,8 +186,10 @@ DTP_DTpols_r_S := function(n, s, indets)
 
 	pols_f_rs := [];
 	# compute reps_rs for 1 <= r <= n
+  Print("...compute SetReps for s = ", s, "...\n"); 
 	reps := DTP_ComputeSetReps(n, s);
 	for r in [1 .. n] do
+    Print("...computing polynomials for r = ", r, "\n");
 		# compute polynomial f_rs: f_rs is list of summands
 		# g_alpha as described in DTP_Polynomial_g_alpha
 		f_rs := [];
@@ -367,6 +369,7 @@ function(n)
   all_pols := [];
   # for every 1 <= s <= n compute the polynomials f_rs, 1 <= r <= n
   for s in [1 .. n] do
+    Print("Computing polynomials for s = ", s, "\n");
     Add(all_pols, DTP_DTpols_r_S(n, s, indets));
   od;
 
@@ -380,10 +383,12 @@ function(n)
 	indets := DTP_GetIndets(n);
 	pols_f_r := [];
 	# compute reps_r for 1 <= r <= n
-	reps := DTP_ComputeSetReps(n, 0);
+  Print("Compute SetReps...\n");
+  reps := DTP_ComputeSetReps(n, 0);
 
 	# compute the polynomials
 	for r in [1 .. n] do
+    Print("Computing polynomials for r = ", r, "\n");
 		# compute polynomial f_r: f_r is list of summands
 		# g_alpha as described in DTP_Polynomial_g_alpha
 		f_r := 0 * indets[1]^0;
