@@ -199,13 +199,18 @@ static Int InitKernel( StructInitInfo *module )
     /* init filters and functions                                          */
     InitHdlrFuncsFromTable( GVarFuncs );
 
+    /* return success                                                      */
+    return 0;
+}
+
+static Int PostRestore( StructInitInfo *module )
+{
     RNleft = RNamName("left");
     RNright = RNamName("right");
     RNlength = RNamName("l");
     RNnum = RNamName("num");
-    RNside = RNamName("side"); 
+    RNside = RNamName("side");
 
-    /* return success                                                      */
     return 0;
 }
 
@@ -217,9 +222,13 @@ static Int InitLibrary( StructInitInfo *module )
     /* init filters and functions */
     InitGVarFuncsFromTable( GVarFuncs );
 
+    PostRestore(module);
+
     /* return success                                                      */
     return 0;
 }
+
+
 
 /******************************************************************************
 *F  InitInfopl()  . . . . . . . . . . . . . . . . . table of init functions
@@ -236,7 +245,7 @@ static StructInitInfo module = {
  /* checkInit   = */ 0,
  /* preSave     = */ 0,
  /* postSave    = */ 0,
- /* postRestore = */ 0
+ /* postRestore = */ PostRestore
 };
 
 StructInitInfo *Init__Dynamic( void )
