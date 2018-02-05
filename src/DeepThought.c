@@ -77,7 +77,7 @@ Obj DTP_Binomial(Obj self, Obj N, Obj K)
 
 Obj DTP_SequenceLetter(Obj self, Obj letter, Obj seq)
 {
-    if (!IS_PREC_REP(letter))
+    if (!IS_PREC(letter))
         ErrorMayQuit("DTP_SequenceLetter: <letter> must be a plain record (not a %s)",
                  (Int)TNAM_OBJ(letter), 0L);
 
@@ -99,7 +99,7 @@ Obj DTP_SequenceLetter(Obj self, Obj letter, Obj seq)
 
 Obj DTP_Seq_i(Obj self, Obj letter, Obj i)
 {
-    if (!IS_PREC_REP(letter))
+    if (!IS_PREC(letter))
     ErrorMayQuit("DTP_Seq_I: <letter> must be a plain record (not a %s)",
              (Int)TNAM_OBJ(letter), 0L);
     
@@ -132,11 +132,11 @@ Obj DTP_Seq_i(Obj self, Obj letter, Obj i)
 
 Obj DTP_AreAlmostEqual(Obj self, Obj letter1, Obj letter2)
 {
-    if (!IS_PREC_REP(letter1))
+    if (!IS_PREC(letter1))
     ErrorMayQuit("DTP_AreAlmostEqual: <letter1> must be a plain record (not a %s)",
              (Int)TNAM_OBJ(letter1), 0L);
   
-    if (!IS_PREC_REP(letter2))
+    if (!IS_PREC(letter2))
     ErrorMayQuit("DTP_AreAlmostEqual: <letter2> must be a plain record (not a %s)",
              (Int)TNAM_OBJ(letter2), 0L);
 
