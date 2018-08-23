@@ -12,8 +12,9 @@ GAPINSTALLLIB = $(BINARCHDIR)/DeepThought.so
 lib_LTLIBRARIES = DeepThought.la
 
 DeepThought_la_SOURCES = src/DeepThought.c
-DeepThought_la_CPPFLAGS = $(GAP_CPPFLAGS) -DCONFIG_H
-DeepThought_la_LDFLAGS = -module -avoid-version
+DeepThought_la_CPPFLAGS = $(GAP_CPPFLAGS)
+DeepThought_la_CFLAGS = $(GAP_CFLAGS)
+DeepThought_la_LDFLAGS = $(GAP_LDFLAGS) -module -avoid-version
 if SYS_IS_CYGWIN
 DeepThought_la_LDFLAGS += -no-undefined -version-info 0:0:0 
 DeepThought_la_LDFLAGS += -Wl,$(GAPROOT)/bin/$(GAPARCH)/gap.dll
