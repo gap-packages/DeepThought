@@ -15,6 +15,10 @@
 #define IS_ODD(obj)             (IS_INTOBJ(obj) ? ((Int)obj & 4) : (VAL_LIMB0(obj) & 1))
 #define IS_EVEN(obj)            (!IS_ODD(obj))
 
+#ifdef IS_PREC_REP
+// for compatibility with GAP <= 4.8
+#define IS_PREC(x) IS_PREC_REP(x)
+#endif
 
 static UInt RNleft, RNright, RNlength, RNnum, RNside;
 
