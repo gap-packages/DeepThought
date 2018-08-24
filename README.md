@@ -7,7 +7,7 @@ This package provides functions for computations in finitely generated nilpotent
 ## Issues
 
 For questions, remarks and issues please use the [issue tracker](
-https://github.com/duskydolphin/DeepThoughtPackage/issues).
+https://github.com/duskydolphin/DeepThoughtPackage/issues). 
 
 ## Tests
 

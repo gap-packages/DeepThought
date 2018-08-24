@@ -7,10 +7,10 @@
              nilpotent groups based on the Deep Thought algorithm. [101X
   
   
-                                     1.0.0
+                                     1.0.1
   
   
-                                13 December 2017
+                                 24 August 2018
   
   
                                   Nina Wagner
@@ -49,7 +49,7 @@
   1 [33X[0;0YThe Deep Thought algorithm[133X
     1.1 [33X[0;0YCategory DTObj[133X
   2 [33X[0;0YUsing Deep Thought functions[133X
-    2.1 [33X[0;0YComputing Deep Though polynomials[133X
+    2.1 [33X[0;0YComputing Deep Thought polynomials[133X
       2.1-1 DTP_DTapplicability
       2.1-2 DTP_DTObjFromCollector
     2.2 [33X[0;0YComputations with Deep Thought polynomials[133X

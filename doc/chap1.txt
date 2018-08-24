@@ -62,10 +62,9 @@
   these special multiplications. Depending on the presentation, polynomials of
   one  version  may be more efficient for computations than the polynomials of
   the  other version. For a suggestion on which polynomials to use for a given
-  presentation,  see  the function [10XDTP_DTapplicability[110X. In the following, Deep
-  Thought  type  [23Xf_r[123X  refers  to  the  Deep  Though  algorithm  which  uses  [23Xn[123X
-  polynomials  and  type [23Xf_{rs}[123X refers to the Deep Thought algorithm using [23Xn^2[123X
-  polynomials.[133X
+  presentation,  see  [10XDTP_DTapplicability[110X. In the following, Deep Thought type
+  [23Xf_r[123X  refers  to the Deep Thought algorithm which uses [23Xn[123X polynomials and type
+  [23Xf_{rs}[123X refers to the Deep Thought algorithm using [23Xn^2[123X polynomials.[133X
   
   [33X[0;0YIn  order to work with the Deep Thought functions, the group presentation is
   expected  to  be  given  as  a collector [10Xcoll[110X, as defined in the [5XGAP[105X package
@@ -74,7 +73,7 @@
   represent  group  elements. In the following text, a group element [23Xa_1^{x_1}
   \cdots  a_n^{x_n}[123X is identified with its exponent vector in form of the list
   [10X[x_1,  ...,  x_n][110X.  For example, if [10Xexpvec1, expvec2[110X are exponent vectors of
-  elements   in   the  same  group,  than  [10Xexpvec1  *  expvec2[110X  describes  the
+  elements   in   the  same  group,  then  [10Xexpvec1  *  expvec2[110X  describes  the
   multiplication  of  the  corresponding  group elements, and so on. Note that
   generally exponent vectors are not assumed to represent normal forms.[133X
   
@@ -84,7 +83,7 @@
   [33X[0;0YThis package uses the category [10XDTObj[110X. A [10XDTObj[110X is a [10XIsFromTheLeftCollectorRep[110X
   with certain further list entries to store the Deep Thought polynomials of a
   collector  together with some additional information. That is, the functions
-  [10XDTP_DTpols_r[110X  and  [10XDTP_DTpols_rs[110X  return  a  ([10XDTObj[110X)  which  has  entries as
+  [10XDTP_DTpols_r[110X   and  [10XDTP_DTpols_rs[110X  return  a  [10XDTObj[110X  which  has  entries  as
   [10XIsFromTheLeftCollectorRep[110X and additionally:[133X
   
   [30X    [33X[0;6Y[10XDTObj![PC_DTPPolynomials][110X:   Deep   Thought  polynomials  in  form  of
