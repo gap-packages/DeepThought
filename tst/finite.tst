@@ -1,4 +1,6 @@
-gap> Read("tst/testpackage.g");;
+gap> testpackage := Filename( DirectoriesPackageLibrary( "DeepThought", "tst" ),
+>                             "testpackage.g" );;
+gap> Read(testpackage);;
 
 # finite group 
 gap> p := 2;;

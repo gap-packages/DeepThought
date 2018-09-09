@@ -1,5 +1,7 @@
 gap> START_TEST( "Start highlevel tests" );
-gap> Read("tst/testpackage.g");;
+gap> testpackage := Filename( DirectoriesPackageLibrary( "DeepThought", "tst" ),
+>                             "testpackage.g" );;
+gap> Read(testpackage);;
 gap> coll := Collector(BurdeGrunewaldPcpGroup(0, 1));;
 gap> Test_DTP_functions(coll, true, 5, 10);
 true
