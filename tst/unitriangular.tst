@@ -1,4 +1,6 @@
-gap> Read("tst/testpackage.g");;
+gap> testpackage := Filename( DirectoriesPackageLibrary( "DeepThought", "tst" ),
+>                             "testpackage.g" );;
+gap> Read(testpackage);;
 gap> coll := Collector(UnitriangularPcpGroup(3, 0));;
 gap> Test_DTP_functions(coll, true, 300, 500);
 true

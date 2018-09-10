@@ -1,4 +1,6 @@
-gap> Read("tst/testpackage.g");;
+gap> testpackage := Filename( DirectoriesPackageLibrary( "DeepThought", "tst" ),
+>                             "testpackage.g" );;
+gap> Read(testpackage);;
 
 # test random collector 
 gap> Test_DTP_functions(DTP_rand_coll(), true, 100, 1000);

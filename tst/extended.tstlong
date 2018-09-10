@@ -1,4 +1,6 @@
-gap> Read("tst/testpackage.g");;
+gap> testpackage := Filename( DirectoriesPackageLibrary( "DeepThought", "tst" ),
+>                             "testpackage.g" );;
+gap> Read(testpackage);;
 
 # example group 14: 
 gap> coll := Collector(ExamplesOfSomePcpGroups(14));; 
