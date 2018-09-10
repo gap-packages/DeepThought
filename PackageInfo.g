@@ -54,7 +54,7 @@ SourceRepository := rec(
     URL := "https://github.com/duskydolphin/DeepThoughtPackage",
 ),
 IssueTrackerURL := Concatenation( ~.SourceRepository.URL, "/issues" ),
-#SupportEmail   := "TODO",
+SupportEmail   := "nina.wagner@math.uni-giessen.de",
 PackageWWWHome  := "https://duskydolphin.github.io/DeepThoughtPackage/",
 PackageInfoURL  := Concatenation( ~.PackageWWWHome, "PackageInfo.g" ),
 README_URL      := Concatenation( ~.PackageWWWHome, "README.md" ),
@@ -72,9 +72,9 @@ ArchiveFormats := ".tar.gz",
 ##    "dev"           for development versions of packages
 ##    "other"         for all other packages
 ##
-Status := "dev",
+Status := "deposited",
 
-AbstractHTML   :=  "",
+AbstractHTML   := "This package provides functions for computations in finitely generated nilpotent groups based on the Deep Thought algorithm.",
 
 PackageDoc := rec(
   BookName  := "DeepThought",
@@ -96,11 +96,15 @@ Dependencies := rec(
 ),
 
 AvailabilityTest := function()
-        return true;
-    end,
+  local path, file;
+  # the file below must exist for this package to work
+  path := DirectoriesPackagePrograms("DeepThought");
+  file := Filename(path, "DeepThought.so");
+  return file <> fail;
+end,
 
 TestFile := "tst/testall.g",
 
-#Keywords := [ "TODO" ],
+Keywords := [ "Deep Thought", "finitely generated nilpotent groups", "Hall polynomials" ],
 
 ));
