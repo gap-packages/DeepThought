@@ -7,10 +7,10 @@
              nilpotent groups based on the Deep Thought algorithm. [101X
   
   
-                                     1.0.1
+                                     1.0.2
   
   
-                                 24 August 2018
+                               13 September 2018
   
   
                                   Nina Wagner
