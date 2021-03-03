@@ -1,7 +1,7 @@
-[![Build Status](https://github.com/gap-packages/DeepThoughtPackage/workflows/CI/badge.svg?branch=master)](https://github.com/gap-packages/DeepThoughtPackage/actions?query=workflow%3ACI+branch%3Amaster)
-[![Code Coverage](https://codecov.io/github/gap-packages/DeepThoughtPackage/coverage.svg?branch=master&token=)](https://codecov.io/gh/gap-packages/DeepThoughtPackage)
+[![Build Status](https://github.com/gap-packages/DeepThought/workflows/CI/badge.svg?branch=master)](https://github.com/gap-packages/DeepThought/actions?query=workflow%3ACI+branch%3Amaster)
+[![Code Coverage](https://codecov.io/github/gap-packages/DeepThought/coverage.svg?branch=master&token=)](https://codecov.io/gh/gap-packages/DeepThought)
 
-# README - DeepThoughtPackage
+# README - DeepThought
 
 ## Introduction
 
@@ -13,7 +13,7 @@ information see the documentation.
 ## Issues
 
 For questions, remarks and issues please use the [issue tracker](
-https://github.com/gap-packages/DeepThoughtPackage/issues). 
+https://github.com/gap-packages/DeepThought/issues). 
 
 ## Tests
 

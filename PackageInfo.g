@@ -41,10 +41,10 @@ Persons := [
 
 SourceRepository := rec(
     Type := "git",
-    URL := "https://github.com/gap-packages/DeepThoughtPackage",
+    URL := "https://github.com/gap-packages/DeepThought",
 ),
 IssueTrackerURL := Concatenation( ~.SourceRepository.URL, "/issues" ),
-PackageWWWHome  := "https://gap-packages.github.io/DeepThoughtPackage/",
+PackageWWWHome  := "https://gap-packages.github.io/DeepThought/",
 PackageInfoURL  := Concatenation( ~.PackageWWWHome, "PackageInfo.g" ),
 README_URL      := Concatenation( ~.PackageWWWHome, "README.md" ),
 ArchiveURL      := Concatenation( ~.SourceRepository.URL,
