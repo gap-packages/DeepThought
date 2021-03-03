@@ -10,52 +10,41 @@ SetPackageInfo( rec(
 
 PackageName := "DeepThought",
 Subtitle := "This package provides functions for computations in finitely generated nilpotent groups based on the Deep Thought algorithm.",
-Version := "1.0.2",
-Date := "13/09/2018", # dd/mm/yyyy format
+Version := "1.0.3",
+Date := "03/03/2021", # dd/mm/yyyy format
 
 Persons := [
   rec(
     IsAuthor		:= true,
-    IsMaintainer 	:= true,
+    IsMaintainer 	:= false,
     FirstNames 		:= "Nina",
     LastName 		:= "Wagner",
-    Email 			:= "nina.wagner@math.uni-giessen.de",
-	PostalAddress 	:= Concatenation(
-						"AG Algebra\n",
-						"Mathematisches Institut\n",
-						"Justus-Liebig-Universität Gießen\n",
-						"Arndtstraße 2\n",
-						"35392 Gießen\n",
-						"Germany" ),
-    Place         	:= "Gießen",
-    Institution   	:= "Justus-Liebig-Universität Gießen"
+    Email 		:= "github@n-i-n-a.de",
   ),
   rec(
     LastName      := "Horn",
     FirstNames    := "Max",
-    IsAuthor      := true,
+    IsAuthor      := false,
     IsMaintainer  := true,
-    Email         := "max.horn@math.uni-giessen.de",
-    WWWHome       := "http://www.quendi.de/math",
+    Email         := "horn@mathematik.uni-kl.de",
+    WWWHome       := "https://www.quendi.de/math",
     PostalAddress := Concatenation(
-                       "AG Algebra\n",
-                       "Mathematisches Institut\n",
-                       "Justus-Liebig-Universität Gießen\n",
-                       "Arndtstraße 2\n",
-                       "35392 Gießen\n",
+                       "Fachbereich Mathematik\n",
+                       "TU Kaiserslautern\n",
+                       "Gottlieb-Daimler-Straße 48\n",
+                       "67663 Kaiserslautern\n",
                        "Germany" ),
-    Place         := "Gießen",
-    Institution   := "Justus-Liebig-Universität Gießen"
+    Place         := "Kaiserslautern, Germany",
+    Institution   := "TU Kaiserslautern"
   ),
 ],
 
 SourceRepository := rec(
     Type := "git",
-    URL := "https://github.com/duskydolphin/DeepThoughtPackage",
+    URL := "https://github.com/gap-packages/DeepThoughtPackage",
 ),
 IssueTrackerURL := Concatenation( ~.SourceRepository.URL, "/issues" ),
-SupportEmail   := "nina.wagner@math.uni-giessen.de",
-PackageWWWHome  := "https://duskydolphin.github.io/DeepThoughtPackage/",
+PackageWWWHome  := "https://gap-packages.github.io/DeepThoughtPackage/",
 PackageInfoURL  := Concatenation( ~.PackageWWWHome, "PackageInfo.g" ),
 README_URL      := Concatenation( ~.PackageWWWHome, "README.md" ),
 ArchiveURL      := Concatenation( ~.SourceRepository.URL,

@@ -86,19 +86,19 @@
 
 
 <div class="example"><pre>
- gap&gt; G := UnitriangularPcpGroup(10, 0);;
- gap&gt; coll := Collector(G);;
- gap&gt; DTP_DTapplicability(coll);
- Checking collector for DT-applicability. "+" means the following property
- is fulfilled.
- +   conjugacy relations
- +   power relations
- +   confluent
- Suggestion: Call DTP_DTObjFromColl with rs_flag = true.
- true
- # calling DTP_DTObjFromCollector without rs_flag implies rs_flag = true:
- gap&gt; DTObj := DTP_DTObjFromCollector(coll);
- &lt;DTObj&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">G := UnitriangularPcpGroup(10, 0);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">coll := Collector(G);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DTP_DTapplicability(coll);</span>
+Checking collector for DT-applicability. "+" means the following property
+is fulfilled.
++   conjugacy relations
++   power relations
++   confluent
+Suggestion: Call DTP_DTObjFromColl with rs_flag = true.
+true
+# calling DTP_DTObjFromCollector without rs_flag implies rs_flag = true:
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DTObj := DTP_DTObjFromCollector(coll);</span>
+&lt;DTObj&gt;
 </pre></div>
 
 <p><a id="X7DEEE5BD87A77227" name="X7DEEE5BD87A77227"></a></p>
@@ -188,28 +188,28 @@
 
 
 <div class="example"><pre>
- gap&gt; G := PcGroupToPcpGroup(SmallGroup(23^5, 2));
- Pcp-group with orders [ 23, 23, 23, 23, 23 ]
- gap&gt; coll := Collector(G);
- &lt;&lt;from the left collector with 5 generators&gt;&gt;
- gap&gt; DTObj := DTP_DTObjFromCollector(coll);
- &lt;DTObj&gt;
- gap&gt; g := [100, 134, -31, 52, 5235];
- [ 100, 134, -31, 52, 5235 ]
- gap&gt; DTP_IsInNormalForm(g, DTObj);
- 1
- gap&gt; g := DTP_NormalForm(g, DTObj);
- [ 8, 19, 15, 10, 19 ]
- gap&gt; DTP_IsInNormalForm(g, DTObj);
- true
- gap&gt; DTP_Inverse(g, DTObj);
- [ 15, 4, 22, 12, 3 ]
- gap&gt; DTP_Order(g, DTObj);
- 529
- gap&gt; h := [142, 2, -41, 23, 1];
- [ 142, 2, -41, 23, 1 ]
- gap&gt; DTP_Multiply(g, h, DTObj);
- [ 12, 21, 4, 16, 20 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">G := PcGroupToPcpGroup(SmallGroup(23^5, 2));</span>
+Pcp-group with orders [ 23, 23, 23, 23, 23 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">coll := Collector(G);</span>
+&lt;&lt;from the left collector with 5 generators&gt;&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DTObj := DTP_DTObjFromCollector(coll);</span>
+&lt;DTObj&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">g := [100, 134, -31, 52, 5235];</span>
+[ 100, 134, -31, 52, 5235 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DTP_IsInNormalForm(g, DTObj);</span>
+1
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">g := DTP_NormalForm(g, DTObj);</span>
+[ 8, 19, 15, 10, 19 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DTP_IsInNormalForm(g, DTObj);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DTP_Inverse(g, DTObj);</span>
+[ 15, 4, 22, 12, 3 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DTP_Order(g, DTObj);</span>
+529
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">h := [142, 2, -41, 23, 1];</span>
+[ 142, 2, -41, 23, 1 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DTP_Multiply(g, h, DTObj);</span>
+[ 12, 21, 4, 16, 20 ]
 </pre></div>
 
 <p><a id="X7E972B8C7A6CD87A" name="X7E972B8C7A6CD87A"></a></p>
@@ -265,19 +265,19 @@
 
 
 <div class="example"><pre>
- gap&gt; G := HeisenbergPcpGroup(7);;
- gap&gt; coll := Collector(G);;
- gap&gt; DTObj := DTP_DTObjFromCollector(coll);;
- gap&gt; H := PcpGroupByCollector(DTObj);;
- gap&gt; g := Random(H);; h := Random(H);;
- gap&gt; DTP_PCP_SolveEquation(g, h);
- g1^-3*g2^-1*g3^-7*g4*g5^-6*g6*g7*g8^2*g9^3*g11^-4*g12^5*g14^-2*g15^7
- g1^-3*g2^-1*g3^-7*g4*g5^-6*g6*g7*g8^2*g9^3*g11^-4*g12^5*g14^-2*g15^7
- infinity
- gap&gt; g^-1;
- g1^-2*g3^-3*g4^-1*g5^-4*g6^2*g7*g8^-3*g10^-3*g11^-1*g12^4*g14^-2*g15^-3
- gap&gt; DTP_PCP_Inverse(h);
- g1*g2*g3^4*g4^-2*g5^2*g6*g8^-5*g9^-3*g10^-3*g11^3*g12^-1*g15^-33
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">G := HeisenbergPcpGroup(7);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">coll := Collector(G);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DTObj := DTP_DTObjFromCollector(coll);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">H := PcpGroupByCollector(DTObj);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">g := Random(H);; h := Random(H);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DTP_PCP_SolveEquation(g, h);</span>
+g1^-3*g2^-1*g3^-7*g4*g5^-6*g6*g7*g8^2*g9^3*g11^-4*g12^5*g14^-2*g15^7
+g1^-3*g2^-1*g3^-7*g4*g5^-6*g6*g7*g8^2*g9^3*g11^-4*g12^5*g14^-2*g15^7
+infinity
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">g^-1;</span>
+g1^-2*g3^-3*g4^-1*g5^-4*g6^2*g7*g8^-3*g10^-3*g11^-1*g12^4*g14^-2*g15^-3
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DTP_PCP_Inverse(h);</span>
+g1*g2*g3^4*g4^-2*g5^2*g6*g8^-5*g9^-3*g10^-3*g11^3*g12^-1*g15^-33
 </pre></div>
 
 <p><a id="X81E6D7BE805AEA32" name="X81E6D7BE805AEA32"></a></p>
@@ -306,46 +306,46 @@
 
 
 <div class="example"><pre>
- gap&gt; coll := FromTheLeftCollector(4);;
- gap&gt; SetConjugate(coll, 2, 1, [2, 1, 3, 2]);
- gap&gt; SetConjugate(coll, 3, 1, [3, 1, 4, 1]);
- gap&gt; SetConjugate(coll, 3, 2, [3, 1, 4, 5]);
- gap&gt; UpdatePolycyclicCollector(coll);
- gap&gt; DTObj := DTP_DTObjFromCollector(coll);
- &lt;DTObj&gt;
- gap&gt; Display(DTObj);
- Polynomials f_rs for s = 1:
- f_1,s = X_1 + Y_1
- f_2,s = X_2
- f_3,s = X_3 + 2 * X_2 Y_1
- f_4,s = X_4 + X_3 Y_1 + 2 * X_2 Binomial(Y_1, 2) + 10 * Binomial(X_2, 2) Y_1
- Polynomials f_rs for s = 2:
- f_1,s = X_1
- f_2,s = X_2 + Y_2
- f_3,s = X_3
- f_4,s = X_4 + 5 * X_3 Y_2
- Polynomials f_rs for s = 3:
- f_1,s = X_1
- f_2,s = X_2
- f_3,s = X_3 + Y_3
- f_4,s = X_4
- Polynomials f_rs for s = 4:
- f_1,s = X_1
- f_2,s = X_2
- f_3,s = X_3
- f_4,s = X_4 + Y_4
- gap&gt; DTObj := DTP_DTObjFromCollector(coll, false);
- &lt;DTObj&gt;
- gap&gt; Display(DTObj);
- f_1 = X_1 + Y_1
- f_2 = X_2 + Y_2
- f_3 = X_3 + Y_3 + 2 * X_2 Y_1
- f_4 = X_4 + Y_4 + X_3 Y_1 + 2 * X_2 Binomial(Y_1, 2) +
- 10 * Binomial(X_2, 2) Y_1 + 5 * X_3 Y_2 + 10 * X_2 Y_1 Y_2
- gap&gt; DTP_pols2GAPpols(DTObj);
-  [ [ x1+y1, x2+y2, 2*x2*y1+x3+y3,
- 5*x2^2*y1+x2*y1^2+10*x2*y1*y2-6*x2*y1+x3*y1+5*x3*y2+x4+y4 ],
- Rationals[x1,x2,x3,x4,y1,y2,y3,y4] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">coll := FromTheLeftCollector(4);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">SetConjugate(coll, 2, 1, [2, 1, 3, 2]);</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">SetConjugate(coll, 3, 1, [3, 1, 4, 1]);</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">SetConjugate(coll, 3, 2, [3, 1, 4, 5]);</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">UpdatePolycyclicCollector(coll);</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DTObj := DTP_DTObjFromCollector(coll);</span>
+&lt;DTObj&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display(DTObj);</span>
+Polynomials f_rs for s = 1:
+f_1,s = X_1 + Y_1
+f_2,s = X_2
+f_3,s = X_3 + 2 * X_2 Y_1
+f_4,s = X_4 + X_3 Y_1 + 2 * X_2 Binomial(Y_1, 2) + 10 * Binomial(X_2, 2) Y_1
+Polynomials f_rs for s = 2:
+f_1,s = X_1
+f_2,s = X_2 + Y_2
+f_3,s = X_3
+f_4,s = X_4 + 5 * X_3 Y_2
+Polynomials f_rs for s = 3:
+f_1,s = X_1
+f_2,s = X_2
+f_3,s = X_3 + Y_3
+f_4,s = X_4
+Polynomials f_rs for s = 4:
+f_1,s = X_1
+f_2,s = X_2
+f_3,s = X_3
+f_4,s = X_4 + Y_4
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DTObj := DTP_DTObjFromCollector(coll, false);</span>
+&lt;DTObj&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Display(DTObj);</span>
+f_1 = X_1 + Y_1
+f_2 = X_2 + Y_2
+f_3 = X_3 + Y_3 + 2 * X_2 Y_1
+f_4 = X_4 + Y_4 + X_3 Y_1 + 2 * X_2 Binomial(Y_1, 2) +
+10 * Binomial(X_2, 2) Y_1 + 5 * X_3 Y_2 + 10 * X_2 Y_1 Y_2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DTP_pols2GAPpols(DTObj);</span>
+ [ [ x1+y1, x2+y2, 2*x2*y1+x3+y3,
+5*x2^2*y1+x2*y1^2+10*x2*y1*y2-6*x2*y1+x3*y1+5*x3*y2+x4+y4 ],
+Rationals[x1,x2,x3,x4,y1,y2,y3,y4] ]
 </pre></div>
 
 

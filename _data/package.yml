@@ -1,20 +1,16 @@
 name: DeepThought
-version: 1.0.2
-date: 2018-09-13
+version: 1.0.3
+date: 2021-03-03
 description: |
     This package provides functions for computations in finitely generated nilpotent groups based on the Deep Thought algorithm.
 
 authors:
     - name: Nina Wagner
-      url: mailto:nina.wagner@math.uni-giessen.de
-    - name: Max Horn
-      url: http://www.quendi.de/math
+      url: mailto:github@n-i-n-a.de
 
 maintainers:
-    - name: Nina Wagner
-      url: mailto:nina.wagner@math.uni-giessen.de
     - name: Max Horn
-      url: http://www.quendi.de/math
+      url: https://www.quendi.de/math
 
 GAP: ">= 4.8"
 
@@ -24,15 +20,15 @@ needed-pkgs:
       url: "http://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc"
     - name: "polycyclic"
       version: ">= 2.11"
-      url: "http://www.icm.tu-bs.de/ag_algebra/software/polycyclic/"
+      url: "https://gap-packages.github.io/polycyclic/"
 
-www: https://duskydolphin.github.io/DeepThoughtPackage/
+www: https://gap-packages.github.io/DeepThoughtPackage/
 readme: README.md
-packageinfo: https://duskydolphin.github.io/DeepThoughtPackage/PackageInfo.g
+packageinfo: https://gap-packages.github.io/DeepThoughtPackage/PackageInfo.g
 
 downloads:
     - name: .tar.gz
-      url: https://github.com/duskydolphin/DeepThoughtPackage/releases/download/v1.0.2/DeepThought-1.0.2.tar.gz
+      url: https://github.com/gap-packages/DeepThoughtPackage/releases/download/v1.0.3/DeepThought-1.0.3.tar.gz
 
 abstract: |
     This package provides functions for computations in finitely generated nilpotent groups based on the Deep Thought algorithm.
