@@ -1,5 +1,5 @@
 name: DeepThought
-version: 1.0.3
+version: 1.0.4
 date: 2021-03-03
 description: |
     This package provides functions for computations in finitely generated nilpotent groups based on the Deep Thought algorithm.
@@ -22,13 +22,13 @@ needed-pkgs:
       version: ">= 2.11"
       url: "https://gap-packages.github.io/polycyclic/"
 
-www: https://gap-packages.github.io/DeepThoughtPackage/
+www: https://gap-packages.github.io/DeepThought/
 readme: README.md
-packageinfo: https://gap-packages.github.io/DeepThoughtPackage/PackageInfo.g
+packageinfo: https://gap-packages.github.io/DeepThought/PackageInfo.g
 
 downloads:
     - name: .tar.gz
-      url: https://github.com/gap-packages/DeepThoughtPackage/releases/download/v1.0.3/DeepThought-1.0.3.tar.gz
+      url: https://github.com/gap-packages/DeepThought/releases/download/v1.0.4/DeepThought-1.0.4.tar.gz
 
 abstract: |
     This package provides functions for computations in finitely generated nilpotent groups based on the Deep Thought algorithm.

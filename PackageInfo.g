@@ -10,7 +10,7 @@ SetPackageInfo( rec(
 
 PackageName := "DeepThought",
 Subtitle := "This package provides functions for computations in finitely generated nilpotent groups based on the Deep Thought algorithm.",
-Version := "1.0.3",
+Version := "1.0.4",
 Date := "03/03/2021", # dd/mm/yyyy format
 
 Persons := [
@@ -41,10 +41,10 @@ Persons := [
 
 SourceRepository := rec(
     Type := "git",
-    URL := "https://github.com/gap-packages/DeepThoughtPackage",
+    URL := "https://github.com/gap-packages/DeepThought",
 ),
 IssueTrackerURL := Concatenation( ~.SourceRepository.URL, "/issues" ),
-PackageWWWHome  := "https://gap-packages.github.io/DeepThoughtPackage/",
+PackageWWWHome  := "https://gap-packages.github.io/DeepThought/",
 PackageInfoURL  := Concatenation( ~.PackageWWWHome, "PackageInfo.g" ),
 README_URL      := Concatenation( ~.PackageWWWHome, "README.md" ),
 ArchiveURL      := Concatenation( ~.SourceRepository.URL,
