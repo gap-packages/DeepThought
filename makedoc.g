@@ -8,6 +8,3 @@ if fail = LoadPackage("AutoDoc", "2016.02.16") then
 fi;
 
 AutoDoc( rec( scaffold := rec( bib := "dtbib.xml", entities := rec( Polycyclic := "<Package>Polycyclic</Package>" ) ), autodoc := true ) );
-
-PrintTo("VERSION", PackageInfo("DeepThought")[1].Version);
-
