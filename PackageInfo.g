@@ -10,8 +10,8 @@ SetPackageInfo( rec(
 
 PackageName := "DeepThought",
 Subtitle := "This package provides functions for computations in finitely generated nilpotent groups based on the Deep Thought algorithm.",
-Version := "1.0.5",
-Date := "05/04/2021", # dd/mm/yyyy format
+Version := "1.0.6",
+Date := "06/10/2022", # dd/mm/yyyy format
 License := "GPL-2.0-or-later",
 
 Persons := [
@@ -69,14 +69,14 @@ AbstractHTML   := "This package provides functions for computations in finitely 
 PackageDoc := rec(
   BookName  := "DeepThought",
   ArchiveURLSubset := ["doc"],
-  HTMLStart := "doc/chap0.html",
+  HTMLStart := "doc/chap0_mj.html",
   PDFFile   := "doc/manual.pdf",
   SixFile   := "doc/manual.six",
   LongTitle := "This package provides functions for multiplication and other computations in finitely generated nilpotent groups based on the Deep Thought algorithm.",
 ),
 
 Dependencies := rec(
-  GAP := ">= 4.8",
+  GAP := ">= 4.9",
   NeededOtherPackages := [
     [ "GAPDoc", ">= 1.5" ],
     [ "polycyclic", ">= 2.11" ],

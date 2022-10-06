@@ -1,6 +1,6 @@
 name: DeepThought
-version: 1.0.5
-date: 2021-04-05
+version: 1.0.6
+date: 2022-10-06
 description: |
     This package provides functions for computations in finitely generated nilpotent groups based on the Deep Thought algorithm.
 
@@ -12,7 +12,7 @@ maintainers:
     - name: Max Horn
       url: https://www.quendi.de/math
 
-GAP: ">= 4.8"
+GAP: ">= 4.9"
 
 needed-pkgs:
     - name: "GAPDoc"
@@ -28,11 +28,11 @@ packageinfo: https://gap-packages.github.io/DeepThought/PackageInfo.g
 
 downloads:
     - name: .tar.gz
-      url: https://github.com/gap-packages/DeepThought/releases/download/v1.0.5/DeepThought-1.0.5.tar.gz
+      url: https://github.com/gap-packages/DeepThought/releases/download/v1.0.6/DeepThought-1.0.6.tar.gz
 
 abstract: |
     This package provides functions for computations in finitely generated nilpotent groups based on the Deep Thought algorithm.
 
 status: deposited
-doc-html: doc/chap0.html
+doc-html: doc/chap0_mj.html
 doc-pdf: doc/manual.pdf
