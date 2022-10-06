@@ -1,8 +1,10 @@
-/*
- * DeepThought: This package provides functions for multiplication and other computations in finitely generated nilpotent groups based on the Deep Thought algorithm.
- */
+//
+// DeepThought: This package provides functions for multiplication and
+// other computations in finitely generated nilpotent groups based on the
+// Deep Thought algorithm.
+//
 
-#include "src/compiled.h"          /* GAP headers */
+#include "compiled.h"   // GAP headers
 
 #define IS_INTPOS(obj)          (TNUM_OBJ(obj) == T_INTPOS)
 #define IS_INTNEG(obj)          (TNUM_OBJ(obj) == T_INTNEG)
