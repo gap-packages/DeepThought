@@ -76,7 +76,7 @@ PackageDoc := rec(
 ),
 
 Dependencies := rec(
-  GAP := ">= 4.9",
+  GAP := ">= 4.12",
   NeededOtherPackages := [
     [ "GAPDoc", ">= 1.5" ],
     [ "polycyclic", ">= 2.11" ],
@@ -86,11 +86,13 @@ Dependencies := rec(
 ),
 
 AvailabilityTest := function()
-  local path, file;
-  # the file below must exist for this package to work
-  path := DirectoriesPackagePrograms("DeepThought");
-  file := Filename(path, "DeepThought.so");
-  return file <> fail;
+  if not IsKernelExtensionAvailable("DeepThought") then
+    LogPackageLoadingMessage(PACKAGE_WARNING,
+                            ["the kernel module is not compiled, ",
+                             "the package cannot be loaded."]);
+    return fail;
+  fi;
+  return true;
 end,
 
 TestFile := "tst/testall.g",
