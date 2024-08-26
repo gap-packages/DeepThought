@@ -10,8 +10,8 @@ SetPackageInfo( rec(
 
 PackageName := "DeepThought",
 Subtitle := "This package provides functions for computations in finitely generated nilpotent groups based on the Deep Thought algorithm.",
-Version := "1.0.6",
-Date := "06/10/2022", # dd/mm/yyyy format
+Version := "1.0.7",
+Date := "27/08/2024", # dd/mm/yyyy format
 License := "GPL-2.0-or-later",
 
 Persons := [
@@ -27,16 +27,16 @@ Persons := [
     FirstNames    := "Max",
     IsAuthor      := false,
     IsMaintainer  := true,
-    Email         := "horn@mathematik.uni-kl.de",
+    Email         := "mhorn@rptu.de",
     WWWHome       := "https://www.quendi.de/math",
     PostalAddress := Concatenation(
                        "Fachbereich Mathematik\n",
-                       "TU Kaiserslautern\n",
+                       "RPTU Kaiserslautern-Landau\n",
                        "Gottlieb-Daimler-Straße 48\n",
                        "67663 Kaiserslautern\n",
                        "Germany" ),
     Place         := "Kaiserslautern, Germany",
-    Institution   := "TU Kaiserslautern"
+    Institution   := "RPTU Kaiserslautern-Landau"
   ),
 ],
 
@@ -76,7 +76,7 @@ PackageDoc := rec(
 ),
 
 Dependencies := rec(
-  GAP := ">= 4.9",
+  GAP := ">= 4.12",
   NeededOtherPackages := [
     [ "GAPDoc", ">= 1.5" ],
     [ "polycyclic", ">= 2.11" ],
@@ -86,11 +86,13 @@ Dependencies := rec(
 ),
 
 AvailabilityTest := function()
-  local path, file;
-  # the file below must exist for this package to work
-  path := DirectoriesPackagePrograms("DeepThought");
-  file := Filename(path, "DeepThought.so");
-  return file <> fail;
+  if not IsKernelExtensionAvailable("DeepThought") then
+    LogPackageLoadingMessage(PACKAGE_WARNING,
+                            ["the kernel module is not compiled, ",
+                             "the package cannot be loaded."]);
+    return fail;
+  fi;
+  return true;
 end,
 
 TestFile := "tst/testall.g",

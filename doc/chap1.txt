@@ -3,7 +3,7 @@
   
   [33X[0;0YPolycyclic  and,  especially,  finitely generated nilpotent groups exhibit a
   rich  structure  allowing  a  special  approach towards multiplication using
-  polynomials.  The  so-called  Deep  Thought  algorithm introduced in [LGS98]
+  polynomials.  The  so-called  Deep  Thought  algorithm  introduced in [LS98]
   computes  these  polynomials  in  practice  for a suitable presentation of a
   finitely  generated nilpotent group. Such a presentation is of the following
   form[133X
