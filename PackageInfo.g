@@ -10,8 +10,8 @@ SetPackageInfo( rec(
 
 PackageName := "DeepThought",
 Subtitle := "This package provides functions for computations in finitely generated nilpotent groups based on the Deep Thought algorithm.",
-Version := "1.0.7",
-Date := "27/08/2024", # dd/mm/yyyy format
+Version := "1.0.8",
+Date := "03/01/2025", # dd/mm/yyyy format
 License := "GPL-2.0-or-later",
 
 Persons := [
@@ -90,7 +90,7 @@ AvailabilityTest := function()
     LogPackageLoadingMessage(PACKAGE_WARNING,
                             ["the kernel module is not compiled, ",
                              "the package cannot be loaded."]);
-    return fail;
+    return false;
   fi;
   return true;
 end,
