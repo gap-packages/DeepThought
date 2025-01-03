@@ -25,7 +25,7 @@
 static UInt RNleft, RNright, RNlength, RNnum, RNside;
 
 
-Obj DTP_Binomial(Obj self, Obj N, Obj K)
+static Obj FuncDTP_Binomial(Obj self, Obj N, Obj K)
 {
     // handle some special cases
     if (K == INTOBJ_INT(1)) // K=1 is the most frequent case for us, so check it first
@@ -81,7 +81,7 @@ Obj DTP_Binomial(Obj self, Obj N, Obj K)
     return res;
 }
 
-Obj DTP_SequenceLetter(Obj self, Obj letter, Obj seq)
+static Obj FuncDTP_SequenceLetter(Obj self, Obj letter, Obj seq)
 {
     if (!IS_PREC(letter))
         ErrorMayQuit("DTP_SequenceLetter: <letter> must be a plain record (not a %s)",
@@ -92,10 +92,10 @@ Obj DTP_SequenceLetter(Obj self, Obj letter, Obj seq)
                  (Int)TNAM_OBJ(seq), 0L);
 
     if (IsbPRec(letter, RNleft))
-        DTP_SequenceLetter(self, ElmPRec(letter, RNleft), seq);
+        FuncDTP_SequenceLetter(self, ElmPRec(letter, RNleft), seq);
 
     if (IsbPRec(letter, RNright))
-        DTP_SequenceLetter(self, ElmPRec(letter, RNright), seq);
+        FuncDTP_SequenceLetter(self, ElmPRec(letter, RNright), seq);
 
     UInt len = LEN_PLIST(seq);
     AssPlist(seq, len+1, letter);
@@ -103,7 +103,7 @@ Obj DTP_SequenceLetter(Obj self, Obj letter, Obj seq)
     return 0;
 }
 
-Obj DTP_Seq_i(Obj self, Obj letter, Obj i)
+static Obj FuncDTP_Seq_i(Obj self, Obj letter, Obj i)
 {
     if (!IS_PREC(letter))
     ErrorMayQuit("DTP_Seq_I: <letter> must be a plain record (not a %s)",
@@ -136,7 +136,7 @@ Obj DTP_Seq_i(Obj self, Obj letter, Obj i)
     return letter;
 }
 
-Obj DTP_AreAlmostEqual(Obj self, Obj letter1, Obj letter2)
+static Obj FuncDTP_AreAlmostEqual(Obj self, Obj letter1, Obj letter2)
 {
     if (!IS_PREC(letter1))
     ErrorMayQuit("DTP_AreAlmostEqual: <letter1> must be a plain record (not a %s)",
@@ -178,26 +178,18 @@ Obj DTP_AreAlmostEqual(Obj self, Obj letter1, Obj letter2)
     } 
 }
 
-
-typedef Obj (* GVarFunc)(/*arguments*/);
-
-#define GVAR_FUNC_TABLE_ENTRY(srcfile, name, nparam, params) \
-  {#name, nparam, \
-   params, \
-   (GVarFunc)name, \
-   srcfile ":Func" #name }
-
 // Table of functions to export
 static StructGVarFunc GVarFuncs [] = {
-    GVAR_FUNC_TABLE_ENTRY("DeepThought.c", DTP_Binomial, 2, "n, k"),
-    GVAR_FUNC_TABLE_ENTRY("DeepThought.c", DTP_SequenceLetter, 2, "letter, seq"),
-    GVAR_FUNC_TABLE_ENTRY("DeepThought.c", DTP_Seq_i, 2, "letter, i"),
-    GVAR_FUNC_TABLE_ENTRY("DeepThought.c", DTP_AreAlmostEqual, 2, "letter1, letter2"),
+    GVAR_FUNC(DTP_Binomial, 2, "n, k"),
+    GVAR_FUNC(DTP_SequenceLetter, 2, "letter, seq"),
+    GVAR_FUNC(DTP_Seq_i, 2, "letter, i"),
+    GVAR_FUNC(DTP_AreAlmostEqual, 2, "letter1, letter2"),
     { 0 } /* Finish with an empty entry */
 
 };
 
-/******************************************************************************
+/****************************************************************************
+**
 *F  InitKernel( <module> )  . . . . . . . . initialise kernel data structures
 */
 static Int InitKernel( StructInitInfo *module )
@@ -220,7 +212,8 @@ static Int PostRestore( StructInitInfo *module )
     return 0;
 }
 
-/******************************************************************************
+/****************************************************************************
+**
 *F  InitLibrary( <module> ) . . . . . . .  initialise library data structures
 */
 static Int InitLibrary( StructInitInfo *module )
@@ -235,8 +228,8 @@ static Int InitLibrary( StructInitInfo *module )
 }
 
 
-
-/******************************************************************************
+/****************************************************************************
+**
 *F  InitInfopl()  . . . . . . . . . . . . . . . . . table of init functions
 */
 static StructInitInfo module = {
