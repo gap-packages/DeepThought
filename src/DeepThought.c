@@ -4,7 +4,7 @@
 // Deep Thought algorithm.
 //
 
-#include "compiled.h"   // GAP headers
+#include "gap_all.h"   // GAP headers
 
 #define IS_INTPOS(obj)          (TNUM_OBJ(obj) == T_INTPOS)
 #define IS_INTNEG(obj)          (TNUM_OBJ(obj) == T_INTNEG)
