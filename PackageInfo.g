@@ -83,6 +83,7 @@ Dependencies := rec(
     [ "polycyclic", ">= 2.11" ],
   ],
   SuggestedOtherPackages := [ ],
+  TestPackages := [ [ "SmallGrp", ">= 1.0" ] ],
   ExternalConditions := [ ],
 ),
 

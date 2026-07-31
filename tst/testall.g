@@ -5,6 +5,7 @@
 # metadata in PackageInfo.g.
 #
 LoadPackage( "DeepThought" );
+LoadPackage( "smallgrp" );   # used by tst/finite.tst and tst/compare-dtpols.tst
 
 TestDirectory(DirectoriesPackageLibrary( "DeepThought", "tst" ),
   rec(exitGAP := true));
