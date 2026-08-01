@@ -1,5 +1,12 @@
 This file describes changes in the DeepThought package.
 
+## 1.0.10 (2026-08-01)
+
+  - Drop the dependency on the GAPDoc package
+  - Do not require the SmallGrp package for using DeepThought; it is now only
+    needed for running the test suite
+  - Update the CI setup
+
 ## 1.0.9 (2025-06-20)
 
   - Replace the obsolete `compiled.h` header by `gap_all.h` in the kernel
